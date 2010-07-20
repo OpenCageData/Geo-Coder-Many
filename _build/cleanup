@@ -1,8 +1,0 @@
-do{ my $x = {
-       'Geo-Coder-Many-*' => 1,
-       'MANIFEST.SKIP' => 1,
-       'pod2htm*' => 1,
-       'blib' => 1,
-       'Geo-Coder-Many-0.1' => 1
-     };
-$x; }
