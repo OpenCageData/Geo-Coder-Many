@@ -1,0 +1,11 @@
+Revision history for Perl module Geo::Coder::Multiple.
+
+0.3     2009.11.12
+        - Release of Geo::Coder::Multiple
+
+0.59    2010.03.11
+        - Bug fix to ensure only valid responses are stored in the cache
+
+0.60    2010.03.23
+        - Enhancement to allow for normalizing code refs to normalize locations
+          when used as cache keys

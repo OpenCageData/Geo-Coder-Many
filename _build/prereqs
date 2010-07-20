@@ -1,0 +1,16 @@
+do{ my $x = {
+       'build_requires' => {
+                             'Test::MockObject' => 0,
+                             'Test::More' => 0,
+                             'Test::Pod::Coverage' => 0
+                           },
+       'conflicts' => {},
+       'requires' => {
+                       'List::Util' => '1.23',
+                       'perl' => '5.010',
+                       'List::Util::WeightedRoundRobin' => '0.4',
+                       'List::MoreUtils' => '0.22'
+                     },
+       'recommends' => {}
+     };
+$x; }

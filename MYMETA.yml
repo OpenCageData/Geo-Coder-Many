@@ -1,0 +1,61 @@
+---
+abstract: 'Module to tie together multiple Geo::Coder::* modules'
+author:
+  - 'Dan Horgan <cpan@lokku.com>'
+build_requires:
+  Test::MockObject: 0
+  Test::More: 0
+  Test::Pod::Coverage: 0
+configure_requires:
+  Module::Build: 0.36
+dynamic_config: 0
+generated_by: 'Module::Build version 0.3607'
+license: perl
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: Geo-Coder-Many
+provides:
+  Geo::Coder::Many:
+    file: lib/Geo/Coder/Many.pm
+    version: 0.1
+  Geo::Coder::Many::Bing:
+    file: lib/Geo/Coder/Many/Bing.pm
+  Geo::Coder::Many::Generic:
+    file: lib/Geo/Coder/Many/Generic.pm
+  Geo::Coder::Many::Google:
+    file: lib/Geo/Coder/Many/Google.pm
+  Geo::Coder::Many::Multimap:
+    file: lib/Geo/Coder/Many/Multimap.pm
+  Geo::Coder::Many::OSM:
+    file: lib/Geo/Coder/Many/OSM.pm
+    version: 0.01
+  Geo::Coder::Many::PlaceFinder:
+    file: lib/Geo/Coder/Many/PlaceFinder.pm
+    version: 0.02
+  Geo::Coder::Many::Response:
+    file: lib/Geo/Coder/Many/Response.pm
+  Geo::Coder::Many::Scheduler:
+    file: lib/Geo/Coder/Many/Scheduler.pm
+  Geo::Coder::Many::Scheduler::OrderedList:
+    file: lib/Geo/Coder/Many/Scheduler/OrderedList.pm
+  Geo::Coder::Many::Scheduler::Selective:
+    file: lib/Geo/Coder/Many/Scheduler/Selective.pm
+  Geo::Coder::Many::Scheduler::UniquenessScheduler:
+    file: lib/Geo/Coder/Many/Scheduler/UniquenessScheduler.pm
+  Geo::Coder::Many::Scheduler::UniquenessScheduler::WRR:
+    file: lib/Geo/Coder/Many/Scheduler/UniquenessScheduler/WRR.pm
+  Geo::Coder::Many::Scheduler::UniquenessScheduler::WeightedRandom:
+    file: lib/Geo/Coder/Many/Scheduler/UniquenessScheduler/WeightedRandom.pm
+  Geo::Coder::Many::Util:
+    file: lib/Geo/Coder/Many/Util.pm
+  Geo::Coder::Many::Yahoo:
+    file: lib/Geo/Coder/Many/Yahoo.pm
+requires:
+  List::MoreUtils: 0.22
+  List::Util: 1.23
+  List::Util::WeightedRoundRobin: 0.4
+  perl: 5.010
+resources:
+  license: http://dev.perl.org/licenses/
+version: 0.1
