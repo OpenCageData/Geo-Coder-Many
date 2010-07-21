@@ -766,7 +766,7 @@ Currently supported Geo::Coder::* modules are:
   Geo::Coder::Bing
   Geo::Coder::Google
   Geo::Coder::Multimap
-  Geo::Coder::Yahoo
+  Geo::Coder::OSM
   Geo::Coder::PlaceFinder
   Geo::Coder::Yahoo
 
@@ -776,12 +776,15 @@ Currently supported Geo::Coder::* modules are:
   Geo::Coder::Bing
   Geo::Coder::Google
   Geo::Coder::Multimap
+  Geo::Coder::OSM
+  Geo::Coder::PlaceFinder
   Geo::Coder::Yahoo
-
 
 =head1 AUTHOR
 
 Alistair Francis, http://search.cpan.org/~friffin/
+
+Dan Horgan
 
 =head1 COPYRIGHT AND LICENSE
 

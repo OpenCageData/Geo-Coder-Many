@@ -8,10 +8,10 @@ INSTALLATION
  
 To install this module type the following:
  
-   perl Makefile.PL
-   make
-   make test
-   make install
+   perl Build.PL
+   ./Build
+   ./Build test
+   ./Build install
  
 DEPENDENCIES
  
@@ -26,5 +26,4 @@ COPYRIGHT AND LICENCE
 
 Copyright (c) 2010 Lokku Ltd
 
-Parts based on Geo::Coder::Multiple
-- copyright (C) 2009 Alistair Francis <opensource@alizta.com>
+Parts based on Geo::Coder::Multiple are copyright (C) 2009 Alistair Francis <opensource@alizta.com>

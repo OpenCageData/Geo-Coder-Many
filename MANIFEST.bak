@@ -1,8 +1,7 @@
-.Build.PL.swp
+Build
 Build.PL
 Changes
 Debian_CPANTS.txt
-lib/Geo/Coder/.Multiple.pm.swp
 lib/Geo/Coder/Many.pm
 lib/Geo/Coder/Many/Bing.pm
 lib/Geo/Coder/Many/Generic.pm
@@ -21,9 +20,11 @@ lib/Geo/Coder/Many/Util.pm
 lib/Geo/Coder/Many/Yahoo.pm
 Makefile.PL
 MANIFEST			This list of files
+MANIFEST.bak
+MANIFEST.SKIP
+MANIFEST.SKIP.bak
 META.yml
 README
-t/.geo-coder-many.t.swp
 t/critic.t
 t/geo-coder-many.t
 t/kwalitee.t

@@ -12,12 +12,12 @@ my $builder = Module::Build->new(
         'List::Util::WeightedRoundRobin' => '0.4',
         'List::Util' => '1.23',
         'List::MoreUtils' => '0.22',
+        'Time::HiRes' => '1.9711',
     },
     build_requires => {
         'Test::More' => 0,
         'Test::MockObject' => 0,
         'Test::Pod::Coverage' => 0,
-        
     },
     add_to_cleanup      => [ 'Geo-Coder-Many-*' ],
     create_makefile_pl => 'traditional',

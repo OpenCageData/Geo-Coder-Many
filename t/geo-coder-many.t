@@ -12,19 +12,14 @@ General tests of Geo::Coder::Many
 use strict;
 use warnings;
 
-use Test::More tests => 847;
+use Test::More 'no_plan';
+#use Test::More tests => 847;
 use Test::MockObject;
 use Test::Exception;
 use Geo::Coder::Many;
 use Geo::Coder::Many::Response;
 use Geo::Coder::Many::Util qw( min_precision_filter max_precision_picker consensus_picker country_filter );
 
-use Geo::Coder::Bing;
-use Geo::Coder::Google;
-use Geo::Coder::Multimap;
-use Geo::Coder::OSM;
-use Geo::Coder::PlaceFinder;
-use Geo::Coder::Yahoo;
 
 # Picker callback for testing - only accepts a result if there are no more
 # available, always asks for more
@@ -129,7 +124,11 @@ sub setup_geocoder {
         });
 
     for my $gc (@{$args->{geocoders}}) {
-        lives_ok ( sub { $geo_many->add_geocoder($gc) }, "Add ". ref($gc->{geocoder}));
+        if ($args->{quiet}) {
+            $geo_many->add_geocoder($gc) 
+        } else {
+            lives_ok ( sub { $geo_many->add_geocoder($gc) }, "Add ". ref($gc->{geocoder}) );
+        }
     }
 
     $geo_many->set_filter_callback($args->{filter});
@@ -138,51 +137,42 @@ sub setup_geocoder {
     return $geo_many;
 }
 
+
+sub try_geocoder {
+    my ($shortname, $ra_geocoders, %options) = @_;
+    my $ref = 'Geo::Coder::' . $shortname;
+
+    eval ( "use $ref" );
+
+    if ($@) {
+        warn ("$ref was not available - not testing it.\n");
+        return;
+    }
+
+    my $geo = $ref->new(%options);
+    ok (defined $geo, "Create $shortname geocoder");
+    unshift @$ra_geocoders, {geocoder=>$geo, daily_limit=>500};
+    return;
+}
+
 # Create the actual geocoders
 sub create_geocoders {
-    my $geo_bing = Geo::Coder::Bing->new(
-        key => 'YOUR_BING_API_KEY'
-    );
-    ok (defined $geo_bing, 'Create Bing geocoder');
+
+    
+    my @geocoders = ();
 
     my $geo_mock0 = fake_geocoder( 0, \&random_fail );
     my $geo_mock1 = fake_geocoder( 1, \&random_fail );
     ok (defined $geo_mock0 && defined $geo_mock1, 'Create mock geocoders');
 
-    my $geo_google = Geo::Coder::Google->new( 
-        apikey => 'YOUR_GOOGLE_API_KEY'
-    );
-    ok (defined $geo_google, 'Create Google geocoder');
+    unshift @geocoders, map {{geocoder=>$_, daily_limit=>10000}} ($geo_mock0, $geo_mock1);
 
-    my $geo_multimap = Geo::Coder::Multimap->new(
-        apikey => 'YOUR_MULTIMAP_API_KEY'
-    );
-    ok (defined $geo_multimap, 'Create Multimap geocoder');
-
-    my $geo_osm   = Geo::Coder::OSM->new;
-    ok (defined $geo_osm, 'Create OSM geocoder');
-
-    my $geo_yahoo = Geo::Coder::Yahoo->new(
-        appid => 'YOUR_YAHOO_API_KEY'
-    );
-    ok (defined $geo_yahoo, 'Create Yahoo geocoder');
-
-    my $geo_placefinder = Geo::Coder::PlaceFinder->new(
-        appid => 'YOUR_PLACEFINDER_API_KEY'
-    );
-    ok (defined $geo_placefinder, 'Create PlaceFinder geocoder');
-
-    # Arbitrary limits, for testing
-    my @geocoders = (
-        { geocoder => $geo_mock0,       daily_limit => 10000 },
-        { geocoder => $geo_mock1,       daily_limit => 10000 },
-        { geocoder => $geo_bing,        daily_limit => 200 },
-        { geocoder => $geo_google,      daily_limit => 400 },
-        { geocoder => $geo_multimap,    daily_limit => 500 },
-        { geocoder => $geo_osm,         daily_limit => 600 },
-        { geocoder => $geo_yahoo,       daily_limit => 700 },
-        { geocoder => $geo_placefinder, daily_limit => 800 },
-    );
+    try_geocoder('Bing', \@geocoders, key => 'APIASDASD');
+    try_geocoder('Google', \@geocoders, apikey => 'ASPIASD'); 
+    try_geocoder('Multimap', \@geocoders, apikey => 'ASPIASD'); 
+    try_geocoder('OSM', \@geocoders);
+    try_geocoder('PlaceFinder', \@geocoders, appid => 'APIASDASD');
+    try_geocoder('Yahoo', \@geocoders, appid => 'ASPIASD'); 
 
     return @geocoders;
 }
@@ -191,22 +181,34 @@ sub create_geocoders {
 {
     my $location = '82, Clerkenwell Road, London';
 
+
+    sub to_hash {
+        return { callback => shift, description => shift };
+    }
+
     my @filter_callbacks = (
-        '',
-        'all',
-        sub { return 0; },
-        sub { return 1; },
-        sub { return rand() < 0.5; },
-        country_filter ( 'United Kingdom' ),
-        min_precision_filter ( 0.3 ),
+        to_hash( ''    => '\'\'' ),
+        to_hash( 'all' => '\'all\'' ),
+        to_hash( sub { return 0; }            => 'never [sub]' ),
+        to_hash( sub { return 1; }            => 'always [sub]' ),
+        to_hash( sub { return rand() < 0.5; } => '50/50 [sub]' ),
+        to_hash( country_filter('United Kingdom') => 'UK only' ),
+        to_hash( min_precision_filter(0.3)        => 'min_precision' ),
     );
 
     my @picker_callbacks = (
-        '',
-        'max_precision',
-        \&_fussy_picker,
-        sub { return ; },
-        consensus_picker ({ required_consensus => 2, nearness => 0.1 }),
+        to_hash( ''              => '\'\'' ),
+        to_hash( 'max_precision' => '\'max_precision\'' ),
+        to_hash( \&_fussy_picker => 'fussy [coderef]' ),
+        to_hash( sub { return; } => 'undef [coderef]' ),
+        to_hash(
+            consensus_picker(
+                {
+                    required_consensus => 2,
+                    nearness           => 0.1
+                }
+              ) => 'consensus [Util]'
+        ),
     );
 
     my @schedulers = (
@@ -227,29 +229,44 @@ sub create_geocoders {
                     my $geo;
                     lives_and { 
                         $geo = &setup_geocoder({
-                                filter => $filter,
-                                picker => $picker,
+                                filter => $filter->{callback},
+                                picker => $picker->{callback},
                                 scheduler_type => $scheduler,
                                 use_timeouts => $timeouts,
-                                geocoders => \@mock_geocoders
+                                geocoders => \@mock_geocoders,
+                                quiet => 1,
                             });
                         ok (defined $geo);
-                    } "Geo::Coder::Many with filter $filter, picker $picker, scheduler $scheduler, timeouts $timeouts";
-                    lives_ok {
                         for (1 .. 10) {
                             my $result = $geo->geocode({location => $location});
                         }
-                    } "Test geocoding...\n";
+                    } 
+                    "Geo::Coder::Many [["
+                    ." Filter: " . $filter->{description} 
+                    ." | Picker: " .$picker->{description}
+                    ." | Scheduler: $scheduler"
+                    ." | Timeouts: $timeouts ]]";
                 }
             }
         }
     }
 
-    # Requires internet connection & API keys, so disabled by default.
-    # lives_ok {
-    #     my $geo_many = &setup_geocoder({ filter => 'all', picker => '', scheduler_type => 'WRR', use_timeouts => 1, geocoders => \@geocoders});
-    #     &general_test($geo_many, $location);
-    # } "Test actual geocoders";
+    use Net::Ping;
+    my $p = Net::Ping->new();
+    if ($p->ping('http://www.example.com')) {
+
+        lives_ok {
+            my $geo_many = &setup_geocoder({
+                    filter => 'all',
+                    picker => '', 
+                    scheduler_type => 'WRR', 
+                    use_timeouts => 1, 
+                    geocoders => \@geocoders
+                });
+            &general_test($geo_many, $location);
+        } "Test with actual geocoders";
+    }
+    $p->close();
 }
 
 

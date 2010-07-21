@@ -1,5 +1,5 @@
 debian_pkg, CPAN_dist, CPAN_vers, N_bugs, N_patches
-"dh-make-perl", "https://alioth.debian.org/frs/download.php/3277/dh-make-perl_0.68.orig.tar.gz", "0.68", "8", "0"
+"dh-make-perl", "https://alioth.debian.org/frs/download.php/3277/dh-make-perl_0.68.orig.tar.gz", "0.68", "9", "0"
 "eekboek", "http://www.eekboek.nl/dl/EekBoek-2.00.02.tar.gz", "2.00.02", "2", "0"
 "gearman-server", "Gearman-Server", "1.11", "0", "1"
 "jifty", "Jifty", "0.91117", "0", "4"
@@ -796,7 +796,7 @@ debian_pkg, CPAN_dist, CPAN_vers, N_bugs, N_patches
 "libkwiki-perl", "Kwiki", "0.39", "1", "1"
 "liblatex-driver-perl", "LaTeX-Driver", "0.08", "0", "4"
 "liblatex-encode-perl", "LaTeX-Encode", "0.03", "0", "1"
-"liblatex-table-perl", "LaTeX-Table", "1.0.1", "0", "0"
+"liblatex-table-perl", "LaTeX-Table", "1.0.1", "1", "1"
 "liblayout-manager-perl", "Layout-Manager", "0.31", "0", "0"
 "liblchown-perl", "Lchown", "1.01", "0", "0"
 "liblexical-persistence-perl", "Lexical-Persistence", "0.98", "1", "0"

@@ -37,7 +37,7 @@ sub geocode {
         'High'    => 0.9,
         'Medium'  => 0.5,
         'Low'     => 0.1,
-        'Unknown' => undef, #TODO check
+        'Unknown' => undef,
     );
 
     for my $raw_reply (@raw_replies) {
@@ -47,7 +47,7 @@ sub geocode {
             country     => $raw_reply->{address}->{countryRegion},
             longitude   => $raw_reply->{point}->{coordinates}->[0],
             latitude    => $raw_reply->{point}->{coordinates}->[1],
-            precision   => $convert{$raw_reply->{confidence}}, # TODO check
+            precision   => $convert{$raw_reply->{confidence}},
         };
 
         $Response->add_response( $tmp, $self->get_name());
