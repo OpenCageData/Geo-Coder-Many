@@ -30,7 +30,7 @@ returned more than once between calls to reset_available.
 
 =cut
 
-sub get_next_unique { die "get_next_unique must be overridden."; }
+sub get_next_unique { croak "get_next_unique must be overridden."; }
 
 =head2 next_available
 
@@ -45,7 +45,7 @@ whether it is worth waiting for more results.
 
 =cut
 
-sub next_available { die "next_available must be overridden."; }
+sub next_available { croak "next_available must be overridden."; }
 
 =head2 reset_available
 
@@ -53,7 +53,7 @@ This is called in order to indicate that all items should once more be made avai
 
 =cut
 
-sub reset_available { die "reset_available must be overridden."; }
+sub reset_available { croak "reset_available must be overridden."; }
 
 =head2 process_feedback
 

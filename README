@@ -1,4 +1,4 @@
-Geo::Coder::Many version 0.60
+Geo::Coder::Many version 0.10
 =================================
 
 Please see the example scripts for more information and 
@@ -19,8 +19,12 @@ This module requires these other modules and libraries:
  
   Geo::Coder::* (as required)
   List::Util::WeightedRoundRobin
+  List::Util
+  List::MoreUtils
  
 COPYRIGHT AND LICENCE
 
 Copyright (c) 2010 Lokku Ltd
-Based on Geo::Coder::Multiple - copyright (C) 2009 Alistair Francis <opensource@alizta.com>
+
+Parts based on Geo::Coder::Multiple
+- copyright (C) 2009 Alistair Francis <opensource@alizta.com>

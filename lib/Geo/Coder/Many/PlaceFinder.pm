@@ -74,7 +74,7 @@ sub geocode {
     foreach my $raw_reply ( @raw_replies ) {
         my @address_lines = @{$raw_reply}{'line1', 'line2', 'line3', 'line4'};
         
-        @address_lines = grep {!/^\s*$/} @address_lines;
+        @address_lines = grep {!/^\s*$/x} @address_lines;
         my $address = (join ', ', @address_lines);
 
         my $tmp = {

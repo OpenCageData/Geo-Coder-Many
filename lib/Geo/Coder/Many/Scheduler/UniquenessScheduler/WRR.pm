@@ -55,6 +55,9 @@ scoring.
 
 =cut
 
+## no critic (ProhibitUnusedPrivateSubroutines)
+# ( _get_next is actually 'protected' )
+
 sub _get_next {
     my $self = shift;
     my $next = shift @{$self->{weighted_list}};

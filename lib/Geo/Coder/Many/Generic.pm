@@ -2,6 +2,7 @@ package Geo::Coder::Many::Generic;
 
 use strict;
 use warnings;
+use Carp;
 
 use Geo::Coder::Many::Response;
 
@@ -42,7 +43,7 @@ The main geocode method, to be overridden by subclasses. Should take a location 
 
 =cut
 
-sub geocode { die "This method must be over-ridden" };
+sub geocode { croak "This method must be over-ridden" };
 
 =head2 get_daily_limit
 
@@ -50,7 +51,7 @@ Getter for daily_limit.
 
 =cut
 
-sub get_daily_limit { return( $_[0]->{daily_limit} ) };
+sub get_daily_limit { return( shift->{daily_limit} ) };
 
 =head2 get_name
 
@@ -59,7 +60,7 @@ subclass)
 
 =cut
 
-sub get_name { die "This method must be over-ridden" };
+sub get_name { croak "This method must be over-ridden" };
 
 
 

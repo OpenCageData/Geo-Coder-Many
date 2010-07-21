@@ -14,7 +14,7 @@ use Geo::Coder::Many::Yahoo;
 use Geo::Coder::Many::PlaceFinder;
 use Geo::Coder::Many::OSM;
 
-use Geo::Coder::Many::Util;
+use Geo::Coder::Many::Util qw( min_precision_filter max_precision_picker consensus_picker country_filter );
 use Geo::Coder::Many::Scheduler::Selective;
 use Geo::Coder::Many::Scheduler::OrderedList;
 use Geo::Coder::Many::Scheduler::UniquenessScheduler::WRR;
@@ -165,7 +165,7 @@ sub new {
     };
 
     if ( !defined $args->{scheduler_type} ) { $self->{scheduler_type} = 'WRR'; }
-    if ( $self->{scheduler_type} !~ /OrderedList|WRR|WeightedRandom/ ) {
+    if ( $self->{scheduler_type} !~ /OrderedList|WRR|WeightedRandom/x ) {
         carp "Unsupported scheduler type: should be OrderedList or WRR or WeightedRandom.";
     }
 
@@ -215,21 +215,19 @@ sub add_geocoder {
 
     my $geocoder_ref = ref( $args->{geocoder} );
 
-    $geocoder_ref =~ s/Geo::Coder::/Geo::Coder::Many::/;
+    $geocoder_ref =~ s/Geo::Coder::/Geo::Coder::Many::/x;
 
     eval {
         my $geocoder = $geocoder_ref->new( $args );
         if (exists $self->{geocoders}->{$geocoder->get_name()}) {
             carp "Warning: duplicate geocoder (" . $geocoder->get_name() .")\n";
         }
-
         $self->{geocoders}->{$geocoder->get_name()} = $geocoder;
-    };
-
-    if( $@ ) {
+        1;
+    } or ($@ or do {
         carp "Geocoder not supported - $geocoder_ref\n";
         return 0;
-    };
+    });
 
     $self->_recalculate_geocoder_stats();
 
@@ -252,7 +250,7 @@ sub set_filter_callback {
     # If given a scalar, look up the name
     if (ref($filter_callback) eq '') {
         my %callback_names = (
-            qr/(all)?/ => undef, # Accepting all results is the default behaviour
+            qr/(all)?/x => undef, # Accepting all results is the default behaviour
         );
         $filter_callback = $self->_lookup_callback($filter_callback, \%callback_names);
     }
@@ -298,8 +296,8 @@ sub set_picker_callback {
     # If given a scalar, look up the name
     if (ref($picker_callback) eq '') {
         my %callback_names = (
-            qr/(first)?/      => undef,
-            qr/max_precision/ => \&max_precision_picker,
+            qr/(first)?/x      => undef,
+            qr/max_precision/x => \&max_precision_picker,
         );
         $picker_callback = $self->_lookup_callback($picker_callback, \%callback_names);
     }
@@ -376,8 +374,8 @@ sub geocode {
     }
 
     unless( $args->{no_cache} ) {
-        my $Response = $self->_get_from_cache( $args->{location}, $args->{cache} );
-        if( defined($Response) ) { return( $Response ) };
+        my $response = $self->_get_from_cache( $args->{location}, $args->{cache} );
+        if( defined($response) ) { return( $response ) };
     };
 
     if (!keys %{$self->{geocoders}}) {
@@ -417,10 +415,10 @@ sub geocode {
         # Check the geocoder has an OK name
         my $geocoder_name = $geocoder->get_name();
         if( $geocoder_name eq $previous_geocoder_name ) {
-            warn "The scheduler is bad - it returned two geocoders with the "
+            carp "The scheduler is bad - it returned two geocoders with the "
                 ."same name, between calls to reset_available!";
         }
-        next if( grep { /^$geocoder_name$/ } @{$args->{geocoders_to_skip}} );
+        next if( grep { /^$geocoder_name$/x } @{$args->{geocoders_to_skip}} );
 
         # Use the current geocoder to geocode the requested location
         my $Response = $geocoder->geocode( $args->{location} );
@@ -432,7 +430,7 @@ sub geocode {
             };
             $self->{scheduler}->process_feedback($geocoder_name, $feedback);
         } else {
-            warn "Geocoder $geocoder_name returned undef.";
+            carp "Geocoder $geocoder_name returned undef.";
         }
 
         $previous_geocoder_name = $geocoder_name;
@@ -518,7 +516,7 @@ sub _lookup_callback {
     ref($name) eq '' or croak( "Trying to look up something which isn't a name!\n" );
 
     while (my ($name_regex, $callback) = each %{$rh_callbacks}) {
-        my $regex = qr/^\s*$name_regex\s*$/;
+        my $regex = qr/^\s*$name_regex\s*$/x;
 
         if ($name =~ $regex) {
             return $callback;
@@ -620,7 +618,7 @@ sub _new_scheduler {
     my $self = shift;
     my $geocoders = shift;
     my $base_scheduler_name = "Geo::Coder::Many::Scheduler::";
-    if ($self->{scheduler_type} =~ /WRR|WeightedRandom/) {
+    if ($self->{scheduler_type} =~ /WRR|WeightedRandom/x) {
         $base_scheduler_name .= "UniquenessScheduler::";
     }
     $base_scheduler_name .= $self->{scheduler_type};
@@ -661,12 +659,11 @@ sub _test_cache_object {
     # Test to ensure the cache works
     eval {
         $cache_object->set( '1234', 'test' );
-        die unless( $cache_object->get('1234') eq 'test' );
-    };
-
-    if( $@ ) { 
-        die "Unable to use user provided cache object: ". ref($cache_object);
-    };
+        croak unless( $cache_object->get('1234') eq 'test' );
+        1;
+    } or ($@ or do {
+        croak "Unable to use user provided cache object: ". ref($cache_object);
+    });
 
     return;
 };

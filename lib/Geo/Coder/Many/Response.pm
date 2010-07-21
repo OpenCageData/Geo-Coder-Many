@@ -71,7 +71,8 @@ Getter for the location string
 
 =cut
 
-sub get_location { return( $_[0]->{location} ) };
+sub get_location { return( shift->{location} ) };
+
 
 =head2 get_response_code
 
@@ -79,7 +80,8 @@ Getter for the response code
 
 =cut
 
-sub get_response_code { return( $_[0]->{response_code} ) };
+sub get_response_code { return( shift->{response_code} ) };
+
 
 =head2 get_geocoder
 
@@ -87,7 +89,7 @@ Getter for the geocoder name
 
 =cut
 
-sub get_geocoder { return( $_[0]->{geocoder} ) };
+sub get_geocoder { return( shift->{geocoder} ) };
 
 =head2 get_responses
 

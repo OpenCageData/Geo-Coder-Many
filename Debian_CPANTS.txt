@@ -914,7 +914,7 @@ debian_pkg, CPAN_dist, CPAN_vers, N_bugs, N_patches
 "libmocked-perl", "mocked", "0.09", "0", "0"
 "libmodern-perl-perl", "Modern-Perl", "1.03", "3", "0"
 "libmodule-build-perl", "Module-Build", "0.360700", "0", "2"
-"libmodule-corelist-perl", "Module-CoreList", "2.35", "0", "0"
+"libmodule-corelist-perl", "Module-CoreList", "2.36", "0", "0"
 "libmodule-cpants-analyse-perl", "Module-CPANTS-Analyse", "0.85", "1", "2"
 "libmodule-depends-perl", "Module-Depends", "0.14", "4", "5"
 "libmodule-extract-perl", "Module-Extract", "0.01", "0", "0"

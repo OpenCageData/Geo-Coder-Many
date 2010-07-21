@@ -17,7 +17,7 @@ use Test::MockObject;
 use Test::Exception;
 use Geo::Coder::Many;
 use Geo::Coder::Many::Response;
-use Geo::Coder::Many::Util;
+use Geo::Coder::Many::Util qw( min_precision_filter max_precision_picker consensus_picker country_filter );
 
 use Geo::Coder::Bing;
 use Geo::Coder::Google;

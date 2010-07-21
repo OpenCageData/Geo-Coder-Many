@@ -5,10 +5,9 @@ use warnings;
 use List::Util qw( reduce );
 use List::MoreUtils qw( any );
 
-our @EXPORT_OK = qw( min_precision_filter max_precision_picker consensus_picker country_filter);
-our @EXPORT = @EXPORT_OK;
+our @EXPORT_OK = qw( min_precision_filter max_precision_picker consensus_picker country_filter );
 use Exporter;
-our @ISA = qw(Exporter);
+use base qw(Exporter);
 
 =head1 NAME
 

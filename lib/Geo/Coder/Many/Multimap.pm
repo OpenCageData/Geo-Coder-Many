@@ -48,25 +48,25 @@ sub geocode {
         if ( defined $raw_reply->{geocode_quality} ) {
 
             my %quality_hash = (
-                qr/NULL/i      => 0.0,
-                qr/0/          => 0.0,
-                qr/1.*/        => 0.9,     # ~ House number
-                qr/2.*/        => 0.75,    # ~ Street
-                qr/3.*/        => 0.4,     # ~ Town
-                qr/4.*/        => 0.4,     # ~ Postal code
-                qr/5.*/        => 0.3,     # ~ State
-                qr/6(a|ax)?.*/ => 0.6,     # Town and postal code
-                qr/6n/         => 0.1,     # Country (geocodes to capital...)
-                qr/z5/         => 0.4,     # Five-digit US ZIP code
-                qr/z7/         => 0.6,     # US 'ZIP+2' code
-                qr/z9/         => 0.8,     # US 'ZIP+4' code
-                qr/7.*/        => undef,
-                qr/8.*/        => undef,
-                qr/9.*/        => undef,
+                qr/NULL/ix      => 0.0,
+                qr/0/x          => 0.0,
+                qr/1.*/x        => 0.9,     # ~ House number
+                qr/2.*/x        => 0.75,    # ~ Street
+                qr/3.*/x        => 0.4,     # ~ Town
+                qr/4.*/x        => 0.4,     # ~ Postal code
+                qr/5.*/x        => 0.3,     # ~ State
+                qr/6(a|ax)?.*/x => 0.6,     # Town and postal code
+                qr/6n/x         => 0.1,     # Country (geocodes to capital...)
+                qr/z5/x         => 0.4,     # Five-digit US ZIP code
+                qr/z7/x         => 0.6,     # US 'ZIP+2' code
+                qr/z9/x         => 0.8,     # US 'ZIP+4' code
+                qr/7.*/x        => undef,
+                qr/8.*/x        => undef,
+                qr/9.*/x        => undef,
             );
 
             while (my ($code_regex, $precision) = each %quality_hash) {
-                if ($raw_reply->{geocode_quality} =~ /^\s*$code_regex\s*/) {
+                if ($raw_reply->{geocode_quality} =~ /^\s*$code_regex\s*/x) {
                     $tmp->{precision} = $precision;
                 }
             }
