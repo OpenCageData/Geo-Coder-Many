@@ -13,7 +13,9 @@ Geo::Coder::Many::Scheduler::UniquenessScheduler
 
 =head1 DESCRIPTION
 
-A base class for enforcing correct behaviour of get_next_unique (and the other methods) even when a scheduling scheme might not take this into account. This may alter the properties of the scheduling scheme.
+A base class for enforcing correct behaviour of get_next_unique (and the other
+methods) even when a scheduling scheme might not take this into account. Note:
+this may alter the properties of the scheduling scheme!
 
 Subclasses should 
 
@@ -30,8 +32,9 @@ sub new {
     my $class = shift;
     my $args = shift;
 
-    my $ra_items = $args->{items};
-    my @items_copy = @$ra_items;
+    # (Map from geocoder+weight hash, for the time being)
+    my @items_copy = map { $_->{name} } @{$args->{items}};
+
     my $self = { items => \@items_copy};
     bless $self, $class;
 
@@ -91,7 +94,7 @@ sub get_next_unique {
 
 =head2 next_available
 
-If 
+Zero if there are items remaining; undef if there aren't.
 
 =cut
 

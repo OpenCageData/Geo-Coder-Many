@@ -12,7 +12,7 @@ General tests of Geo::Coder::Many
 use strict;
 use warnings;
 
-use Test::More tests => 856;
+use Test::More tests => 847;
 use Test::MockObject;
 use Test::Exception;
 use Geo::Coder::Many;
@@ -26,7 +26,8 @@ use Geo::Coder::OSM;
 use Geo::Coder::PlaceFinder;
 use Geo::Coder::Yahoo;
 
-# Picker callback for testing - only accepts a result if there are more available, always asks for more
+# Picker callback for testing - only accepts a result if there are no more
+# available, always asks for more
 sub _fussy_picker {
     my ($ra_results, $more_available) = @_;
     if ($more_available) {
@@ -36,6 +37,8 @@ sub _fussy_picker {
     }
 }
 
+# Geocodes the same location several times, and displays the results (for
+# debugging, mainly)
 sub general_test {
     my ($geo_multiple, $location) = @_;
 
@@ -61,24 +64,6 @@ sub general_test {
         print "$geocoder: $freq\n";
     }
 }
-
-=head2 dump_each
-
-This prints out the response objects returned from each of the geocoders (via
-Geo::Coder::Many::*) applied to the given location, for easier comparison.
-
-
-sub dump_each {
-    my ($geo_multi, $location) = @_;
-    my $ra_coders = $geo_multi->_get_geocoders();
-    for my $geo (@{$ra_coders}) {
-
-        print $geo->get_name(), "\n";
-        print Dumper($geo->geocode($location));
-        print "\n---\n";
-    }
-}
-=cut
 
 # Use Test::MockObject to create a fake geocoder
 sub fake_geocoder {
@@ -134,10 +119,14 @@ sub random_fail {
     return { result => $result, code => $code };
 }
 
+# Create a Geo::Coder::Many with the geocoders given by $args->{geocoders}
 sub setup_geocoder {
     my $args = shift;
 
-    my $geo_many = Geo::Coder::Many->new({ scheduler_type => $args->{scheduler_type}, use_timeouts => $args->{use_timeouts}});
+    my $geo_many = Geo::Coder::Many->new({
+            scheduler_type => $args->{scheduler_type},
+            use_timeouts => $args->{use_timeouts}
+        });
 
     for my $gc (@{$args->{geocoders}}) {
         lives_ok ( sub { $geo_many->add_geocoder($gc) }, "Add ". ref($gc->{geocoder}));
@@ -146,14 +135,13 @@ sub setup_geocoder {
     $geo_many->set_filter_callback($args->{filter});
     $geo_many->set_picker_callback($args->{picker});
 
-
-
     return $geo_many;
 }
 
+# Create the actual geocoders
 sub create_geocoders {
     my $geo_bing = Geo::Coder::Bing->new(
-        key => 'AkIBrsh38kFs_u2fiwaeQ2e99qtNAiPZj14QybpW1lJ8K4mXmK6pAW5P-qhyPZxe'
+        key => 'YOUR_BING_API_KEY'
     );
     ok (defined $geo_bing, 'Create Bing geocoder');
 
@@ -162,12 +150,12 @@ sub create_geocoders {
     ok (defined $geo_mock0 && defined $geo_mock1, 'Create mock geocoders');
 
     my $geo_google = Geo::Coder::Google->new( 
-        apikey => 'ABQIAAAALLo4z01QoBSfUJHs2ewllxT2yXp_ZAY8_ufC3CFXhHIE1NvwkxSPGFXdqPR-e_JO9AvMcX8OwL8FOw'
+        apikey => 'YOUR_GOOGLE_API_KEY'
     );
     ok (defined $geo_google, 'Create Google geocoder');
 
     my $geo_multimap = Geo::Coder::Multimap->new(
-        apikey => 'OA10071514643171291'
+        apikey => 'YOUR_MULTIMAP_API_KEY'
     );
     ok (defined $geo_multimap, 'Create Multimap geocoder');
 
@@ -175,15 +163,16 @@ sub create_geocoders {
     ok (defined $geo_osm, 'Create OSM geocoder');
 
     my $geo_yahoo = Geo::Coder::Yahoo->new(
-        appid => 'XdC5vtPV34GOl4zXHo4yy2OPT6ldCNRekMNlByqDAm8ksDooa6iJd0bsUnzwUds'
+        appid => 'YOUR_YAHOO_API_KEY'
     );
     ok (defined $geo_yahoo, 'Create Yahoo geocoder');
 
     my $geo_placefinder = Geo::Coder::PlaceFinder->new(
-        appid => 'tFESRf4a'
+        appid => 'YOUR_PLACEFINDER_API_KEY'
     );
     ok (defined $geo_placefinder, 'Create PlaceFinder geocoder');
 
+    # Arbitrary limits, for testing
     my @geocoders = (
         { geocoder => $geo_mock0,       daily_limit => 10000 },
         { geocoder => $geo_mock1,       daily_limit => 10000 },
@@ -227,13 +216,7 @@ sub create_geocoders {
     );
 
 
-
     my @geocoders = create_geocoders();
-    #my $geo = &setup_geocoder({ filter => 'all', picker => '', scheduler_type => 'WRR', use_timeouts => 1});
-
-    #use Cache::MemoryCache;
-    #my $cache_object = new Cache::MemoryCache( { 'namespace' => 'Geo::Coder::Many',
-    #                                             'default_expires_in' => 600 } );
 
     my @mock_geocoders = grep { ref($_->{geocoder}) =~ /Mock/ } @geocoders;
 
@@ -262,11 +245,11 @@ sub create_geocoders {
         }
     }
 
-    #&dump_each($geo_many, $location);
-    lives_ok {
-        my $geo_many = &setup_geocoder({ filter => 'all', picker => '', scheduler_type => 'WRR', use_timeouts => 1, geocoders => \@geocoders});
-        &general_test($geo_many, $location);
-    } "Test actual geocoders";
+    # Requires internet connection & API keys, so disabled by default.
+    # lives_ok {
+    #     my $geo_many = &setup_geocoder({ filter => 'all', picker => '', scheduler_type => 'WRR', use_timeouts => 1, geocoders => \@geocoders});
+    #     &general_test($geo_many, $location);
+    # } "Test actual geocoders";
 }
 
 

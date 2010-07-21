@@ -42,8 +42,7 @@ sub new {
         $_->{weight} /= $total_weight;
     }
     
-    my @geocoder_names = map { $_->{name} } @$ra_geocoders;
-    my $self =  $class->SUPER::new({items => \@geocoder_names});
+    my $self =  $class->SUPER::new({items => $ra_geocoders});
 
     bless $self, $class;
 

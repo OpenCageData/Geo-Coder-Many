@@ -1,5 +1,5 @@
 ---
-abstract: 'Module to tie together multiple Geo::Coder::* modules'
+abstract: 'Module to tie together multiple C<Geo::Coder::*> modules'
 author:
   - 'Dan Horgan <cpan@lokku.com>'
 build_requires:
@@ -51,7 +51,6 @@ provides:
   Geo::Coder::Many::Yahoo:
     file: lib/Geo/Coder/Many/Yahoo.pm
 requires:
-  Geo::Coder::OSM: 0.01
   List::MoreUtils: 0.22
   List::Util: 1.23
   List::Util::WeightedRoundRobin: 0.4

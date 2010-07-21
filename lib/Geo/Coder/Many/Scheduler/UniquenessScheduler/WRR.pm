@@ -34,8 +34,7 @@ sub new {
     my $ra_geocoders = shift;
     
     my $WeightedList = List::Util::WeightedRoundRobin->new();
-    my @geocoder_names = map { $_->{name} } @$ra_geocoders; # TODO put these maps somewhere neater
-    my $self =  $class->SUPER::new({items => \@geocoder_names});
+    my $self =  $class->SUPER::new({items => $ra_geocoders});
     $self->{weighted_list} = $WeightedList->create_weighted_list( $ra_geocoders );
 
     unless( @{$self->{weighted_list}} ) {
