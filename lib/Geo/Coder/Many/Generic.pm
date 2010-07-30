@@ -8,7 +8,7 @@ use Geo::Coder::Many::Response;
 
 =head1 NAME
 
-Geo::Coder::Many::Generic
+Geo::Coder::Many::Generic - Base plugin class
 
 =head1 DESCRIPTION
 

@@ -7,7 +7,7 @@ use base 'Geo::Coder::Many::Generic';
 
 =head1 NAME
 
-Geo::Coder::Many::Bing
+Geo::Coder::Many::Bing - Plugin for the Bing geocoder
 
 =head1 SYNOPSIS
 

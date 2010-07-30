@@ -7,7 +7,7 @@ use base 'Geo::Coder::Many::Scheduler::UniquenessScheduler';
 
 =head1 NAME
 
-Geo::Coder::Many::Scheduler::WeightedRandom
+Geo::Coder::Many::Scheduler::WeightedRandom - Weighted random scheduler
 
 =head1 DESCRIPTION
 

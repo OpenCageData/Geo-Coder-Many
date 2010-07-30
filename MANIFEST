@@ -19,9 +19,7 @@ lib/Geo/Coder/Many/Util.pm
 lib/Geo/Coder/Many/Yahoo.pm
 Makefile.PL
 MANIFEST			This list of files
-MANIFEST.bak
 MANIFEST.SKIP
-MANIFEST.SKIP.bak
 META.yml
 README
 t/critic.t

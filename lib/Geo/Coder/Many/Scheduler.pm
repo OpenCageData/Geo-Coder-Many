@@ -6,7 +6,7 @@ use Carp;
 
 =head1 NAME
 
-Scheduler
+Scheduler - Abstract base class for schedulers.
 
 =head1 DESCRIPTION
 

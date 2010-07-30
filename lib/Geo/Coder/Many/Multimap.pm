@@ -7,7 +7,7 @@ use base 'Geo::Coder::Many::Generic';
 
 =head1 NAME
 
-Geo::Coder::Many::Multimap
+Geo::Coder::Many::Multimap - Plugin for the Multimap geocoder
 
 =head1 SYNOPSIS
 

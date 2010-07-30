@@ -13,9 +13,12 @@ my $builder = Module::Build->new(
         'List::Util' => '1.23',
         'List::MoreUtils' => '0.22',
         'Time::HiRes' => '1.9711',
+        'HTTP::Request' => '5.827',
+        'Net::Ping' => '2.33',
     },
     build_requires => {
         'Test::More' => 0,
+        'Test::Exception' => 0,
         'Test::MockObject' => 0,
         'Test::Pod::Coverage' => 0,
     },

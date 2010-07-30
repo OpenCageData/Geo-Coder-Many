@@ -7,7 +7,7 @@ use base 'Geo::Coder::Many::Generic';
 
 =head1 NAME
 
-Geo::Coder::Many::Google
+Geo::Coder::Many::Google - Plugin for the google maps geocoder
 
 =head1 SYNOPSIS
 

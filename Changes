@@ -1,4 +1,7 @@
 Revision history for Perl module Geo::Coder::Many.
 
-0.1     2009.11.12
+0.11    30 Jul 2010
+        - Minor tweaks and improvements to documentation
+
+0.1     26 Jul 2010
         - Release of Geo::Coder::Many, based on Geo::Coder::Multiple

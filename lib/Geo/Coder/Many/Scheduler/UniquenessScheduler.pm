@@ -9,7 +9,7 @@ use base 'Geo::Coder::Many::Scheduler';
 
 =head1 NAME
 
-Geo::Coder::Many::Scheduler::UniquenessScheduler
+Geo::Coder::Many::Scheduler::UniquenessScheduler - Scheduler base class which ensures uniqueness
 
 =head1 DESCRIPTION
 

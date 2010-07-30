@@ -9,12 +9,16 @@ WriteMakefile
   'EXE_FILES' => [],
   'VERSION_FROM' => 'lib/Geo/Coder/Many.pm',
   'PREREQ_PM' => {
-                   'Test::More' => 0,
                    'Test::MockObject' => 0,
-                   'List::Util' => '1.23',
                    'Test::Pod::Coverage' => 0,
+                   'Test::Exception' => 0,
+                   'Time::HiRes' => '1.9711',
+                   'Net::Ping' => '2.33',
+                   'Test::More' => 0,
+                   'List::Util' => '1.23',
                    'List::Util::WeightedRoundRobin' => '0.4',
-                   'List::MoreUtils' => '0.22'
+                   'List::MoreUtils' => '0.22',
+                   'HTTP::Request' => '5.827'
                  }
 )
 ;

@@ -5,7 +5,7 @@ use warnings;
 use Carp;
 use Time::HiRes;
 
-our $VERSION = 0.10;
+our $VERSION = 0.11;
 
 use Geo::Coder::Many::Bing;
 use Geo::Coder::Many::Google;
@@ -14,7 +14,8 @@ use Geo::Coder::Many::Yahoo;
 use Geo::Coder::Many::PlaceFinder;
 use Geo::Coder::Many::OSM;
 
-use Geo::Coder::Many::Util qw( min_precision_filter max_precision_picker consensus_picker country_filter );
+use Geo::Coder::Many::Util
+  qw( min_precision_filter max_precision_picker consensus_picker country_filter );
 use Geo::Coder::Many::Scheduler::Selective;
 use Geo::Coder::Many::Scheduler::OrderedList;
 use Geo::Coder::Many::Scheduler::UniquenessScheduler::WRR;
@@ -22,26 +23,17 @@ use Geo::Coder::Many::Scheduler::UniquenessScheduler::WeightedRandom;
 
 =head1 NAME
 
-C<Geo::Coder::Many> - Module to tie together multiple C<Geo::Coder::*> modules
+Geo::Coder::Many - Module to tie together multiple Geo::Coder::* modules
 
 =head1 DESCRIPTION
 
-C<Geo::Coder::Many> is a wrapper for multiple Geo::Coder::* modules, based on
-C<Geo::Coder::Multiple>.
+Geo::Coder::Many is based on Geo::Coder::Multiple, but tries to be more
+flexible about how the wrapped geocoders are used.
 
-Amongst other things, C<Geo::Coder::Many> adds:
-
-=over
-
-=item Geocoder precision information
-
-=item Alternative scheduling methods (weighted random, and ordered list)
-
-=item Timeouts for geocoders which are failing
-
-=item Optional callbacks for result filtering and picking
-
-=back
+Amongst other things, Geo::Coder::Many adds geocoder precision information,
+alternative scheduling methods (weighted random, and ordered list), timeouts
+for geocoders which are failing, and optional callbacks for result filtering
+and picking.
 
 =head1 SYNOPSIS
 
@@ -49,76 +41,103 @@ General steps for using Geo::Coder::Many:
 
 =over
 
-=item 1 Create C<Geo::Coder::*> objects for the geocoders you want to use
+=item 1. Create Geo::Coder::* objects for the geocoders you want to use, using
+their various individual setup procedures.
 
-=item 2 Create the C<Geo::Coder::Many> object
+=item 2. Create the Geo::Coder::Many object with C<new>
 
-=item 3 Call C<add_geocoder> for each of the geocoders you want to use
+=item 3. Call C<add_geocoder> for each of the geocoders you want to use
 
-=item 4 Set any filter or picker callbacks you require (optional)
+=item 4. Set any filter or picker callbacks you require (optional)
 
-=item 5 Use the C<geocode> method to all of do your geocoding
+=item 5. Use the C<geocode> method to do all of your geocoding
 
 =back
 
 =head1 EXAMPLE
 
-  # for Geo::Coder::Jingle and Geo::Coder::Bells
-  use Geo::Coder::Jingle;
-  use Geo::Coder::Bells;
-  use Geo::Coder::Many;
-  
-  my $options = {
-    cache   => $cache_object,
-  };
+Suppose the geocoders we want to use are called 'Locatorize' and 'WhereIzIt'.
 
-  my $geocoder_multi = Geo::Coder::Many->new( $options );
-
-  my $jingle = Geo::Coder::Jingle->new( apikey => 'Jingle API Key' );
-
-  my $jingle_options = {
-    geocoder    => $jingle,
-    daily_limit => 25000,
-  };
-
-  $geocoder_multi->add_geocoder( $jingle_options );
-
-  my $bells = Geo::Coder::Bells->new( apikey => 'Bells API Key' );
-
-  my $bells_options = {
-    geocoder    => $bells,
-    daily_limit => 4000,
-  };
-
-  $geocoder_multi->add_geocoder( $bells_options );
-
-  my $location = $geocoder_multi->geocode( { location => '82 Clerkenwell Road, London, EC1M 5RF' } );
-
-  if( $location->{response_code} == 200 ) {
-    print $location->{address} ."\n";
-  };
-
-
+   use Geo::Coder::Locatorize;
+   use Geo::Coder::WhereIzIt;
+   use Geo::Coder::Many;
+   use Geo::Coder::Many::Util qw( country_filter );
+   
+   # Create the Geo::Coder::Many object, telling it to use a 'weighted random'
+   # scheduling method
+   my $options = {
+       cache   => $cache_object,
+       scheduler_type => 'WRR',
+   };
+   my $geocoder_many = Geo::Coder::Many->new( $options );
+   
+   # Create and add a geocoder
+   my $Locatorize = Geo::Coder::Locatorize->new( appid => 'mY_loCat0r1Ze_iD' );
+   my $Locatorize_options = {
+       geocoder    => $Locatorize,
+       daily_limit => 2500,
+   };
+   $geocoder_many->add_geocoder( $Locatorize_options );
+   
+   # Create and add a second geocoder
+   my $WhereIzIt = Geo::Coder::WhereIzIt->new( apikey => 'mY_WhERiz1t_kEy' );
+   my $WhereIzIt_options = {
+       geocoder    => $WhereIzIt,
+       daily_limit => 4000,
+   };
+   $geocoder_many->add_geocoder( $WhereIzIt_options );
+   
+   # Use a filter callback from Geo::Coder::Many::Util
+   $geocoder_many->set_filter_callback(country_filter('United Kingdom'));
+   
+   # Use a built-in picker callback
+   $geocoder_many->set_picker_callback('max_precision');
+   
+   my $result = $geocoder_many->geocode( { location => '82 Clerkenwell Road, London' } );
+   
+   if (defined $result) {
+       print "Country: ",       $result->{country},       "\n";
+       print "Longitude: ",     $result->{longitude},     "\n";
+       print "Latitude: ",      $result->{latitude},      "\n";
+       print "Location: ",      $result->{location},      "\n";
+       print "Response code: ", $result->{response_code}, "\n";
+       print "Address: ",       $result->{address},       "\n";
+       print "Precision: ",     $result->{precision},     "\n";
+       print "Geocoder: ",      $result->{geocoder},      "\n";
+   } else {
+       print "Failed to geocode!\n";
+   }
+   
 =head1 METHODS
 
 =head2 new
 
-Constructs a new C<Geo::Coder::Many> object and returns it. If no options 
-are specified, no caching will be done for the geocoding results.
+Constructs a new Geo::Coder::Many object and returns it. Options should be
+provided as the entries of a hash reference, as follows:
 
-The 'normalize_code_ref' is a code reference which is used to normalize
-location strings to ensure that all cache keys are normalized for correct
-lookup.
+  KEY                   VALUE
+  -----------           --------------------
+  cache                 Cache object reference  (optional)
+  normalize_code_ref    A normalization code ref (optional)
+  scheduler_type        Name of the scheduler type to use (default: WRR)
+  use_timeouts          Whether to time out failing geocoders (default: false)
 
-The scheduler_type specifies how load balancing should be done.
-Options currently available are:
+If no C<cache> option is specified, no caching will be done for the geocoding
+results.
+
+C<normalize_code_ref> is a code reference which is used to normalize location
+strings to ensure that all cache keys are normalized for correct lookup.
+
+C<scheduler_type> specifies how load balancing should be done.
+
+Scheduling schemes currently available are:
 
 =over
 
 =item WRR (Weighted round-robin)
 
     Round-robin scheduling, weighted by the daily_limit values for the geocoders
-    The same behaviour as Geo::Coder::Multiple
+    (The same behaviour as Geo::Coder::Multiple)
 
 =item OrderedList
 
@@ -133,19 +152,12 @@ Options currently available are:
 
 =back
 
-Note: other scheduling options can be implemented by sub-classing
-C<Geo::Coder::Many::Scheduler> or C<Geo::Coder::Many::UniquenessScheduler>.
+Other scheduling schemes can be implemented by sub-classing
+Geo::Coder::Many::Scheduler or Geo::Coder::Many::UniquenessScheduler.
 
 If C<use_timeouts> is true, geocoders that are unsuccessful will not be queried
 again for a set amount of time. The timeout period will increase exponentially
 for every successive consecutive failure.
-
-  KEY                   VALUE
-  -----------           --------------------
-  cache                 Cache object reference  (optional)
-  normalize_code_ref    A normalization code ref (optional)
-  scheduler_type        Name of the scheduler type to use (default: WRR)
-  use_timeouts          Whether to time out failing geocoders (default: false)
 
 =cut
 
@@ -190,22 +202,15 @@ used. All other additions will be ignored.
 
   KEY                   VALUE
   -----------           --------------------
-  geocoder              geocoder reference object
-  limit                 geocoder source limit per 24 hour period
+  geocoder              geocoder object reference (required)
+  daily_limit           geocoder source limit per 24 hour period (required)
 
+C<geocoder> should be a reference to a Geo::Coder::Something object, where
+'Something' is a supported geocoder type. For a geocoder to be supported, it
+needs to have a corresponding Geo::Coder::Many::Something adapter module.
 
-=head3 Example
-
-  my $jingle = Geo::Coder::Jingle->new( apikey => 'Jingle API Key' );
-  my $jingle_limit = 25000;
-
-  my $options = {
-    geocoder    => $jingle,
-    daily_limit => $jingle_limit,
-  };
-
-  $geocoder_multi->add_geocoder( $options );
-
+Note that C<daily_limit> is just treated as guideline for the chosen scheduler,
+and will not necessarily be strictly obeyed.
 
 =cut
 
@@ -320,14 +325,19 @@ sub set_picker_callback {
 
   my $found_location = $geocoder_multi->geocode( $options );
 
-The arguments to the C<geocode> method are:
+Arguments should be provided in a hash reference with the following entries:
 
   KEY                   VALUE
   -----------           --------------------
   location              location string to pass to geocoder
-  results_cache         reference to a cache object, will over-ride the default
-  no_cache              if set, the result will not be retrieved or set in cache (off by default)
-  wait_for_retries      if set, the method will wait until it's sure all geocoders have been tried (off by default)
+
+  results_cache         reference to a cache object; will override the default
+
+  no_cache              if set, the result will not be retrieved or set in
+                        cache (off by default)
+
+  wait_for_retries      if set, the method will wait until it's sure all
+                        geocoders have been tried (off by default)
 
 This method is the basis for the class, it will retrieve result from cache
 first, and return if cache hit.
@@ -343,18 +353,25 @@ A matching address will have the following keys in the hash reference.
   KEY                   VALUE
   -----------           --------------------
   response_code         integer response code (see below)
+
   address               matched address
+
   latitude              latitude of matched address
+
   longitude             longitude of matched address
+
   country               country of matched address (not available for all
                         geocoders)
+
   geocoder              source used to lookup address
+
   location              the original query string
-  precision             scalar from 0.0 to 1.0 denoting granularity of the
-                        result (undef if not known)
+
+  precision             scalar ranging from 0.0 to 1.0, denoting the granularity of the
+                        result (undef if not known) 
 
 The C<geocoder> key will contain a string denoting which geocoder returned the
-results (eg, 'jingle').
+results (eg, 'locatorize').
 
 The C<response_code> key will contain the response code. The possible values
 are:
@@ -363,6 +380,9 @@ are:
   210   Success (from cache)
   401   Unable to find location
   402   All geocoder limits reached (not yet implemented)
+
+C<geocode> will return undef if none of the geocoders that were tried produced
+a result that satisfied the filter and picker callbacks.
 
 =cut
 
@@ -384,9 +404,9 @@ sub geocode {
     }
 
     my $previous_geocoder_name = '';
-    my $ra_valid_results = [];
-    my $waiting_time = 0;
-    my $accepted_response = undef;
+    my $ra_valid_results       = [];
+    my $waiting_time           = 0;
+    my $accepted_response      = undef;
 
     # We have not yet tried any geocoders for this query - tell the scheduler.
     $self->{scheduler}->reset_available();
@@ -479,7 +499,7 @@ sub geocode {
         $accepted_response = $self->{picker_callback}->( $ra_valid_results, 0 );
     }
 
-    # If we're caching and we have a good response, let's cache it.
+    # If we're using a cache and we have a good response, let's cache it.
     if ( !$args->{no_cache} ) {
         $self->_set_in_cache( $args->{location}, $accepted_response, $args->{cache} );
     };
@@ -782,11 +802,30 @@ Currently supported Geo::Coder::* modules are:
 
 =head1 AUTHOR
 
-Alistair Francis, http://search.cpan.org/~friffin/
+Dan Horgan (http://search.cpan.org/~danhgn/)
 
-Dan Horgan
+Geo::Coder::Many is based on Geo::Coder::Multiple
+(by Alistair Francis http://search.cpan.org/~friffin/)
+
+=head1 FEEDBACK
+
+Patches are welcome! Please send any code or feedback to cpan@lokku.com
+
+=head1 ACKNOWLEDGEMENTS
+
+A number of the feature ideas are taken directly from Tim Bunce's blog:
+
+http://blog.timbunce.org/2010/06/09/high-quality-multi-source-geocoding-in-perl/
+
+(Needless to say, neither he nor anybody else should be held responsible for
+any deficiencies in their implementation!)
 
 =head1 COPYRIGHT AND LICENSE
+
+Copyright 2010 Lokku Ltd <cpan@lokku.com>
+
+Parts taken from Geo::Coder::Multiple are copyright 2009 Alistair Francis
+<opensource@alizta.com>
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.10 or,

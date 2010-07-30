@@ -7,7 +7,7 @@ use base 'Geo::Coder::Many::Scheduler';
 
 =head1 NAME
 
-Geo::Coder::Many::Scheduler::OrderedList
+Geo::Coder::Many::Scheduler::OrderedList - Ordered list scheduler
 
 =head1 DESCRIPTION
 

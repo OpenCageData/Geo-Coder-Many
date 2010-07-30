@@ -5,7 +5,13 @@ use warnings;
 
 =head1 NAME
 
+Geo::Coder::Many::Response - standard geocoder response container object
+
 =head1 DESCRIPTION
+
+This module provides a standard response format for geocoder results - the
+various geocoder plugins should all do the necessary conversions to return a
+response in this format.
 
 =head1 METHODS
 

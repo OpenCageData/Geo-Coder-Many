@@ -9,7 +9,7 @@ use base 'Geo::Coder::Many::Scheduler::UniquenessScheduler';
 
 =head1 NAME
 
-Geo::Coder::Many::Scheduler::UniquenessScheduler::WRR
+Geo::Coder::Many::Scheduler::UniquenessScheduler::WRR - Weighted Round Robin scheduler (default)
 
 =head1 DESCRIPTION
 

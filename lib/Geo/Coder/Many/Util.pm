@@ -61,7 +61,7 @@ a comparatively long time.
 
 Example:
 
-$geo_multiple->set_picker_callback( \&best_precision_picker );
+$geo_multiple->set_picker_callback( \&max_precision_picker );
 
 =cut
 

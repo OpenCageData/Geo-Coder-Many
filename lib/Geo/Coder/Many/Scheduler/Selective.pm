@@ -10,7 +10,7 @@ use base 'Geo::Coder::Many::Scheduler';
 
 =head1 NAME 
     
-Geo::Coder::Many::Scheduler::Selective
+Geo::Coder::Many::Scheduler::Selective - Scheduler that times out bad geocoders
 
 =head1 DESCRIPTION
 
