@@ -15,7 +15,7 @@ use warnings;
 # Set this to zero if you don't want to test third-party geocoders
 my $enable_testing_of_remote_services = 1;
 
-use Test::More tests => 217;
+use Test::More;
 use Test::MockObject;
 use Test::Exception;
 
@@ -26,6 +26,9 @@ use Geo::Coder::Many::Util qw( min_precision_filter max_precision_picker
 
 use HTTP::Response;
 use Net::Ping;
+
+# Trials to use for general test
+my $trials = 10;
 
 # Example picker callback for testing - only accepts a result if there are no
 # more available, always asks for more
@@ -45,7 +48,6 @@ sub general_test {
 
     my $freqs = {};
     my $i = 0;
-    my $trials = 10;
     while ($i < $trials) {
         my $result = $geo_multiple->geocode( { location => $location, wait_for_retries => 1 } );
         if (!defined $result) {
@@ -259,7 +261,6 @@ sub create_geocoders {
 
     my $p = Net::Ping->new;
     if ($enable_testing_of_remote_services && $p->ping('example.com')) {
-        plan tests => 226;
         lives_ok {
             my $geo_many = &setup_geocoder({
                     filter => 'all',
@@ -272,6 +273,8 @@ sub create_geocoders {
         } "Test with actual geocoders";
     }
     $p->close();
+
+    done_testing();
 }
 
 
