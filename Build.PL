@@ -5,7 +5,6 @@ use Module::Build;
 my $rh_requires;
 
 BEGIN {
-    use Devel::Hide qw( Geo::Coder::Bing Geo::Coder::Google );
 
     $rh_requires = {
         'perl'          => '5.010',
@@ -38,8 +37,6 @@ BEGIN {
             $rh_requires->{$ref} = $min_version;
         }
     }
-    use Data::Dumper;
-    print Dumper($rh_requires);
 }
 
 my $builder = Module::Build->new(
