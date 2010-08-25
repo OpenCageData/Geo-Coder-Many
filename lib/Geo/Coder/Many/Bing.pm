@@ -14,6 +14,8 @@ Geo::Coder::Many::Bing - Plugin for the Bing geocoder
 This class wraps Geo::Coder::Bing such that it can be used in
 Geo::Coder::Many, by converting the results to a standard form.
 
+Requires Geo::Coder::Bing >= 0.10
+
 =head1 METHODS
 
 =head2 geocode
