@@ -5,7 +5,7 @@ use warnings;
 use Carp;
 use Time::HiRes;
 
-our $VERSION = 0.12;
+our $VERSION = 0.13;
 
 use Geo::Coder::Many::Bing;
 use Geo::Coder::Many::Google;
@@ -14,8 +14,12 @@ use Geo::Coder::Many::Yahoo;
 use Geo::Coder::Many::PlaceFinder;
 use Geo::Coder::Many::OSM;
 
-use Geo::Coder::Many::Util
-  qw( min_precision_filter max_precision_picker consensus_picker country_filter );
+use Geo::Coder::Many::Util qw(
+    min_precision_filter 
+    max_precision_picker 
+    consensus_picker 
+    country_filter 
+);
 use Geo::Coder::Many::Scheduler::Selective;
 use Geo::Coder::Many::Scheduler::OrderedList;
 use Geo::Coder::Many::Scheduler::UniquenessScheduler::WRR;
@@ -93,7 +97,11 @@ Suppose the geocoders we want to use are called 'Locatorize' and 'WhereIzIt'.
    # Use a built-in picker callback
    $geocoder_many->set_picker_callback('max_precision');
    
-   my $result = $geocoder_many->geocode( { location => '82 Clerkenwell Road, London' } );
+   my $result = $geocoder_many->geocode( 
+      {
+          location => '82 Clerkenwell Road, London' 
+      }
+   );
    
    if (defined $result) {
        print "Country: ",       $result->{country},       "\n";
@@ -104,7 +112,8 @@ Suppose the geocoders we want to use are called 'Locatorize' and 'WhereIzIt'.
        print "Address: ",       $result->{address},       "\n";
        print "Precision: ",     $result->{precision},     "\n";
        print "Geocoder: ",      $result->{geocoder},      "\n";
-   } else {
+   }
+   else {
        print "Failed to geocode!\n";
    }
    
@@ -178,16 +187,17 @@ sub new {
 
     if ( !defined $args->{scheduler_type} ) { $self->{scheduler_type} = 'WRR'; }
     if ( $self->{scheduler_type} !~ /OrderedList|WRR|WeightedRandom/x ) {
-        carp "Unsupported scheduler type: should be OrderedList or WRR or WeightedRandom.";
+        carp "Unsupported scheduler type: should be OrderedList or WRR or
+              WeightedRandom.";
     }
 
     bless $self, $class;
 
-    if( $args->{cache} ) {
+    if ( $args->{cache} ) {
         $self->_set_caching_object( $args->{cache} );
     };
 
-    return( $self );
+    return $self;
 };
 
 =head2 add_geocoder
@@ -255,9 +265,15 @@ sub set_filter_callback {
     # If given a scalar, look up the name
     if (ref($filter_callback) eq '') {
         my %callback_names = (
-            qr/(all)?/x => undef, # Accepting all results is the default behaviour
+
+            # Accepting all results is the default behaviour
+            qr/(all)?/x => undef, 
+
         );
-        $filter_callback = $self->_lookup_callback($filter_callback, \%callback_names);
+        $filter_callback = $self->_lookup_callback(
+            $filter_callback,
+            \%callback_names
+        );
     }
 
     # We should now have a code reference
@@ -304,7 +320,10 @@ sub set_picker_callback {
             qr/(first)?/x      => undef,
             qr/max_precision/x => \&max_precision_picker,
         );
-        $picker_callback = $self->_lookup_callback($picker_callback, \%callback_names);
+        $picker_callback = $self->_lookup_callback(
+            $picker_callback, 
+            \%callback_names,
+        );
     }
 
     # We should now have a code reference
@@ -367,8 +386,8 @@ A matching address will have the following keys in the hash reference.
 
   location              the original query string
 
-  precision             scalar ranging from 0.0 to 1.0, denoting the granularity of the
-                        result (undef if not known) 
+  precision             scalar ranging from 0.0 to 1.0, denoting the
+                        granularity of the result (undef if not known) 
 
 The C<geocoder> key will contain a string denoting which geocoder returned the
 results (eg, 'locatorize').
@@ -389,16 +408,22 @@ a result that satisfied the filter and picker callbacks.
 sub geocode {
     my ($self, $args) = @_;
 
-    if (!exists $args->{location}) {
+    if ( !exists $args->{location} ) {
         croak "Geo::Coder::Many::geocode method requires a location!\n";
     }
 
-    unless( $args->{no_cache} ) {
-        my $response = $self->_get_from_cache( $args->{location}, $args->{cache} );
-        if( defined($response) ) { return( $response ) };
-    };
+    # If using cache, check that first
+    if ( !$args->{no_cache} ) {
+        my $response = $self->_get_from_cache( 
+            $args->{location}, 
+            $args->{cache},
+        );
+        if ( defined $response ) {
+            return $response 
+        }
+    }
 
-    if (!keys %{$self->{geocoders}}) {
+    if ( !keys %{$self->{geocoders}} ) {
         carp "Warning: geocode called, but no geocoders have been added!\n";
         return;
     }
@@ -434,11 +459,11 @@ sub geocode {
 
         # Check the geocoder has an OK name
         my $geocoder_name = $geocoder->get_name();
-        if( $geocoder_name eq $previous_geocoder_name ) {
+        if ( $geocoder_name eq $previous_geocoder_name ) {
             carp "The scheduler is bad - it returned two geocoders with the "
                 ."same name, between calls to reset_available!";
         }
-        next if( grep { /^$geocoder_name$/x } @{$args->{geocoders_to_skip}} );
+        next if ( $geocoder_name ~~ @{$args->{geocoders_to_skip}} );
 
         # Use the current geocoder to geocode the requested location
         my $Response = $geocoder->geocode( $args->{location} );
@@ -449,14 +474,15 @@ sub geocode {
                 response_code => $Response->get_response_code(),
             };
             $self->{scheduler}->process_feedback($geocoder_name, $feedback);
-        } else {
+        } 
+        else {
             carp "Geocoder $geocoder_name returned undef.";
         }
 
         $previous_geocoder_name = $geocoder_name;
 
         # If our response has a valid code
-        if ($self->_response_valid($Response)) {
+        if ( $self->_response_valid($Response) ) {
             
             # Apply the filter callback to the response entries
             my @passed_responses = grep { 
@@ -468,26 +494,36 @@ sub geocode {
                 next;
             }
 
-            if (defined ($self->{picker_callback})) {
+            if ( defined ($self->{picker_callback}) ) {
 
                 # Add any results that pass the filter to the array of valid
                 # results to be picked from
                 for my $result (@passed_responses) {
-                    unshift @$ra_valid_results, $self->_form_response( $result, $Response );
+                    unshift (
+                        @$ra_valid_results, 
+                        $self->_form_response( $result, $Response )
+                    );
                 }
 
                 # See whether this is good enough for the picker
                 my $pc = $self->{picker_callback};
-                my $more_available = defined $self->{scheduler}->next_available();
+
+                my $more_available = 
+                    defined $self->{scheduler}->next_available();
+
                 my $picked = $pc->( $ra_valid_results, $more_available );
 
                 # Found an agreeable response! Use that.
                 if (defined $picked) {
                     $accepted_response = $picked;
                 }
-            } else {
+            } 
+            else {
                 # No picker? Just accept the first valid response.
-                $accepted_response = $self->_form_response( $passed_responses[0], $Response );
+                $accepted_response = $self->_form_response( 
+                    $passed_responses[0], 
+                    $Response 
+                );
             }
 
         }
@@ -501,10 +537,14 @@ sub geocode {
 
     # If we're using a cache and we have a good response, let's cache it.
     if ( !$args->{no_cache} ) {
-        $self->_set_in_cache( $args->{location}, $accepted_response, $args->{cache} );
+        $self->_set_in_cache(
+            $args->{location}, 
+            $accepted_response, 
+            $args->{cache} 
+        );
     };
 
-    return( $accepted_response );
+    return $accepted_response;
 };
 
 =head1 INTERNAL METHODS
@@ -518,8 +558,8 @@ hash, allowing results from different geocoders to be more easily assimilated
 
 sub _form_response {
     my ($self, $rh_result, $response) = @_;
-    $rh_result->{location} = $response->{location};
-    $rh_result->{geocoder} = $response->{geocoder};
+    $rh_result->{location}      = $response->{location};
+    $rh_result->{geocoder}      = $response->{geocoder};
     $rh_result->{response_code} = $response->{response_code};
     return $rh_result;
 }
@@ -533,10 +573,12 @@ lookup of the name and return the appropriate subroutine.
 
 sub _lookup_callback {
     my ($self, $name, $rh_callbacks) = @_;
-    ref($name) eq '' or croak( "Trying to look up something which isn't a name!\n" );
+    
+    ref($name) eq ''
+        or croak( "Trying to look up something which isn't a name!\n" );
 
     while (my ($name_regex, $callback) = each %{$rh_callbacks}) {
-        my $regex = qr/^\s*$name_regex\s*$/x;
+        my $regex = qr/^\s*$name_regex\s*$/msx;
 
         if ($name =~ $regex) {
             return $callback;
@@ -556,7 +598,10 @@ Checks that a response is defined and has a valid response code,
 sub _response_valid {
     my $self = shift;
     my $response = shift;
-    return ( defined($response) && HTTP::Response->new($response->get_response_code)->is_success)
+    if ( !defined($response) ) {
+        return 0;
+    }
+    return HTTP::Response->new( $response->get_response_code )->is_success;
 };
 
 =head2 _passes_filter
@@ -567,7 +612,10 @@ Check a response passes the filter callback (if one is set).
 
 sub _passes_filter {
     my ($self, $response) = @_;
-    return ( !defined $self->{filter_callback} || $self->{filter_callback}->($response) )
+    if ( !defined $self->{filter_callback} ) {
+        return 1;
+    }
+    return $self->{filter_callback}->( $response );
 }
 
 =head2 _get_geocoders
@@ -585,12 +633,13 @@ sub _get_geocoders {
         push @{$geocoders}, $self->{geocoders}->{$key};
     };
 
-    return( $geocoders );
+    return $geocoders;
 };
 
 =head2 _get_next_geocoder
 
-Requests the next geocoder from the scheduler and looks it up in the geocoders hash.
+Requests the next geocoder from the scheduler and looks it up in the geocoders
+hash.
 
 =cut
 
@@ -598,14 +647,15 @@ sub _get_next_geocoder {
     my $self = shift;
 
     my $next = $self->{scheduler}->get_next_unique();
-    return if (!defined $next || $next eq '');
+    return if ( (!defined $next) || $next eq '');
 
-    return( $self->{geocoders}->{$next} );
+    return $self->{geocoders}{$next};
 };
 
 =head2 _recalculate_geocoder_stats
 
-Assigns weights to the current geocoders, and initialises the scheduler as appropriate.
+Assigns weights to the current geocoders, and initialises the scheduler as
+appropriate.
 
 =cut
 
@@ -630,7 +680,8 @@ sub _recalculate_geocoder_stats {
 
 =head2 _new_scheduler
 
-Returns an instance of the currently-set scheduler, with the specified geocoders.
+Returns an instance of the currently-set scheduler, with the specified
+geocoders.
 
 =cut
 
@@ -638,14 +689,18 @@ sub _new_scheduler {
     my $self = shift;
     my $geocoders = shift;
     my $base_scheduler_name = "Geo::Coder::Many::Scheduler::";
-    if ($self->{scheduler_type} =~ /WRR|WeightedRandom/x) {
+    if ($self->{scheduler_type} =~ m/^(WRR|WeightedRandom)$/msx) {
         $base_scheduler_name .= "UniquenessScheduler::";
     }
     $base_scheduler_name .= $self->{scheduler_type};
     if ($self->{use_timeouts}) {
-        return( Geo::Coder::Many::Scheduler::Selective->new($geocoders, $base_scheduler_name) );
-    } else {
-        return( $base_scheduler_name->new($geocoders));
+        return Geo::Coder::Many::Scheduler::Selective->new(
+            $geocoders,
+            $base_scheduler_name
+        );
+    } 
+    else {
+        return $base_scheduler_name->new($geocoders);
     }
 }
 
@@ -677,13 +732,14 @@ sub _test_cache_object {
     my $cache_object = shift;
 
     # Test to ensure the cache works
-    eval {
+    my $result = eval {
         $cache_object->set( '1234', 'test' );
         croak unless( $cache_object->get('1234') eq 'test' );
         1;
-    } or ($@ or do {
+    };
+    if ( (!$result) || $@ ) {
         croak "Unable to use user provided cache object: ". ref($cache_object);
-    });
+    };
 
     return;
 };
@@ -695,20 +751,20 @@ Store the result in the cache
 =cut
 
 sub _set_in_cache {
-    my $self = shift;
+    my $self     = shift;
     my $location = shift;
     my $Response = shift;
-    my $cache = shift || $self->{cache};
+    my $cache    = shift || $self->{cache};
 
     my $normalized_location = $self->_normalize_location_string( $location );
     my $location_key = $normalized_location || $location;
 
-    if( $cache ) {
+    if ( $cache ) {
         $cache->set( $location_key, $Response );
-        return( 1 );
+        return 1;
     };
 
-    return( 0 );
+    return 0;
 };
 
 =head2 _get_from_cache
@@ -718,18 +774,18 @@ Check the cache to see if the data is available
 =cut
 
 sub _get_from_cache {
-    my $self = shift;
+    my $self     = shift;
     my $location = shift;
     my $cache = shift || $self->{cache};
 
-    if( $cache ) {
+    if ( $cache ) {
         my $normalized_location = $self->_normalize_location_string($location);
         my $location_key = $normalized_location || $location;
 
         my $Response = $cache->get( $location_key );
-        if( $Response ) {
+        if ( $Response ) {
             $Response->{response_code} = 210;
-            return( $Response );
+            return $Response;
         };
     };
 
@@ -744,12 +800,12 @@ normalized version of the given location string.
 =cut
 
 sub _normalize_location_string {
-    my $self = shift;
+    my $self     = shift;
     my $location = shift;
 
-    if( $self->{normalize_code_ref} ) {
+    if ( $self->{normalize_code_ref} ) {
         my $code_ref = $self->{normalize_code_ref};
-        my $normalized_location = &$code_ref( $location ); 
+        my $normalized_location = $code_ref->( $location ); 
 
         return $normalized_location;
     };

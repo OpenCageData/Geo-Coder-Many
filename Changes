@@ -1,5 +1,8 @@
 Revision history for Perl module Geo::Coder::Many.
 
+0.13    26 Aug 2010
+        - Minor tweaks (internal SVN revision 36990)
+
 0.12     30 Jul 2010
         - Fixed test plan
 

@@ -27,12 +27,15 @@ sub new {
     my $class = shift;
     my $ra_geocoders = shift;
 
-    # Convert weights (= desired frequencies) into a cumulative distribution function
+    # Convert weights (= desired frequencies) into a cumulative distribution
+    # function
     my $total_weight = 0;
     for my $rh_geo (@$ra_geocoders) {
         my $weight = $rh_geo->{weight};
         if ($weight <= 0) {
-            warn "Warning - weight for ". $rh_geo->{geocoder} ." should be greater than zero.\n"; 
+            warn "Warning - weight for "
+                 .$rh_geo->{geocoder}
+                 ." should be greater than zero"; 
         }
         $rh_geo->{weight} = $weight + $total_weight;
         $total_weight += $weight;

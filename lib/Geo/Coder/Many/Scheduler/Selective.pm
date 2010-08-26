@@ -26,8 +26,8 @@ failure.
 =head2 new
 
 Constructs and returns an instance of the class.
-Takes a reference to an array of {name, weight} hashrefs, and the name of a scheduler class to wrap
-(e.g. Geo::Coder::Many::Scheduler::OrderedList)
+Takes a reference to an array of {name, weight} hashrefs, and the name of a
+scheduler class to wrap (e.g. Geo::Coder::Many::Scheduler::OrderedList)
 
 =cut
 
@@ -106,8 +106,13 @@ Otherwise it returns the time remaining until the earliest timeout-end arrives.
 sub next_available {
     my $self = shift;
     return if (!defined $self->{scheduler}->next_available());
-    my $first_time =  -gettimeofday() + min( map { $_->{timeout_end}; } values(%{$self->{geocoder_meta}}) );
-    return (max 0, $first_time);
+    my $first_time = 
+        min( 
+            map { 
+                $_->{timeout_end};
+            } values %{$self->{geocoder_meta}} 
+        ) - gettimeofday();
+    return max 0, $first_time;
 }
 
 =head2 process_feedback
@@ -121,7 +126,8 @@ sub process_feedback {
 
     if ( $rh_feedback->{response_code} != 200 ) {
         $self->_increase_timeout($geocoder);
-    } else {
+    } 
+    else {
         $self->_clear_timeout($geocoder);
     }
     return;
@@ -145,7 +151,8 @@ sub _increase_timeout {
     my $base_timeout = $self->{base_timeout};
     my $timeout_multiplier = $self->{timeout_multiplier}; 
 
-    my $timeout_length = $base_timeout * ($timeout_multiplier ** $timeout_count);
+    my $timeout_length = 
+        $base_timeout * ($timeout_multiplier ** $timeout_count);
 
     $rh_meta->{timeout_end} = gettimeofday() + $timeout_length;
     return $timeout_length;

@@ -5,7 +5,12 @@ use warnings;
 use List::Util qw( reduce );
 use List::MoreUtils qw( any );
 
-our @EXPORT_OK = qw( min_precision_filter max_precision_picker consensus_picker country_filter );
+our @EXPORT_OK = qw( 
+    min_precision_filter 
+    max_precision_picker 
+    consensus_picker 
+    country_filter 
+);
 use Exporter;
 use base qw(Exporter);
 
@@ -15,7 +20,8 @@ Geo::Coder::Many::Util
 
 =head1 DESCRIPTION
 
-Miscellaneous routines that are convenient for, for example, generating commonly used callback methods to be used with Geo::Coder::Many.
+Miscellaneous routines that are convenient for, for example, generating
+commonly used callback methods to be used with Geo::Coder::Many.
 
 =head1 SUBROUTINES
 
@@ -30,10 +36,10 @@ sub min_precision_filter {
     my $precision_cutoff = shift;
     return sub {
         my $result = shift;
-        return ( 
-            defined $result->{precision} 
-            && ($result->{precision} >= $precision_cutoff)
-        );
+        if ( !defined $result->{precision} ) {
+            return 0;
+        }
+        return $result->{precision} >= $precision_cutoff;
     }
 }
 
@@ -48,8 +54,10 @@ sub country_filter {
     my $country_name = shift;
     return sub {
         my $result = shift;
-        return ( exists $result->{country}
-                 && $result->{country} eq $country_name );
+        if ( !exists $result->{country} ) {
+            return 0;
+        }
+        return $result->{country} eq $country_name;
     }
 }
 
@@ -82,11 +90,14 @@ geocoder results to be within a bounding square of side-length 'nearness'. If
 this can be satisfied, the result from that square which has the highest
 precision will be returned. Otherwise, asks for more/returns undef. 
 
-WARNING: quadratic time in length of @$ra_results - could be improved if necessary.
+WARNING: quadratic time in length of @$ra_results - could be improved if
+necessary.
 
 Example:
 
-$geo_multiple->set_picker_callback( &consensus_picker({nearness => 0.1, required_consensus => 2}) );
+$geo_multiple->set_picker_callback( 
+    consensus_picker({nearness => 0.1, required_consensus => 2})
+);
 
 =cut
 
@@ -97,20 +108,26 @@ sub consensus_picker {
     return sub {
         my $ra_results = shift;
 
-        for my $result_a (@$ra_results) {
+        for my $result_a (@{$ra_results}) {
 
             my $lat_a = $result_a->{latitude};
             my $lon_a = $result_a->{longitude};
 
             # Find all of the other results that are close to this one
             my @consensus = grep { 
-                _in_box( $lat_a, $lon_a, $nearness, $_->{latitude}, $_->{longitude} ) 
+                _in_box( 
+                    $lat_a, 
+                    $lon_a, 
+                    $nearness, 
+                    $_->{latitude}, 
+                    $_->{longitude} 
+                ) 
             } @$ra_results;
 
             if ($required_consensus <= @consensus) {
                 # If the consensus is sufficiently large, return the result
                 # with the highest precision
-                return ( &_find_max_precision(\@consensus) );
+                return _find_max_precision(\@consensus);
             }
 
         }
@@ -132,25 +149,24 @@ with centre ($centre_lat, $centre_lon) and side length 2*$half_width.
 sub _in_box {
     my ($centre_lat, $centre_lon, $half_width, $lat, $lon) = @_;
 
-    return ($centre_lat - $half_width < $lat
-         && $centre_lat + $half_width > $lat
-         && $centre_lon - $half_width < $lon
-         && $centre_lon + $half_width > $lon);
+    return $centre_lat - $half_width < $lat
+        && $centre_lat + $half_width > $lat
+        && $centre_lon - $half_width < $lon
+        && $centre_lon + $half_width > $lon;
 }
 
 =head2 _find_max_precision
 
-Given a reference to an array of result hashes, returns the one with the highest precision value
+Given a reference to an array of result hashes, returns the one with the
+highest precision value
 
 =cut
 
 sub _find_max_precision {
     my $ra_results = shift;
-    return ( 
-        reduce {
-            ($a->{precision} || 0.0) > ($b->{precision} || 0.0) ? $a : $b 
-        } @{$ra_results}
-    );
+    return reduce {
+        ($a->{precision} || 0.0) > ($b->{precision} || 0.0) ? $a : $b 
+    } @{$ra_results};
 }
 
 1;

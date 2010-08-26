@@ -9,7 +9,8 @@ use base 'Geo::Coder::Many::Scheduler';
 
 =head1 NAME
 
-Geo::Coder::Many::Scheduler::UniquenessScheduler - Scheduler base class which ensures uniqueness
+Geo::Coder::Many::Scheduler::UniquenessScheduler - Scheduler base class which
+ensures uniqueness
 
 =head1 DESCRIPTION
 
@@ -23,8 +24,8 @@ Subclasses should
 
 =head2 new
 
-Creates a UniquenessScheduler object and returns it. This should not be called directly,
-but by any subclasses, via SUPER.
+Creates a UniquenessScheduler object and returns it. This should not be called
+directly, but by any subclasses, via SUPER.
 
 =cut
 
@@ -40,12 +41,13 @@ sub new {
 
     # Initialize available_items
     $self->reset_available();
-    return ($self);
+    return $self;
 };
 
 =head2 reset_available
 
-Update the set of currently available items to the full set of items initially provided.
+Update the set of currently available items to the full set of items initially
+provided.
 
 =cut
 
@@ -85,7 +87,8 @@ sub get_next_unique {
         return;
     }
     
-    # Remember that we've seen this item, by removing it from the list of those available
+    # Remember that we've seen this item, by removing it from the list of those
+    # available
     if ( $item_pos > -1 ) {
         splice @{$self->{available_items}},$item_pos,1;
     }
@@ -102,7 +105,8 @@ sub next_available {
     my $self = shift;
     if ( 0 == @{$self->{available_items}} ) {
         return;
-    } else {
+    }
+    else {
         return 0;
     }
 }
@@ -115,7 +119,7 @@ Shoudl be implemented by a subclass
 
 sub _get_next {
     die "This method must be over-ridden.\n";
-};
+}
     
 =head2 process_feedback
 
@@ -125,7 +129,7 @@ Does nothing by default; may be overridden
 
 sub process_feedback {
     return;
-};
+}
 
 1;
 

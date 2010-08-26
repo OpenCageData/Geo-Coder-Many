@@ -25,14 +25,16 @@ sub new {
     my $class = shift;
     my $ra_items = shift;
 
-    my @names = map { $_->{name} } sort { $b->{weight} <=> $a->{weight}; } @$ra_items;
+    my @names =
+        map { $_->{name} } 
+        sort { $b->{weight} <=> $a->{weight}; } @$ra_items;
 
     my $self = { items => \@names };
     bless $self, $class;
 
     $self->reset_available();
 
-    return ( $self );
+    return $self;
 }
 
 =head2 reset_available
@@ -55,7 +57,7 @@ Returns the next item in the list.
 
 sub get_next_unique {
     my $self = shift;
-    return ( shift @{$self->{ available_items }} );
+    return shift @{$self->{ available_items }};
 }
 
 =head2 next_available 
@@ -67,7 +69,11 @@ Returns zero if there are items available, and
 
 sub next_available {
     my $self = shift;
-    return ( 0 < @{$self->{ available_items }} ? 0 : -1 );
+
+    if ( 0 < @{$self->{ available_items }} ) {
+        return 0;
+    }
+    return 1;
 }
 
 1;

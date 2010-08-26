@@ -3,22 +3,28 @@ require 5.010;
 use ExtUtils::MakeMaker;
 WriteMakefile
 (
-  'PL_FILES' => {},
-  'INSTALLDIRS' => 'site',
-  'NAME' => 'Geo::Coder::Many',
-  'EXE_FILES' => [],
-  'VERSION_FROM' => 'lib/Geo/Coder/Many.pm',
-  'PREREQ_PM' => {
-                   'Test::MockObject' => 0,
-                   'Test::Pod::Coverage' => 0,
-                   'Test::Exception' => 0,
-                   'Time::HiRes' => '1.9711',
-                   'Net::Ping' => '2.33',
-                   'Test::More' => 0,
-                   'List::Util' => '1.23',
-                   'List::Util::WeightedRoundRobin' => '0.4',
-                   'List::MoreUtils' => '0.22',
-                   'HTTP::Request' => '5.827'
-                 }
-)
+          'NAME' => 'Geo::Coder::Many',
+          'VERSION_FROM' => 'lib/Geo/Coder/Many.pm',
+          'PREREQ_PM' => {
+                           'Geo::Coder::Bing' => '0.10',
+                           'Geo::Coder::Google' => '0.06',
+                           'Geo::Coder::Multimap' => '0.01',
+                           'Geo::Coder::OSM' => '0.01',
+                           'Geo::Coder::PlaceFinder' => '0.02',
+                           'Geo::Coder::Yahoo' => '0.45',
+                           'HTTP::Request' => '5.827',
+                           'List::MoreUtils' => '0.22',
+                           'List::Util' => '1.23',
+                           'List::Util::WeightedRoundRobin' => '0.4',
+                           'Net::Ping' => '2.33',
+                           'Test::Exception' => 0,
+                           'Test::MockObject' => 0,
+                           'Test::More' => 0,
+                           'Test::Pod::Coverage' => 0,
+                           'Time::HiRes' => '1.9711'
+                         },
+          'INSTALLDIRS' => 'site',
+          'EXE_FILES' => [],
+          'PL_FILES' => {}
+        )
 ;

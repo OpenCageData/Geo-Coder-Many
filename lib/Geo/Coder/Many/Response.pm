@@ -34,12 +34,13 @@ sub new {
 
     bless $self, $class;
 
-    return( $self );
+    return $self;
 };
 
 =head2 add_response
 
-Takes a response, together with the name of the geocoder used to produce it, and stores it.
+Takes a response, together with the name of the geocoder used to produce it,
+and stores it.
 
 =cut
 
@@ -50,13 +51,15 @@ sub add_response {
 
     $self->{geocoder} = $geocoder;
 
-    if( $response->{longitude} && $response->{latitude} ) {
+    if ( $response->{longitude} && $response->{latitude} ) {
         push @{$self->{responses}}, $response;
         $self->{response_code} = 200;
     }
-    else { return( 0 ) };
+    else {
+        return 0;
+    };
 
-    return( 1 );
+    return 1;
 };
 
 =head2 set_response_code
@@ -77,7 +80,9 @@ Getter for the location string
 
 =cut
 
-sub get_location { return( shift->{location} ) };
+sub get_location {
+    return shift->{location};
+}
 
 
 =head2 get_response_code
@@ -86,7 +91,9 @@ Getter for the response code
 
 =cut
 
-sub get_response_code { return( shift->{response_code} ) };
+sub get_response_code {
+    return shift->{response_code};
+}
 
 
 =head2 get_geocoder
@@ -95,7 +102,9 @@ Getter for the geocoder name
 
 =cut
 
-sub get_geocoder { return( shift->{geocoder} ) };
+sub get_geocoder { 
+    return shift->{geocoder};
+}
 
 =head2 get_responses
 
@@ -108,7 +117,7 @@ sub get_responses {
     my $self = shift;
 
     return wantarray ? @{$self->{responses}} : $self->{responses}->[0];
-};
+}
 
 
 1;

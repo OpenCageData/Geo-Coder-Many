@@ -36,7 +36,8 @@ sub _fussy_picker {
     my ($ra_results, $more_available) = @_;
     if ($more_available) {
         return;
-    } else {
+    }
+    else {
         return $ra_results->[0];
     }
 }
@@ -49,18 +50,29 @@ sub general_test {
     my $freqs = {};
     my $i = 0;
     while ($i < $trials) {
-        my $result = $geo_multiple->geocode( { location => $location, wait_for_retries => 1 } );
+        my $result = $geo_multiple->geocode(
+            {
+                location => $location, 
+                wait_for_retries => 1 
+            }
+        );
         if (!defined $result) {
             $result->{geocoder} = "Could not geocode.";
-        } else {
+        }
+        else {
             if (defined $freqs->{$result->{geocoder}}) {
                 $freqs->{$result->{geocoder}}++;
-            } else {
+            }
+            else {
                 $freqs->{$result->{geocoder}} = 1;
             }
         }
         ++$i;
-        print $i.": ". $result->{geocoder}." | ".($result->{address}||'[ No address found ]')."\n\n";
+        print "$i: "
+              .$result->{geocoder}
+              ." | "
+              .($result->{address}||'[ No address found ]')
+              ."\n\n";
     }
 
     while (my ($geocoder, $freq) = each %$freqs) {
@@ -77,10 +89,17 @@ sub fake_geocoder {
     $geo_multi_mock->mock('geocode',
         sub {
             my ($self, $location) = @_;
-            my $response = Geo::Coder::Many::Response->new( { location => $location } );
+            my $response = Geo::Coder::Many::Response->new(
+                {
+                    location => $location
+                }
+            );
             my $use_results = &$geocode_sub;
             my $http_response = HTTP::Response->new($use_results->{code});
-            $response->add_response( $use_results->{result}, $self->get_name() );
+            $response->add_response( 
+                $use_results->{result}, 
+                $self->get_name() 
+            );
             $response->set_response_code($http_response->code());
             return $response;
         });
@@ -126,16 +145,24 @@ sub random_fail {
 sub setup_geocoder {
     my $args = shift;
 
-    my $geo_many = Geo::Coder::Many->new({
+    my $geo_many = Geo::Coder::Many->new(
+        {
             scheduler_type => $args->{scheduler_type},
             use_timeouts => $args->{use_timeouts}
-        });
+        }
+    );
 
     for my $gc (@{$args->{geocoders}}) {
         if ($args->{quiet}) {
             $geo_many->add_geocoder($gc) 
-        } else {
-            lives_ok ( sub { $geo_many->add_geocoder($gc) }, "Add ". ref($gc->{geocoder}) );
+        } 
+        else {
+            lives_ok ( 
+                sub { 
+                    $geo_many->add_geocoder($gc) 
+                },
+                "Add ". ref($gc->{geocoder}) 
+            );
         }
     }
 
@@ -161,7 +188,7 @@ sub try_geocoder {
 
     my $geo = $ref->new(%options);
     ok (defined $geo, "Create $shortname geocoder");
-    unshift @$ra_geocoders, {geocoder=>$geo, daily_limit=>500};
+    unshift @$ra_geocoders, { geocoder => $geo, daily_limit => 500 };
     return;
 }
 
@@ -174,7 +201,12 @@ sub create_geocoders {
     my $geo_mock1 = fake_geocoder( 1, \&random_fail );
     ok (defined $geo_mock0 && defined $geo_mock1, 'Create mock geocoders');
 
-    unshift @geocoders, map {{geocoder=>$_, daily_limit=>10000}} ($geo_mock0, $geo_mock1);
+    unshift @geocoders, map {
+        {
+            geocoder    => $_,
+            daily_limit => 10000
+        }
+    } ($geo_mock0, $geo_mock1);
 
     try_geocoder( 'Bing',        \@geocoders, key    => 'YOUR_API_KEY' );
     try_geocoder( 'Google',      \@geocoders, apikey => 'YOUR_API_KEY' );

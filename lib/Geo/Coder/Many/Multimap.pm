@@ -41,9 +41,10 @@ sub geocode {
         # Multimap also provides an undocumented 'geocode_score' value, but it
         # doesn't seem to be helpful.
         #
-        # See http://clients.multimap.com/share/documentation/general/gqcodes.htm
-        # for a detailed specification of the geocode_quality value - we don't use
-        # all of the information it provides, here.
+        # See
+        # http://clients.multimap.com/share/documentation/general/gqcodes.htm
+        # for a detailed specification of the geocode_quality value - we don't
+        # use all of the information it provides, here.
 
         if ( defined $raw_reply->{geocode_quality} ) {
 
@@ -66,7 +67,7 @@ sub geocode {
             );
 
             while (my ($code_regex, $precision) = each %quality_hash) {
-                if ($raw_reply->{geocode_quality} =~ /^\s*$code_regex\s*/x) {
+                if ($raw_reply->{geocode_quality} =~ m/^\s*$code_regex\s*/msx) {
                     $tmp->{precision} = $precision;
                 }
             }
@@ -75,8 +76,8 @@ sub geocode {
         $response->add_response( $tmp, $self->get_name() );
     }
 
-    return( $response );
-};
+    return $response;
+}
 
 =head2 get_name
 
@@ -84,7 +85,9 @@ The short name by which Geo::Coder::Many can refer to this geocoder.
 
 =cut
 
-sub get_name { return 'multimap' };
+sub get_name { 
+    return 'multimap';
+}
 
 
 1;

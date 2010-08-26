@@ -57,7 +57,7 @@ sub geocode {
 
     $Response->set_response_code($http_response->code());
 
-    return( $Response );
+    return $Response;
 };
 
 =head2 get_name

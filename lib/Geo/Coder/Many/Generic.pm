@@ -34,16 +34,20 @@ sub new {
 
     bless $self, $class;
 
-    return( $self );
+    return $self;
 };
 
 =head2 geocode
 
-The main geocode method, to be overridden by subclasses. Should take a location string, geocode it using the wrapped class, and return the results (converted to a standard format)
+The main geocode method, to be overridden by subclasses. Should take a location
+string, geocode it using the wrapped class, and return the results (converted
+to a standard format)
 
 =cut
 
-sub geocode { croak "This method must be over-ridden" };
+sub geocode {
+    croak "This method must be over-ridden";
+}
 
 =head2 get_daily_limit
 
@@ -51,7 +55,9 @@ Getter for daily_limit.
 
 =cut
 
-sub get_daily_limit { return( shift->{daily_limit} ) };
+sub get_daily_limit {
+    return shift->{daily_limit};
+}
 
 =head2 get_name
 
@@ -60,7 +66,9 @@ subclass)
 
 =cut
 
-sub get_name { croak "This method must be over-ridden" };
+sub get_name {
+    croak "This method must be over-ridden";
+};
 
 
 

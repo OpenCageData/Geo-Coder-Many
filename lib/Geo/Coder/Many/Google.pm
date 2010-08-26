@@ -33,18 +33,18 @@ sub geocode {
 
     foreach my $raw_reply ( @raw_replies ) {
         my $tmp = {
-            address     => $raw_reply->{address},
-            country     => $raw_reply->{AddressDetails}->{Country}->{CountryNameCode},
-            latitude    => $raw_reply->{Point}->{coordinates}->[1],
-            longitude   => $raw_reply->{Point}->{coordinates}->[0],
-            precision   => 1.0,
+            address   => $raw_reply->{address},
+            country   => $raw_reply->{AddressDetails}{Country}{CountryNameCode},
+            latitude  => $raw_reply->{Point}{coordinates}[1],
+            longitude => $raw_reply->{Point}{coordinates}[0],
+            precision => 1.0,
         };
 
         $Response->add_response( $tmp, $self->get_name());
     };
 
-    return( $Response );
-};
+    return $Response;
+}
 
 =head2 get_name
 
@@ -52,10 +52,11 @@ The short name by which Geo::Coder::Many can refer to this geocoder.
 
 =cut
 
-sub get_name { return 'google' };
+sub get_name {
+    return 'google';
+}
 
 
 1;
 
 __END__
-

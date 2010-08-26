@@ -9,7 +9,8 @@ use base 'Geo::Coder::Many::Scheduler::UniquenessScheduler';
 
 =head1 NAME
 
-Geo::Coder::Many::Scheduler::UniquenessScheduler::WRR - Weighted Round Robin scheduler (default)
+Geo::Coder::Many::Scheduler::UniquenessScheduler::WRR - Weighted Round Robin
+scheduler (default)
 
 =head1 DESCRIPTION
 
@@ -35,14 +36,15 @@ sub new {
     
     my $WeightedList = List::Util::WeightedRoundRobin->new();
     my $self =  $class->SUPER::new({items => $ra_geocoders});
-    $self->{weighted_list} = $WeightedList->create_weighted_list( $ra_geocoders );
+    $self->{weighted_list} 
+        = $WeightedList->create_weighted_list( $ra_geocoders );
 
     unless( @{$self->{weighted_list}} ) {
         carp "Unable to create weighted list from list of geocoders";
     };
 
     bless $self, $class;
-    return ($self);
+    return $self;
 }
 
 =head1 INTERNAL METHODS

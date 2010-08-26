@@ -56,8 +56,8 @@ sub geocode {
         $Response->add_response( $tmp, $self->get_name());
     };
 
-    return( $Response );
-};
+    return $Response;
+}
 
 =head2 get_name
 
@@ -65,7 +65,9 @@ The short name by which Geo::Coder::Many can refer to this geocoder.
 
 =cut
 
-sub get_name { return 'yahoo' };
+sub get_name { 
+    return 'yahoo';
+}
 
 
 1;

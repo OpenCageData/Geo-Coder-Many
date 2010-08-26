@@ -35,13 +35,18 @@ Use as follows:
     
     my $osm_options = {
         geocoder    => $osm,
-    # This limit should not be taken as necessarily valid. Check the Nominatim usage policy.
+    # This limit should not be taken as necessarily valid. Check the Nominatim
+    # usage policy.
         daily_limit => 5000,
     };
     
     $geocoder_multi->add_geocoder( $osm_options );
     
-    my $location = $geocoder_multi->geocode( { location => '82 Clerkenwell Road, London, EC1M 5RF' } );
+    my $location = $geocoder_multi->geocode( 
+        {
+            location => '82 Clerkenwell Road, London, EC1M 5RF'
+        }
+    );
 
 =head1 USAGE POLICY
 
@@ -60,9 +65,10 @@ standard Geo::Coder::Many::Response.
 =cut
 
 sub geocode {
-    my $self = shift;
+    my $self     = shift;
     my $location = shift;
-    defined $location or croak "Geo::Coder::Many::OSM::geocode method must be given a location.\n";
+    defined $location or croak "Geo::Coder::Many::OSM::geocode 
+                                method must be given a location.";
 
     my @raw_replies = $self->{GeoCoder}->geocode( location => $location );
     my $response = Geo::Coder::Many::Response->new( { location => $location } );
@@ -84,7 +90,7 @@ sub geocode {
     my $http_response = $self->{GeoCoder}->response();
     $response->set_response_code($http_response->code());
 
-    return( $response );
+    return $response;
 };
 
 =head2 get_name
@@ -93,7 +99,9 @@ Returns the name of the geocoder type - used by Geo::Coder::Many
 
 =cut
 
-sub get_name { return 'osm' };
+sub get_name { 
+    return 'osm';
+}
 
 =head1 AUTHOR
 
@@ -101,9 +109,11 @@ Dan Horgan, C<< <cpan at lokku.com> >>
 
 =head1 BUGS
 
-Please report any bugs or feature requests to C<bug-geo-coder-multiple-osm at rt.cpan.org>, or through
-the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Geo-Coder-Many-OSM>.  I will be notified, and then you'll
-automatically be notified of progress on your bug as I make changes.
+Please report any bugs or feature requests to 
+C<bug-geo-coder-multiple-osm at rt.cpan.org>, or through the web interface at
+L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Geo-Coder-Many-OSM>.  I will
+be notified, and then you'll automatically be notified of progress on your bug
+as I make changes.
 
 
 
@@ -136,12 +146,6 @@ L<http://cpanratings.perl.org/d/Geo-Coder-Many-OSM>
 L<http://search.cpan.org/dist/Geo-Coder-Many-OSM/>
 
 =back
-
-
-=head1 ACKNOWLEDGEMENTS
-
-This module is based on the Geo::Coder::Many::* modules that are provided with Geo::Coder::Many.
-It is, of course, useless without Geo::Coder::Many and Geo::Coder::OSM.
 
 =head1 LICENSE AND COPYRIGHT
 
