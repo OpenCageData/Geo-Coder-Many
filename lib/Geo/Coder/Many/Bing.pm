@@ -42,23 +42,21 @@ sub geocode {
         'Unknown' => undef,
     );
 
-    for my $raw_reply (@raw_replies) {
+    foreach my $raw_reply (@raw_replies) {
 
         my $tmp = {
             address     => $raw_reply->{address}->{formattedAddress},
             country     => $raw_reply->{address}->{countryRegion},
-            longitude   => $raw_reply->{point}->{coordinates}->[0],
-            latitude    => $raw_reply->{point}->{coordinates}->[1],
+            latitude    => $raw_reply->{point}->{coordinates}->[0],
+            longitude   => $raw_reply->{point}->{coordinates}->[1],
             precision   => $convert{$raw_reply->{confidence}},
         };
-
         $Response->add_response( $tmp, $self->get_name());
     }
 
     $Response->set_response_code($http_response->code());
-
     return $Response;
-};
+}
 
 =head2 get_name
 
@@ -67,7 +65,6 @@ The short name by which Geo::Coder::Many can refer to this geocoder.
 =cut
 
 sub get_name { return 'bing' };
-
 
 1;
 

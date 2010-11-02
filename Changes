@@ -1,5 +1,13 @@
 Revision history for Perl module Geo::Coder::Many.
 
+0.14    2 Nov 2010
+        - fixed mix up of long and lat in in Geo::Coder::Many::Bing
+          thx to stpra123 for reporting
+        - required new version of some modules:
+          - Geo::Coder::Yahoo (1.49)
+          - New::Ping (2.36)
+          - Time::HiRes (1.9721)
+
 0.13    26 Aug 2010
         - Minor tweaks (internal SVN revision 36990)
 
