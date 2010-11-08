@@ -846,7 +846,6 @@ Currently supported Geo::Coder::* modules are:
   Geo::Coder::PlaceFinder
   Geo::Coder::Yahoo
 
-
 =head1 SEE ALSO
 
   Geo::Coder::Bing
@@ -858,9 +857,10 @@ Currently supported Geo::Coder::* modules are:
 
 =head1 AUTHOR
 
-Dan Horgan (http://search.cpan.org/~danhgn/)
+Originally Dan Horgan (http://search.cpan.org/~danhgn/)
+This module is maintained by the team members of Lokku Ltd. (http://www.lokku.com)
 
-Geo::Coder::Many is based on Geo::Coder::Multiple
+Geo::Coder::Many was originally based on Geo::Coder::Multiple
 (by Alistair Francis http://search.cpan.org/~friffin/)
 
 =head1 FEEDBACK
@@ -874,7 +874,13 @@ A number of the feature ideas are taken directly from Tim Bunce's blog:
 http://blog.timbunce.org/2010/06/09/high-quality-multi-source-geocoding-in-perl/
 
 (Needless to say, neither he nor anybody else should be held responsible for
-any deficiencies in their implementation!)
+any deficiencies in the implementation!)
+
+=head1 YOU MAY ALSO ENJOY
+
+If reducing your dependancy on geo information providers is your thing- and 
+really, who doesn't enjoy breaking dependancy? - you'll
+probably enjoy Mapstraction - http://www.mapstraction.com
 
 =head1 COPYRIGHT AND LICENSE
 

@@ -35,7 +35,7 @@ sub new {
     bless $self, $class;
 
     return $self;
-};
+}
 
 =head2 add_response
 
@@ -54,13 +54,10 @@ sub add_response {
     if ( $response->{longitude} && $response->{latitude} ) {
         push @{$self->{responses}}, $response;
         $self->{response_code} = 200;
+	return 1;
     }
-    else {
-        return 0;
-    };
-
-    return 1;
-};
+    return 0;
+}
 
 =head2 set_response_code
 
@@ -70,7 +67,6 @@ sub set_response_code {
     my $self = shift;
     my $response_code = shift;
     $self->{response_code} = $response_code;
-
     return $response_code;
 }
 
@@ -80,10 +76,7 @@ Getter for the location string
 
 =cut
 
-sub get_location {
-    return shift->{location};
-}
-
+sub get_location { return shift->{location}; }
 
 =head2 get_response_code
 
@@ -91,10 +84,7 @@ Getter for the response code
 
 =cut
 
-sub get_response_code {
-    return shift->{response_code};
-}
-
+sub get_response_code { return shift->{response_code}; }
 
 =head2 get_geocoder
 
@@ -102,9 +92,7 @@ Getter for the geocoder name
 
 =cut
 
-sub get_geocoder { 
-    return shift->{geocoder};
-}
+sub get_geocoder { return shift->{geocoder}; }
 
 =head2 get_responses
 
@@ -115,9 +103,7 @@ first response.
 
 sub get_responses {
     my $self = shift;
-
     return wantarray ? @{$self->{responses}} : $self->{responses}->[0];
 }
-
 
 1;

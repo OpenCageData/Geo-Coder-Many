@@ -65,10 +65,7 @@ The short name by which Geo::Coder::Many can refer to this geocoder.
 
 =cut
 
-sub get_name { 
-    return 'yahoo';
-}
-
+sub get_name { return 'yahoo'; }
 
 1;
 

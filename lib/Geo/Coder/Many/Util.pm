@@ -203,7 +203,4 @@ sub _find_max_precision {
     } @{$ra_results};
 }
 
-
-
-
 1;

@@ -85,10 +85,7 @@ The short name by which Geo::Coder::Many can refer to this geocoder.
 
 =cut
 
-sub get_name { 
-    return 'multimap';
-}
-
+sub get_name { return 'multimap'; }
 
 1;
 

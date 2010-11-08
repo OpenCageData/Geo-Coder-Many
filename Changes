@@ -14,7 +14,7 @@ Revision history for Perl module Geo::Coder::Many.
           which use Geo::Distance::XS
         - new tests
         - submitted by co-maintainer EDF
-        - corresponds to Lokku internal revision 39082
+        - corresponds to Lokku internal revision 39083
 
 0.13    26 Aug 2010
         - Minor tweaks (internal SVN revision 36990)
