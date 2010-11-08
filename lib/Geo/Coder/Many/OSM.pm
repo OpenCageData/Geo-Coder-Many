@@ -4,6 +4,7 @@ use warnings;
 use strict;
 use Carp;
 
+use Geo::Coder::Many::Util;
 use Geo::Coder::Many::Generic;
 use base 'Geo::Coder::Many::Generic';
 
@@ -76,12 +77,25 @@ sub geocode {
     my $location_data = [];
 
     foreach my $raw_reply ( @raw_replies ) {
+
+        my $precision = 0; # unknown
+        if (defined($raw_reply->{boundingbox})){
+	    my $ra_bbox = $raw_reply->{boundingbox};
+
+	    $precision = 
+                Geo::Coder::Many::Util::determine_precision_from_bbox({
+  	                    'lon1' => $ra_bbox->[0],
+                            'lat1' => $ra_bbox->[2],
+                            'lon2' => $ra_bbox->[1],
+                            'lat2' => $ra_bbox->[3],
+                 });
+	}
         my $tmp = {
               address     => $raw_reply->{display_name},
               country     => $raw_reply->{address}{country},
               longitude   => $raw_reply->{lon},
               latitude    => $raw_reply->{lat},
-              precision   => undef, # Precision info is not given... (?)
+              precision   => $precision,
         };
 
         $response->add_response( $tmp, $self->get_name() );
@@ -91,7 +105,7 @@ sub geocode {
     $response->set_response_code($http_response->code());
 
     return $response;
-};
+}
 
 =head2 get_name
 
@@ -99,53 +113,7 @@ Returns the name of the geocoder type - used by Geo::Coder::Many
 
 =cut
 
-sub get_name { 
-    return 'osm';
-}
-
-=head1 AUTHOR
-
-Dan Horgan, C<< <cpan at lokku.com> >>
-
-=head1 BUGS
-
-Please report any bugs or feature requests to 
-C<bug-geo-coder-multiple-osm at rt.cpan.org>, or through the web interface at
-L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Geo-Coder-Many-OSM>.  I will
-be notified, and then you'll automatically be notified of progress on your bug
-as I make changes.
-
-
-
-
-=head1 SUPPORT
-
-You can find documentation for this module with the perldoc command.
-
-    perldoc Geo::Coder::Many::OSM
-
-
-You can also look for information at:
-
-=over 4
-
-=item * RT: CPAN's request tracker
-
-L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Geo-Coder-Many-OSM>
-
-=item * AnnoCPAN: Annotated CPAN documentation
-
-L<http://annocpan.org/dist/Geo-Coder-Many-OSM>
-
-=item * CPAN Ratings
-
-L<http://cpanratings.perl.org/d/Geo-Coder-Many-OSM>
-
-=item * Search CPAN
-
-L<http://search.cpan.org/dist/Geo-Coder-Many-OSM/>
-
-=back
+sub get_name { return 'osm'; }
 
 =head1 LICENSE AND COPYRIGHT
 
@@ -156,7 +124,6 @@ under the terms of either: the GNU General Public License as published
 by the Free Software Foundation; or the Artistic License.
 
 See http://dev.perl.org/licenses/ for more information.
-
 
 =cut
 

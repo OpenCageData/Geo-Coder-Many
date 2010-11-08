@@ -1,12 +1,20 @@
 Revision history for Perl module Geo::Coder::Many.
 
-0.14    5 Nov 2010
+0.14    8 Nov 2010
         - fixed mix up of long and lat in in Geo::Coder::Many::Bing
           thx to stpra123 for reporting
-        - requires Geo::Distance and Geo::Distance::XS
         - previously Geo::Coder::Many::Google had been returning precision
-          of 1.0 for all requests (what a wonderful worls that would be)
+          of 1.0 for all requests (what a wonderful world that would be)
           Now determines precision based on response
+        - previously Geo::Coder::Many::OSM had been returning precision 
+          of undef for all requests (what a terrible world that would be)
+          Now determines precision based on response
+        - both of the above use 
+          Geo::Coder::Many::Util::determine_precision_from_bbox
+          which use Geo::Distance::XS
+        - new tests
+        - submitted by co-maintainer EDF
+        - corresponds to Lokku internal revision 39082
 
 0.13    26 Aug 2010
         - Minor tweaks (internal SVN revision 36990)

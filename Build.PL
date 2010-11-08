@@ -8,6 +8,7 @@ BEGIN {
 
     $rh_requires = {
         'perl'          => '5.010',
+        'Geo::Distance::XS' => '0.08',
         'List::Util::WeightedRoundRobin' => '0.4',
         'List::Util' => '1.23',
         'List::MoreUtils' => '0.22',
@@ -21,12 +22,12 @@ BEGIN {
 # the modules, and adds version dependencies for any that are present.
 
     my %geocoder_min_versions = (
-        'Bing'  => '0.10',
-        'Google' => '0.06',
-        'Multimap' => '0.01',
-        'OSM'   => '0.01',
+        'Bing'        => '0.10',
+        'Google'      => '0.06',
+        'Multimap'    => '0.01',
+        'OSM'         => '0.01',
         'PlaceFinder' => '0.02',
-        'Yahoo' => '0.45',
+        'Yahoo'       => '0.45',
     );
     while (my ($geocoder, $min_version) = each %geocoder_min_versions) {
         my $ref = 'Geo::Coder::' . $geocoder;

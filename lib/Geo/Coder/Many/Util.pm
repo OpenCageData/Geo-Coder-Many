@@ -2,6 +2,7 @@ package Geo::Coder::Many::Util;
 
 use strict;
 use warnings;
+use Geo::Distance::XS; # for calculating precision
 use List::Util qw( reduce );
 use List::MoreUtils qw( any );
 
@@ -137,6 +138,39 @@ sub consensus_picker {
     };
 }
 
+=head2 determine_precision_from_bbox
+
+    my $precision = Geo::Coder::Many::Util->determine_precision_from_bbox({
+                       'lon1' => $sw_lon,
+                       'lat1' => $sw_lat,
+                       'lon2' => $ne_lon,
+                       'lat2' => $ne_lat,
+                    });
+
+returns a precison between 0 (unknown) and 1 (highly precise) based on 
+the size of the box supplied
+
+=cut
+
+sub determine_precision_from_bbox {
+    my $rh_args = shift || return 0;
+
+    my $GDXS = Geo::Distance->new;
+    my $distance = $GDXS->distance('kilometer', 
+                                $rh_args->{lon1}, $rh_args->{lat1} => 
+                                $rh_args->{lon2}, $rh_args->{lat2});
+
+    return 0    if (!$distance);
+    return 1.0  if ($distance < 0.25);
+    return 0.9  if ($distance < 0.5);
+    return 0.8  if ($distance < 1);
+    return 0.7  if ($distance < 2);
+    return 0.5  if ($distance < 5);
+    return 0.3  if ($distance < 10);
+    return 0.1;
+  
+}
+
 =head1 INTERNAL ROUTINES
 
 =head2 _in_box
@@ -168,5 +202,8 @@ sub _find_max_precision {
         ($a->{precision} || 0.0) > ($b->{precision} || 0.0) ? $a : $b 
     } @{$ra_results};
 }
+
+
+
 
 1;
