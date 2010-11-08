@@ -12,6 +12,8 @@ my %geocoders = (
     'Yahoo'       => 'Geo::Coder::Yahoo',
 );
 
+# currently we skip geocoders that require a key
+# would of course be much better to allow tester to supply key
 my %requires_key = (
     'Bing'        => 1,
     'Google'      => 1,
@@ -36,15 +38,15 @@ if (!$ping_success){  # get out if no internet
     done_testing( 1 );
     exit 0;
 } 
-diag('we have an internet connection, can continue with test!');
+note('we have an internet connection, can continue with test!');
 
 use_ok('Geo::Coder::Many');
 
 my @testable_providers;
 foreach my $provider (sort keys %geocoders){
-    diag("testing $provider");
-    $num_tests++;
     my $geocoder_module = $geocoders{$provider};
+    note("checking for $geocoder_module");
+    $num_tests++;
 
     SKIP: {
         eval "use $geocoder_module";
@@ -78,7 +80,7 @@ if (scalar(@testable_providers)){
         SKIP : {
             skip "skipping $provider because requires key", 
                 1 if $requires_key{$provider};
-            diag("testing $provider");
+            note("testing $provider");
             my $geocoder_module = $geocoders{$provider};
             my $GC = $geocoder_module->new;
             $GCM->add_geocoder({ geocoder => $GC });
