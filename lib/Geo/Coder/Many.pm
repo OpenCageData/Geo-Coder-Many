@@ -10,9 +10,9 @@ our $VERSION = 0.15;
 use Geo::Coder::Many::Bing;
 use Geo::Coder::Many::Google;
 use Geo::Coder::Many::Multimap;
-use Geo::Coder::Many::Yahoo;
 use Geo::Coder::Many::PlaceFinder;
 use Geo::Coder::Many::OSM;
+use Geo::Coder::Many::Yahoo;
 
 use Geo::Coder::Many::Util qw(
     min_precision_filter 
@@ -185,7 +185,10 @@ sub new {
         use_timeouts        => $args->{use_timeouts},
     };
 
-    if ( !defined $args->{scheduler_type} ) { $self->{scheduler_type} = 'WRR'; }
+    if ( !defined $args->{scheduler_type} ){ 
+        $self->{scheduler_type} = 'WRR'; 
+    }
+
     if ( $self->{scheduler_type} !~ /OrderedList|WRR|WeightedRandom/x ) {
         carp "Unsupported scheduler type: should be OrderedList or WRR or
               WeightedRandom.";
@@ -195,10 +198,10 @@ sub new {
 
     if ( $args->{cache} ) {
         $self->_set_caching_object( $args->{cache} );
-    };
+    }
 
     return $self;
-};
+}
 
 =head2 add_geocoder
 
