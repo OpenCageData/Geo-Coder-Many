@@ -25,7 +25,8 @@ result in a form understandable to Geo::Coder::Many
 =cut
 
 # see details of google's response format here:
-# http://code.google.com/apis/maps/documentation/geocoding/
+# v2: http://code.google.com/apis/maps/documentation/javascript/v2/services.html#Geocoding
+# v3: http://code.google.com/apis/maps/documentation/geocoding/
 
 sub geocode {
     my $self = shift;
@@ -42,16 +43,18 @@ sub geocode {
 
         my $precision = 0; # unknown
 
-        if (defined($raw_reply->{geometry}) 
-            && defined($raw_reply->{geometry}{viewport}) ){
+        if (defined($raw_reply->{ExtendedData}) 
+            && defined($raw_reply->{ExtendedData}{LatLonBox}) ){
 
+            my $box = $raw_reply->{ExtendedData}{LatLonBox};
             # lng and lat in decimal degree format            
+
             $precision = 
 		Geo::Coder::Many::Util::determine_precision_from_bbox({
-                    'lon1' => $raw_reply->{geometry}{viewport}{southwest}{lng},
-                    'lat1' => $raw_reply->{geometry}{viewport}{southwest}{lat},
-                    'lon2' => $raw_reply->{geometry}{viewport}{northeast}{lng},
-                    'lat2' => $raw_reply->{geometry}{viewport}{northeast}{lat},
+                    'lon1' => $box->{south},
+                    'lat1' => $box->{west},
+                    'lon2' => $box->{north},
+                    'lat2' => $box->{east},
                 });
 	}
 

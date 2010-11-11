@@ -1,6 +1,6 @@
 ---
 name: Geo-Coder-Many
-version: 0.14
+version: 0.15
 author:
   - 'Dan Horgan <cpan@lokku.com>'
 abstract: Module to tie together multiple Geo::Coder::* modules
@@ -30,7 +30,7 @@ build_requires:
 provides:
   Geo::Coder::Many:
     file: lib/Geo/Coder/Many.pm
-    version: 0.14
+    version: 0.15
   Geo::Coder::Many::Bing:
     file: lib/Geo/Coder/Many/Bing.pm
   Geo::Coder::Many::Generic:
