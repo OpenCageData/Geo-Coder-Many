@@ -345,7 +345,7 @@ sub set_picker_callback {
     results_cache   => $cache,
   };
 
-  my $found_location = $geocoder_multi->geocode( $options );
+  my $found_location = $geocoder_many->geocode( $options );
 
 Arguments should be provided in a hash reference with the following entries:
 
