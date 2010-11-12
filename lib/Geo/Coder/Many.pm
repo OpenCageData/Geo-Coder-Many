@@ -10,9 +10,9 @@ our $VERSION = 0.15;
 use Geo::Coder::Many::Bing;
 use Geo::Coder::Many::Google;
 use Geo::Coder::Many::Multimap;
+use Geo::Coder::Many::Yahoo;
 use Geo::Coder::Many::PlaceFinder;
 use Geo::Coder::Many::OSM;
-use Geo::Coder::Many::Yahoo;
 
 use Geo::Coder::Many::Util qw(
     min_precision_filter 
@@ -185,10 +185,7 @@ sub new {
         use_timeouts        => $args->{use_timeouts},
     };
 
-    if ( !defined $args->{scheduler_type} ){ 
-        $self->{scheduler_type} = 'WRR'; 
-    }
-
+    if ( !defined $args->{scheduler_type} ) { $self->{scheduler_type} = 'WRR'; }
     if ( $self->{scheduler_type} !~ /OrderedList|WRR|WeightedRandom/x ) {
         carp "Unsupported scheduler type: should be OrderedList or WRR or
               WeightedRandom.";
@@ -198,10 +195,10 @@ sub new {
 
     if ( $args->{cache} ) {
         $self->_set_caching_object( $args->{cache} );
-    }
+    };
 
     return $self;
-}
+};
 
 =head2 add_geocoder
 
@@ -473,6 +470,7 @@ sub geocode {
 
         # Tell the scheduler about how successful the geocoder was
         if (defined $Response) {
+
             my $feedback = { 
                 response_code => $Response->get_response_code(),
             };
@@ -759,16 +757,13 @@ sub _set_in_cache {
     my $Response = shift;
     my $cache    = shift || $self->{cache};
 
-    my $normalized_location = $self->_normalize_location_string( $location );
-    my $location_key = $normalized_location || $location;
-
-    if ( $cache ) {
-        $cache->set( $location_key, $Response );
+    if ($location && $cache){
+	my $key = $self->_normalize_cache_key( $location ) || $location;
+        $cache->set( $key, $Response );
         return 1;
-    };
-
+    }
     return 0;
-};
+}
 
 =head2 _get_from_cache
 
@@ -781,46 +776,38 @@ sub _get_from_cache {
     my $location = shift;
     my $cache = shift || $self->{cache};
 
-    if ( $cache ) {
-        my $normalized_location = $self->_normalize_location_string($location);
-        my $location_key = $normalized_location || $location;
-
-        my $Response = $cache->get( $location_key );
+    if ( $cache && $location ) {
+        my $key = $self->_normalize_cache_key($location) || $location;
+        my $Response = $cache->get( $key );
         if ( $Response ) {
             $Response->{response_code} = 210;
             return $Response;
-        };
-    };
-
+        }
+    }
     return;
-};
+}
 
-=head2 _normalize_location_string
+=head2 _normalize_cache_key
 
 Use the provided normalize_code_ref callback (if one is set) to return a
-normalized version of the given location string.
+normalized string to use as a cache key.
 
 =cut
 
-sub _normalize_location_string {
+sub _normalize_cache_key {
     my $self     = shift;
     my $location = shift;
 
     if ( $self->{normalize_code_ref} ) {
         my $code_ref = $self->{normalize_code_ref};
-        my $normalized_location = $code_ref->( $location ); 
-
-        return $normalized_location;
-    };
-
+        return $code_ref->( $location ); 
+    }
     return $location;
-};
-
+}
 
 1;
 
 __END__
-
 
 =head1 NOTES
 
