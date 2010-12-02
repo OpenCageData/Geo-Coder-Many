@@ -70,7 +70,7 @@ a comparatively long time.
 
 Example:
 
-$geo_multiple->set_picker_callback( \&max_precision_picker );
+$GCMU->set_picker_callback( \&max_precision_picker );
 
 =cut
 
@@ -96,7 +96,7 @@ necessary.
 
 Example:
 
-$geo_multiple->set_picker_callback( 
+$GCMU->set_picker_callback( 
     consensus_picker({nearness => 0.1, required_consensus => 2})
 );
 
@@ -175,7 +175,7 @@ sub determine_precision_from_bbox {
 
 =head2 _in_box
 
-Used by consensus_picker - returns true iff ($lat, $lon) is inside the square
+Used by consensus_picker - returns true if ($lat, $lon) is inside the square
 with centre ($centre_lat, $centre_lon) and side length 2*$half_width.
 
 =cut

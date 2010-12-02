@@ -27,10 +27,9 @@ Use as follows:
 
     use Geo::Coder::Many;
     use Geo::Coder::PlaceFinder;
-    use Geo::Coder::Many::PlaceFinder;
     
     my $options = { };
-    my $geocoder_multi = Geo::Coder::Many->new( $options );
+    my $geocoder_many = Geo::Coder::Many->new( $options );
     my $place_finder = Geo::Coder::PlaceFinder->new( appid => 'YOUR_APP_ID' );
     
     my $place_finder_options = {
@@ -38,9 +37,9 @@ Use as follows:
         daily_limit => 50000,
     };
     
-    $geocoder_multi->add_geocoder( $place_finder_options );
+    $geocoder_many->add_geocoder( $place_finder_options );
     
-    my $location = $geocoder_multi->geocode( 
+    my $location = $geocoder_many->geocode( 
         {
             location => '82 Clerkenwell Road, London, EC1M 5RF'
         }
