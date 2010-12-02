@@ -28,22 +28,21 @@ Use as follows:
 
     use Geo::Coder::Many;
     use Geo::Coder::OSM;
-    use Geo::Coder::Many::OSM;
     
     my $options = { };
-    my $geocoder_multi = Geo::Coder::Many->new( $options );
+    my $geocoder_many = Geo::Coder::Many->new( $options );
     my $osm = Geo::Coder::OSM->new;
     
     my $osm_options = {
         geocoder    => $osm,
-    # This limit should not be taken as necessarily valid. Check the Nominatim
-    # usage policy.
+    # This limit should not be taken as necessarily valid. 
+    # Please check the Nominatim usage policy.
         daily_limit => 5000,
     };
     
-    $geocoder_multi->add_geocoder( $osm_options );
+    $geocoder_many->add_geocoder( $osm_options );
     
-    my $location = $geocoder_multi->geocode( 
+    my $location = $geocoder_many->geocode( 
         {
             location => '82 Clerkenwell Road, London, EC1M 5RF'
         }
