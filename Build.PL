@@ -24,6 +24,7 @@ BEGIN {
     my %geocoder_min_versions = (
         'Bing'        => '0.10',
         'Google'      => '0.06',
+        'Mapquest'    => '0.04',
         'Multimap'    => '0.01',
         'OSM'         => '0.01',
         'PlaceFinder' => '0.02',

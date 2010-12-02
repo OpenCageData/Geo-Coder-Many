@@ -5,14 +5,15 @@ use warnings;
 use Carp;
 use Time::HiRes;
 
-our $VERSION = 0.15;
+our $VERSION = 0.16;
 
 use Geo::Coder::Many::Bing;
 use Geo::Coder::Many::Google;
+use Geo::Coder::Many::Mapquest;
 use Geo::Coder::Many::Multimap;
-use Geo::Coder::Many::Yahoo;
-use Geo::Coder::Many::PlaceFinder;
 use Geo::Coder::Many::OSM;
+use Geo::Coder::Many::PlaceFinder;
+use Geo::Coder::Many::Yahoo;
 
 use Geo::Coder::Many::Util qw(
     min_precision_filter 
@@ -20,6 +21,7 @@ use Geo::Coder::Many::Util qw(
     consensus_picker 
     country_filter 
 );
+
 use Geo::Coder::Many::Scheduler::Selective;
 use Geo::Coder::Many::Scheduler::OrderedList;
 use Geo::Coder::Many::Scheduler::UniquenessScheduler::WRR;
@@ -229,7 +231,6 @@ sub add_geocoder {
     my $args = shift;
 
     my $geocoder_ref = ref( $args->{geocoder} );
-
     $geocoder_ref =~ s/Geo::Coder::/Geo::Coder::Many::/x;
 
     eval {
@@ -831,6 +832,7 @@ Currently supported Geo::Coder::* modules are:
 
   Geo::Coder::Bing
   Geo::Coder::Google
+  Geo::Coder::Mapquest
   Geo::Coder::Multimap
   Geo::Coder::OSM
   Geo::Coder::PlaceFinder
@@ -840,6 +842,7 @@ Currently supported Geo::Coder::* modules are:
 
   Geo::Coder::Bing
   Geo::Coder::Google
+  Geo::Coder::Mapquest
   Geo::Coder::Multimap
   Geo::Coder::OSM
   Geo::Coder::PlaceFinder
@@ -847,10 +850,11 @@ Currently supported Geo::Coder::* modules are:
 
 =head1 AUTHOR
 
-Originally Dan Horgan (http://search.cpan.org/~danhgn/)
-This module is maintained by the team members of Lokku Ltd. (http://www.lokku.com)
+Originally Dan Horgan (http://search.cpan.org/~danhgn/) This module is
+maintained by the team members of Lokku Ltd. (http://www.lokku.com)
 
-Geo::Coder::Many was originally based on Geo::Coder::Multiple
+Geo::Coder::Many was originally based on Geo::Coder::Multiple, which
+unfortunately seems to no longer be maintained
 (by Alistair Francis http://search.cpan.org/~friffin/)
 
 =head1 FEEDBACK

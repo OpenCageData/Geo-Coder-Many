@@ -83,13 +83,11 @@ sub geocode {
               latitude    => $raw_reply->{latLng}->{lat},
               precision   => $precision,
         };
-
         $response->add_response( $tmp, $self->get_name() );
-    };
+    }
 
     my $http_response = $self->{GeoCoder}->response();
     $response->set_response_code($http_response->code());
-
     return $response;
 }
 
