@@ -49,7 +49,7 @@ use_ok('Geo::Coder::Many');
 my @testable_providers;
 foreach my $provider (sort keys %geocoders){
     my $geocoder_module = $geocoders{$provider};
-    note("checking for $geocoder_module");
+    note("checking if we can test using $geocoder_module");
     $num_tests++;
 
     SKIP: {
