@@ -1,7 +1,8 @@
 Revision history for Perl module Geo::Coder::Many.
 
 0.16    3 Dec 2010
-        - added Geo::Coder::Many::Mapquest
+        - added Geo::Coder::Many::Mapquest, though still need to 
+          add precision
         - pod tweaks
 
 0.15    11 Nov 2010

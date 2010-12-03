@@ -3,8 +3,7 @@ package Geo::Coder::Many::Mapquest;
 use warnings;
 use strict;
 use Carp;
-use Geo::Coder::Many::Util;
-use Geo::Coder::Many::Generix;
+use Geo::Coder::Many::Generic;
 use base 'Geo::Coder::Many::Generic';
 
 =head1 NAME
@@ -57,6 +56,10 @@ This is called by Geo::Coder::Many - it sends the geocoding request (via
 Geo::Coder::Mapquest) and extracts the resulting location, returning it in a
 standard Geo::Coder::Many::Response.
 
+NOTE: currently precision is hard coded to 1! This is obviously wrong, need 
+to fix it to interpret the code returned by mapquest and assigning a meaningful
+precision
+
 =cut
 
 sub geocode {
@@ -72,9 +75,10 @@ sub geocode {
 
     foreach my $raw_reply ( @raw_replies ) {
 
-        my $precision = 0; # unknown
+
         # need to determine precision from response code
-        # see http://www.mapquestapi.com/geocoding/geocodequality.html
+        my $precision = 
+	    $self->_determine_precision($raw_reply->{geocodeQualityCode});
 
         my $tmp = {
               address     => $raw_reply->{display_name},
@@ -89,6 +93,17 @@ sub geocode {
     my $http_response = $self->{GeoCoder}->response();
     $response->set_response_code($http_response->code());
     return $response;
+}
+
+sub _determine_precision {
+    my $self = shift;
+    my $code = shift;
+
+    # for now all precision set to 1,
+    # should instead be converting to meaningful number between 0 and 1
+    # based on code
+    # see http://www.mapquestapi.com/geocoding/geocodequality.html
+    return 1;  # FIXME!
 }
 
 =head2 get_name
