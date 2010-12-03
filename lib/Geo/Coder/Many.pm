@@ -5,7 +5,7 @@ use warnings;
 use Carp;
 use Time::HiRes;
 
-our $VERSION = 0.16;
+our $VERSION = 0.17;
 
 use Geo::Coder::Many::Bing;
 use Geo::Coder::Many::Google;
@@ -13,6 +13,7 @@ use Geo::Coder::Many::Mapquest;
 use Geo::Coder::Many::Multimap;
 use Geo::Coder::Many::OSM;
 use Geo::Coder::Many::PlaceFinder;
+use Geo::Coder::Many::SimpleGeo;
 use Geo::Coder::Many::Yahoo;
 
 use Geo::Coder::Many::Util qw(
@@ -544,20 +545,36 @@ sub geocode {
             $accepted_response, 
             $args->{cache} 
         );
-    };
+    }
 
     return $accepted_response;
-};
+}
 
-=head1 INTERNAL METHODS
+=head2 get_geocoders
 
-=head2 _form_response
-
-Takes a result hash and a Response object and mashes them into a single flat
-hash, allowing results from different geocoders to be more easily assimilated
+Returns a reference to a list of the geocoders that have been added to
+the Many geocoder.
 
 =cut
 
+sub get_geocoders { 
+    my $self = shift;
+
+    my $geocoders = [];
+    foreach my $key ( keys %{$self->{geocoders}} ) {
+        push @{$geocoders}, $self->{geocoders}->{$key};
+    }
+    return $geocoders;
+}
+
+
+### INTERNAL METHODS
+
+# _form_response
+#
+# Takes a result hash and a Response object and mashes them into a single flat
+# hash, allowing results from different geocoders to be more easily assimilated
+#
 sub _form_response {
     my ($self, $rh_result, $response) = @_;
     $rh_result->{location}      = $response->{location};
@@ -566,13 +583,11 @@ sub _form_response {
     return $rh_result;
 }
 
-=head2 _lookup_callback
-
-Given a name and a list of mappings from names to code references, do a fuzzy
-lookup of the name and return the appropriate subroutine.
-
-=cut
-
+# _lookup_callback
+#
+# Given a name and a list of mappings from names to code references, do a fuzzy
+# lookup of the name and return the appropriate subroutine.
+#
 sub _lookup_callback {
     my ($self, $name, $rh_callbacks) = @_;
     
@@ -591,12 +606,10 @@ sub _lookup_callback {
     return;
 }
 
-=head2 _response_valid
-
-Checks that a response is defined and has a valid response code,
-
-=cut
-
+# _response_valid
+#
+# Checks that a response is defined and has a valid response code,
+#
 sub _response_valid {
     my $self = shift;
     my $response = shift;
@@ -604,14 +617,12 @@ sub _response_valid {
         return 0;
     }
     return HTTP::Response->new( $response->get_response_code )->is_success;
-};
+}
 
-=head2 _passes_filter
-
-Check a response passes the filter callback (if one is set).  
-
-=cut
-
+# _passes_filter
+#
+# Check a response passes the filter callback (if one is set).  
+#
 sub _passes_filter {
     my ($self, $response) = @_;
     if ( !defined $self->{filter_callback} ) {
@@ -620,31 +631,11 @@ sub _passes_filter {
     return $self->{filter_callback}->( $response );
 }
 
-=head2 _get_geocoders
-
-Returns a list of the geocoders that have been added to the Many geocoder.
-
-=cut
-
-sub _get_geocoders { 
-    my $self = shift;
-
-    my $geocoders = [];
-
-    foreach my $key ( keys %{$self->{geocoders}} ) {
-        push @{$geocoders}, $self->{geocoders}->{$key};
-    };
-
-    return $geocoders;
-};
-
-=head2 _get_next_geocoder
-
-Requests the next geocoder from the scheduler and looks it up in the geocoders
-hash.
-
-=cut
-
+# _get_next_geocoder
+#
+# Requests the next geocoder from the scheduler and looks it up in the geocoders
+# hash.
+#
 sub _get_next_geocoder {
     my $self = shift;
 
@@ -652,19 +643,17 @@ sub _get_next_geocoder {
     return if ( (!defined $next) || $next eq '');
 
     return $self->{geocoders}{$next};
-};
+}
 
-=head2 _recalculate_geocoder_stats
-
-Assigns weights to the current geocoders, and initialises the scheduler as
-appropriate.
-
-=cut
-
+# _recalculate_geocoder_stats
+#
+# Assigns weights to the current geocoders, and initialises the scheduler as
+# appropriate.
+#
 sub _recalculate_geocoder_stats {
     my $self = shift;
     
-    my $geocoders = $self->_get_geocoders();
+    my $geocoders = $self->get_geocoders();
     my $slim_geocoders = [];
 
     foreach my $geocoder ( @{$geocoders} ) {
@@ -673,23 +662,20 @@ sub _recalculate_geocoder_stats {
             name    => $geocoder->get_name(),
         };
         push @{$slim_geocoders}, $tmp;
-    };
-
+    }
     $self->{scheduler} = $self->_new_scheduler($slim_geocoders);
-
     return;
-};
+}
 
-=head2 _new_scheduler
-
-Returns an instance of the currently-set scheduler, with the specified
-geocoders.
-
-=cut
-
+# _new_scheduler
+#
+# Returns an instance of the currently-set scheduler, with the specified
+# geocoders.
+#
 sub _new_scheduler {
-    my $self = shift;
+    my $self      = shift;
     my $geocoders = shift;
+
     my $base_scheduler_name = "Geo::Coder::Many::Scheduler::";
     if ($self->{scheduler_type} =~ m/^(WRR|WeightedRandom)$/msx) {
         $base_scheduler_name .= "UniquenessScheduler::";
@@ -701,17 +687,13 @@ sub _new_scheduler {
             $base_scheduler_name
         );
     } 
-    else {
-        return $base_scheduler_name->new($geocoders);
-    }
+    return $base_scheduler_name->new($geocoders);
 }
 
-=head2 _set_caching_object
-
-Set the list of cache objects
-
-=cut
-
+# _set_caching_object
+#
+# Set the list of cache objects
+#
 sub _set_caching_object {
     my $self = shift;
     my $cache_obj = shift;
@@ -719,16 +701,13 @@ sub _set_caching_object {
     $self->_test_cache_object( $cache_obj );
     $self->{cache} = $cache_obj;
     $self->{cache_enabled} = 1;
-
     return;
-};
+}
 
-=head2 _test_cache_object
-
-Test the cache to ensure it has 'get', 'set' and 'remove' methods
-
-=cut
-
+# _test_cache_object
+#
+# Test the cache to ensure it has 'get', 'set' and 'remove' methods
+#
 sub _test_cache_object {
     my $self = shift;
     my $cache_object = shift;
@@ -741,17 +720,15 @@ sub _test_cache_object {
     };
     if ( (!$result) || $@ ) {
         croak "Unable to use user provided cache object: ". ref($cache_object);
-    };
+    }
 
     return;
-};
+}
 
-=head2 _set_in_cache
-
-Store the result in the cache
-
-=cut
-
+# _set_in_cache
+#
+# Store the result in the cache
+#
 sub _set_in_cache {
     my $self     = shift;
     my $location = shift;
@@ -766,12 +743,10 @@ sub _set_in_cache {
     return 0;
 }
 
-=head2 _get_from_cache
-
-Check the cache to see if the data is available
-
-=cut
-
+# _get_from_cache
+#
+# Check the cache to see if the data is available
+#
 sub _get_from_cache {
     my $self     = shift;
     my $location = shift;
@@ -788,13 +763,12 @@ sub _get_from_cache {
     return;
 }
 
-=head2 _normalize_cache_key
 
-Use the provided normalize_code_ref callback (if one is set) to return a
-normalized string to use as a cache key.
-
-=cut
-
+# _normalize_cache_key
+#
+# Use the provided normalize_code_ref callback (if one is set) to return a
+# normalized string to use as a cache key.
+#
 sub _normalize_cache_key {
     my $self     = shift;
     my $location = shift;
@@ -822,7 +796,6 @@ format.
 In the case of an error, this module will print a warning and then may call
 die().
 
-
 =head1 Geo::Coder Interface
 
 The Geo::Coder::* modules added to the geocoding source list must have a 
@@ -836,6 +809,7 @@ Currently supported Geo::Coder::* modules are:
   Geo::Coder::Multimap
   Geo::Coder::OSM
   Geo::Coder::PlaceFinder
+  Geo::Coder::SimpleGeo
   Geo::Coder::Yahoo
 
 =head1 SEE ALSO
@@ -846,20 +820,24 @@ Currently supported Geo::Coder::* modules are:
   Geo::Coder::Multimap
   Geo::Coder::OSM
   Geo::Coder::PlaceFinder
+  Geo::Coder::SimpleGeo
   Geo::Coder::Yahoo
 
 =head1 AUTHOR
 
-Originally Dan Horgan (http://search.cpan.org/~danhgn/) This module is
-maintained by the team members of Lokku Ltd. (http://www.lokku.com)
+Originally Dan Horgan (http://search.cpan.org/~danhgn/) 
+
+This module is maintained by the team members of Lokku
+Ltd. (http://www.lokku.com)
 
 Geo::Coder::Many was originally based on Geo::Coder::Multiple, which
-unfortunately seems to no longer be maintained
-(by Alistair Francis http://search.cpan.org/~friffin/)
+unfortunately seems to no longer be maintained, by Alistair Francis
+http://search.cpan.org/~friffin/
 
 =head1 FEEDBACK
 
-Patches are welcome! Please send any code or feedback to cpan@lokku.com
+Patches are encouraged ! Please send any code (ideally with tests) or
+feedback to cpan@lokku.com
 
 =head1 ACKNOWLEDGEMENTS
 
