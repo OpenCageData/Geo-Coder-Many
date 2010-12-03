@@ -3,9 +3,7 @@ package Geo::Coder::Many::OSM;
 use warnings;
 use strict;
 use Carp;
-
 use Geo::Coder::Many::Util;
-use Geo::Coder::Many::Generic;
 use base 'Geo::Coder::Many::Generic';
 
 =head1 NAME

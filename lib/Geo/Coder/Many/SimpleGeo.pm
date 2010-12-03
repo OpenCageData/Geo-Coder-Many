@@ -3,7 +3,6 @@ package Geo::Coder::Many::SimpleGeo;
 use warnings;
 use strict;
 use Carp;
-use Geo::Coder::Many::Generic;
 use base 'Geo::Coder::Many::Generic';
 
 =head1 NAME
@@ -132,3 +131,5 @@ Returns the name of the geocoder type - used by Geo::Coder::Many
 sub get_name { return 'simplegeo'; }
 
 1; 
+
+__END__

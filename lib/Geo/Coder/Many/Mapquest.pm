@@ -114,3 +114,5 @@ Returns the name of the geocoder type - used by Geo::Coder::Many
 sub get_name { return 'mapquest'; }
 
 1; 
+
+__END__

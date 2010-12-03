@@ -2,7 +2,6 @@ package Geo::Coder::Many::Yahoo;
 
 use strict;
 use warnings;
-
 use base 'Geo::Coder::Many::Generic';
 
 =head1 NAME
