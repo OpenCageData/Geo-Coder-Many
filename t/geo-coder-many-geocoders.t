@@ -6,6 +6,7 @@ use warnings;
 my %geocoders = (
     'Bing'        => 'Geo::Coder::Bing',
     'Google'      => 'Geo::Coder::Google',
+    'Mapquest'    => 'Geo::Coder::Mapquest',
     'Multimap'    => 'Geo::Coder::Multimap',
     'OSM'         => 'Geo::Coder::OSM',
     'PlaceFinder' => 'Geo::Coder::PlaceFinder',
@@ -17,6 +18,7 @@ my %geocoders = (
 my %requires_key = (
     'Bing'        => 1,
     'Google'      => 1,
+    'Mapquest'    => 1,
     'Multimap'    => 1,
     'OSM'         => 0,
     'PlaceFinder' => 1,
