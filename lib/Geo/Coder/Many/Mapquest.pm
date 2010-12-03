@@ -56,8 +56,8 @@ This is called by Geo::Coder::Many - it sends the geocoding request (via
 Geo::Coder::Mapquest) and extracts the resulting location, returning it in a
 standard Geo::Coder::Many::Response.
 
-NOTE: currently precision is hard coded to 1! This is obviously wrong, need 
-to fix it to interpret the code returned by mapquest and assigning a meaningful
+NOTE: currently precision is hard coded to undef! We need to fix it to
+interpret the code returned by mapquest and assigning a meaningful
 precision
 
 =cut
@@ -97,8 +97,8 @@ sub _determine_precision {
     my $self = shift;
     my $code = shift;
 
-    my $precision = 1; # FIXME!
-    # for now all precision set to 1,
+    my $precision = undef; # FIXME!
+    # for now all precision set to undef (ie we dont know)
     # should instead be converting to meaningful number between 0 and 1
     # based on code
     # see http://www.mapquestapi.com/geocoding/geocodequality.html

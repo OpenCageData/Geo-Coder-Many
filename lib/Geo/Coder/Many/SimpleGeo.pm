@@ -61,9 +61,9 @@ standard Geo::Coder::Many::Response.
 
 NOTE: unclear to me what the SimpleGeo precision field means, and I'm
 thus unable to convert it into a meaningful number. Currently response
-is thus hard coded to 1. Also, SimpleGeo does not return the country,
-thus that key's value is undef. Hopefully both of these can be
-addressed in future versions.
+is thus undef. Also, SimpleGeo does not return the country, thus that
+key's value is undef. Hopefully both of these can be addressed in
+future versions.
 
 =cut
 
@@ -112,7 +112,7 @@ sub _deteremine_precision {
     my $self = shift;
     my $raw  = shift;
 
-    my $precision = 1;
+    my $precision = undef;
     if (defined($raw->{properties}{precision})){
 	my $sg_precision = $raw->{properties}{precision};
         # need to magically convert from simplegeo precision to 
