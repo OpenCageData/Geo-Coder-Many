@@ -1,6 +1,6 @@
 ---
 name: Geo-Coder-Many
-version: 0.16
+version: 0.17
 author:
   - 'Dan Horgan <cpan@lokku.com>'
 abstract: Module to tie together multiple Geo::Coder::* modules
@@ -14,6 +14,7 @@ requires:
   Geo::Coder::Multimap: 0.01
   Geo::Coder::OSM: 0.01
   Geo::Coder::PlaceFinder: 0.02
+  Geo::Coder::SimpleGeo: 0.01
   Geo::Coder::Yahoo: 0.45
   Geo::Distance::XS: 0.08
   HTTP::Request: 5.827
@@ -31,7 +32,7 @@ build_requires:
 provides:
   Geo::Coder::Many:
     file: lib/Geo/Coder/Many.pm
-    version: 0.16
+    version: 0.17
   Geo::Coder::Many::Bing:
     file: lib/Geo/Coder/Many/Bing.pm
   Geo::Coder::Many::Generic:

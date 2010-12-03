@@ -12,6 +12,7 @@ WriteMakefile
                    'Geo::Coder::Multimap' => '0.01',
                    'Geo::Coder::OSM' => '0.01',
                    'Geo::Coder::PlaceFinder' => '0.02',
+                   'Geo::Coder::SimpleGeo' => '0.01',
                    'Geo::Coder::Yahoo' => '0.45',
                    'Geo::Distance::XS' => '0.08',
                    'HTTP::Request' => '5.827',
