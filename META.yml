@@ -64,6 +64,9 @@ provides:
     file: lib/Geo/Coder/Many/Scheduler/UniquenessScheduler/WRR.pm
   Geo::Coder::Many::Scheduler::UniquenessScheduler::WeightedRandom:
     file: lib/Geo/Coder/Many/Scheduler/UniquenessScheduler/WeightedRandom.pm
+  Geo::Coder::Many::SimpleGeo:
+    file: lib/Geo/Coder/Many/SimpleGeo.pm
+    version: 0.01
   Geo::Coder::Many::Util:
     file: lib/Geo/Coder/Many/Util.pm
   Geo::Coder::Many::Yahoo:
