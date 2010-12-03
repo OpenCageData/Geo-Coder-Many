@@ -31,7 +31,7 @@ build_requires:
 provides:
   Geo::Coder::Many:
     file: lib/Geo/Coder/Many.pm
-    version: 0.15
+    version: 0.16
   Geo::Coder::Many::Bing:
     file: lib/Geo/Coder/Many/Bing.pm
   Geo::Coder::Many::Generic:
@@ -40,6 +40,7 @@ provides:
     file: lib/Geo/Coder/Many/Google.pm
   Geo::Coder::Many::Mapquest:
     file: lib/Geo/Coder/Many/Mapquest.pm
+    version: 0.01
   Geo::Coder::Many::Multimap:
     file: lib/Geo/Coder/Many/Multimap.pm
   Geo::Coder::Many::OSM:

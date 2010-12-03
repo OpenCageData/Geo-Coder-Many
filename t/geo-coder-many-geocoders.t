@@ -10,6 +10,7 @@ my %geocoders = (
     'Multimap'    => 'Geo::Coder::Multimap',
     'OSM'         => 'Geo::Coder::OSM',
     'PlaceFinder' => 'Geo::Coder::PlaceFinder',
+    'SimpleGeo'   => 'Geo::Coder::SimpleGeo',
     'Yahoo'       => 'Geo::Coder::Yahoo',
 );
 
@@ -22,6 +23,7 @@ my %requires_key = (
     'Multimap'    => 1,
     'OSM'         => 0,
     'PlaceFinder' => 1,
+    'SimpleGeo'   => 1,
     'Yahoo'       => 1,
 );
 
