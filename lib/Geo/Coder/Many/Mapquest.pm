@@ -71,8 +71,6 @@ sub geocode {
     my @raw_replies = $self->{GeoCoder}->geocode( location => $location );
     my $response = Geo::Coder::Many::Response->new( { location => $location } );
 
-    my $location_data = [];
-
     foreach my $raw_reply ( @raw_replies ) {
 
 
