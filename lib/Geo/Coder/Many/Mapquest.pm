@@ -97,11 +97,12 @@ sub _determine_precision {
     my $self = shift;
     my $code = shift;
 
+    my $precision = 1; # FIXME!
     # for now all precision set to 1,
     # should instead be converting to meaningful number between 0 and 1
     # based on code
     # see http://www.mapquestapi.com/geocoding/geocodequality.html
-    return 1;  # FIXME!
+    return $precision; 
 }
 
 =head2 get_name
