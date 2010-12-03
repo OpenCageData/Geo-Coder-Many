@@ -71,7 +71,7 @@ addressed in future versions.
 sub geocode {
     my $self     = shift;
     my $location = shift;
-    defined $location or croak "Geo::Coder::Many::Mapquest::geocode 
+    defined $location or croak "Geo::Coder::Many::SimpleGeo::geocode 
                                 method must be given a location.";
 
     my @raw_replies = $self->{GeoCoder}->geocode( location => $location );
@@ -79,7 +79,8 @@ sub geocode {
 
     foreach my $raw_reply ( @raw_replies ) {
 
-        my $lng, $lat = undef;
+        my $lng = undef;
+        my $lat = undef;
         if (defined($raw_reply->{geometry}{type})
             && $raw_reply->{geometry}{type} eq 'Point'){
 
@@ -90,7 +91,7 @@ sub geocode {
         # TODO - find a way to deal with polygons
 
         if (defined($lng) && defined($lat)){  # did we get anything?
-            my $precision = $self->_determine_precision($raw_response);
+            my $precision = $self->_determine_precision($raw_reply);
 	    my $tmp = {
 		address     => $raw_reply->{display_name},
 		country     => undef,  # dont get this w/ SimpleGeo
