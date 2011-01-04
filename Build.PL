@@ -27,6 +27,7 @@ BEGIN {
         'Mapquest'    => '0.04',
         'Multimap'    => '0.01',
         'OSM'         => '0.01',
+        'Ovi'         => '0.01',
         'PlaceFinder' => '0.02',
         'SimpleGeo'   => '0.01',
         'Yahoo'       => '0.45',

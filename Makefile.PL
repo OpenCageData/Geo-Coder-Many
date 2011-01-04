@@ -11,6 +11,7 @@ WriteMakefile
                    'Geo::Coder::Mapquest' => '0.04',
                    'Geo::Coder::Multimap' => '0.01',
                    'Geo::Coder::OSM' => '0.01',
+                   'Geo::Coder::Ovi' => '0.01',
                    'Geo::Coder::PlaceFinder' => '0.02',
                    'Geo::Coder::SimpleGeo' => '0.01',
                    'Geo::Coder::Yahoo' => '0.45',
