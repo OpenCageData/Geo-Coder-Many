@@ -1,8 +1,8 @@
 ---
 name: Geo-Coder-Many
-version: 0.18
+version: 0.19
 author:
-  - 'Dan Horgan <cpan@lokku.com>'
+  - 'Ed Freyfogle <cpan@lokku.com>'
 abstract: Module to tie together multiple Geo::Coder::* modules
 license: perl
 resources:
@@ -28,8 +28,8 @@ requires:
 build_requires:
   Test::Exception: 0
   Test::MockObject: 0
-  Test::More: 0
   Test::Pod::Coverage: 0
+  Test::Simple: 0
 provides:
   Geo::Coder::Many:
     file: lib/Geo/Coder/Many.pm

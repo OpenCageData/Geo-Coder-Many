@@ -1,13 +1,14 @@
-package Geo::Coder::Many::SimpleGeo;
+package Geo::Coder::Many::Ovi;
 
 use warnings;
 use strict;
 use Carp;
+use Geo::Coder::Many::Util;
 use base 'Geo::Coder::Many::Generic';
 
 =head1 NAME
 
-Geo::Coder::Many::SimpleGeo - SimpleGeo plugin Geo::Coder::Many
+Geo::Coder::Many::Ovi - Ovi plugin Geo::Coder::Many
 
 =head1 VERSION
 
@@ -19,58 +20,50 @@ our $VERSION = '0.01';
 
 =head1 SYNOPSIS
 
-This module adds SimpleGeo support to Geo::Coder::Many.
+This module adds Ovi support to Geo::Coder::Many.
 
 Use as follows:
 
     use Geo::Coder::Many;
-    use Geo::Coder::SimpleGeo;
+    use Geo::Coder::Ovi;
     
     my $options = { };
     my $geocoder_many = Geo::Coder::Many->new( $options );
-    my $SG = Geo::Coder::SimpleGeo->new(
-                 #debug  => 1,
-                 key    => 'Your Key',
-                 secret => 'Your Secret',
-             );
+    my $GCO = Geo::Coder::Ovi->new();
     
     my $options = {
-        geocoder    => $SG,
+        geocoder    => $GCO,
     };
     
     $geocoder_many->add_geocoder( $options );
     
     my $location = $geocoder_many->geocode( 
         {
-            location => '82 Clerkenwell Road, London, EC1M 5RF'
+            location => 'London EC1M 5RF, United Kingdom'
         }
     );
 
 =head1 MORE INFO
 
-please see http://search.cpan.org/dist/Geo-Coder-SimpleGeo/ 
-and http://simplegeo.com/docs/
+please see http://search.cpan.org/dist/Geo-Coder-Ovi/ 
 
 =head1 SUBROUTINES/METHODS
 
 =head2 geocode
 
 This is called by Geo::Coder::Many - it sends the geocoding request (via
-Geo::Coder::SimpleGeo) and extracts the resulting location, returning it in a
+Geo::Coder::Ovi) and extracts the resulting location, returning it in a
 standard Geo::Coder::Many::Response.
 
-NOTE: unclear to me what the SimpleGeo precision field means, and I'm
-thus unable to convert it into a meaningful number. Currently response
-is thus undef. Also, SimpleGeo does not return the country, thus that
-key's value is undef. Hopefully both of these can be addressed in
-future versions.
+Note: the precision score is set based on the size of the bounding box returned.
+Not all queries seem to return a bounding box. In that case precision in undef
 
 =cut
 
 sub geocode {
     my $self     = shift;
     my $location = shift;
-    defined $location or croak "Geo::Coder::Many::SimpleGeo::geocode 
+    defined $location or croak "Geo::Coder::Many::Ovi::geocode 
                                 method must be given a location.";
 
     my @raw_replies = $self->{GeoCoder}->geocode( location => $location );
@@ -80,20 +73,16 @@ sub geocode {
 
         my $lng = undef;
         my $lat = undef;
-        if (defined($raw_reply->{geometry}{type})
-            && $raw_reply->{geometry}{type} eq 'Point'){
-
-	    my @coords = $raw_reply->{geometry}{coordinates};
-            $lng = $coords[0];
-            $lat = $coords[1];
+        if (defined($raw_reply->{properties})){
+            $lat = $raw_reply->{properties}{geoLatitude};
+            $lng = $raw_reply->{properties}{geoLongitude};
 	}
-        # TODO - find a way to deal with polygons
 
         if (defined($lng) && defined($lat)){  # did we get anything?
             my $precision = $self->_determine_precision($raw_reply);
 	    my $tmp = {
-		address     => $raw_reply->{display_name},
-		country     => undef,  # dont get this w/ SimpleGeo
+		address     => $raw_reply->{title},
+		country     => $raw_reply->{addrCountryName},
 		longitude   => $lng,
 		latitude    => $lat,
 		precision   => $precision,
@@ -113,11 +102,18 @@ sub _determine_precision {
     my $raw  = shift;
 
     my $precision = undef;
-    if (defined($raw->{properties}{precision})){
-	my $sg_precision = $raw->{properties}{precision};
-        # need to magically convert from simplegeo precision to 
-        # number we can use, but can't find any docs
-        # so for now we will do nothing :(
+    # if we have a bounding box we can calculate a precision
+    if (defined($raw->{properties})
+        && defined($raw->{properties}{geoBbxLatitude2})
+       ){
+
+       $precision = 
+                Geo::Coder::Many::Util::determine_precision_from_bbox({
+                    'lon1' => $raw->{properties}{geoBbxLongitude1},
+                    'lat1' => $raw->{properties}{geoBbxLatitude1},
+                    'lon2' => $raw->{properties}{geoBbxLongitude2},
+                    'lat2' => $raw->{properties}{geoBbxLatitude2},
+                });
     }
     return $precision;
 }
@@ -128,7 +124,7 @@ Returns the name of the geocoder type - used by Geo::Coder::Many
 
 =cut
 
-sub get_name { return 'simplegeo'; }
+sub get_name { return 'ovi'; }
 
 1; 
 

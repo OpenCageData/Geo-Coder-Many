@@ -23,8 +23,8 @@ WriteMakefile
                    'Net::Ping' => '2.33',
                    'Test::Exception' => 0,
                    'Test::MockObject' => 0,
-                   'Test::More' => 0,
                    'Test::Pod::Coverage' => 0,
+                   'Test::Simple' => 0,
                    'Time::HiRes' => '1.9711'
                  },
   'INSTALLDIRS' => 'site',

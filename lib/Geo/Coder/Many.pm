@@ -5,13 +5,14 @@ use warnings;
 use Carp;
 use Time::HiRes;
 
-our $VERSION = 0.18;
+our $VERSION = 0.19;
 
 use Geo::Coder::Many::Bing;
 use Geo::Coder::Many::Google;
 use Geo::Coder::Many::Mapquest;
 use Geo::Coder::Many::Multimap;
 use Geo::Coder::Many::OSM;
+use Geo::Coder::Many::Ovi;
 use Geo::Coder::Many::PlaceFinder;
 use Geo::Coder::Many::SimpleGeo;
 use Geo::Coder::Many::Yahoo;
@@ -808,6 +809,7 @@ Currently supported Geo::Coder::* modules are:
   Geo::Coder::Mapquest
   Geo::Coder::Multimap
   Geo::Coder::OSM
+  Geo::Coder::Ovi
   Geo::Coder::PlaceFinder
   Geo::Coder::SimpleGeo
   Geo::Coder::Yahoo
@@ -819,9 +821,15 @@ Currently supported Geo::Coder::* modules are:
   Geo::Coder::Mapquest
   Geo::Coder::Multimap
   Geo::Coder::OSM
+  Geo::Coder::Ovi
   Geo::Coder::PlaceFinder
   Geo::Coder::SimpleGeo
   Geo::Coder::Yahoo
+
+Ed Freyfogle delivered a talk about Remote Geocoding and the
+motivation for Geo::Coder::Many at the 2010 London Perl
+Workshop. Slides are available
+http://www.slideshare.net/lokku/remote-geocoding
 
 =head1 AUTHOR
 
@@ -850,13 +858,13 @@ any deficiencies in the implementation!)
 
 =head1 YOU MAY ALSO ENJOY
 
-If reducing your dependancy on geo information providers is your thing- and 
+If reducing your dependancy on geo information providers is your thing - and 
 really, who doesn't enjoy breaking dependancy? - you'll
-probably enjoy Mapstraction - http://www.mapstraction.com
+probably like Mapstraction - http://www.mapstraction.com
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2010 Lokku Ltd <cpan@lokku.com>
+Copyright 2011 Lokku Ltd <cpan@lokku.com>
 
 Parts taken from Geo::Coder::Multiple are copyright 2009 Alistair Francis
 <opensource@alizta.com>

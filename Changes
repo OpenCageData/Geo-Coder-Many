@@ -1,7 +1,10 @@
 Revision history for Perl module Geo::Coder::Many.
 
-0.19    4 Jan 2011
+0.19    5 Jan 2011
         - added Geo::Coder::Many::Ovi
+        - added link to Dec 2010 London Perl Workshop talk in POD
+        - fixed typo in Geo::Coder::Many::SimpleGeo
+        - require Test::Simple, not Test::More
 
 0.18    3 Dec 2010
         - return undef when precision is unknown as per pod,
