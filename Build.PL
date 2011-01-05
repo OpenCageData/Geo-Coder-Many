@@ -9,12 +9,12 @@ BEGIN {
     $rh_requires = {
         'perl'                           => '5.010',
         'Geo::Distance::XS'              => '0.08',
-        'List::Util::WeightedRoundRobin' => '0.4',
-        'List::Util'                     => '1.23',
-        'List::MoreUtils'                => '0.22',
-        'Time::HiRes'                    => '1.9711',
         'HTTP::Request'                  => '5.827',
+        'List::Util::WeightedRoundRobin' => '0.4',
+        'List::MoreUtils'                => '0.22',
         'Net::Ping'                      => '2.33',
+        'Scalar::List::Utils'            => '1.23',
+        'Time::HiRes'                    => '1.9711',
     };
 
 # Hack for conditional dependencies.  The geocoder plugins are optional, but if
