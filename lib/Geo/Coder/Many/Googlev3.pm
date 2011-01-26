@@ -40,6 +40,9 @@ sub geocode {
 
     my $raw = $self->{GeoCoder}->geocode( $location );
 
+    use Data::Dumper;
+    print STDERR Dumper $raw;
+
     # was response any good
     if ($raw->{status} ne 'OK'){
         carp $raw->{status} . "when requesting $location";
@@ -67,12 +70,19 @@ sub geocode {
                 });
 	}
 
-        # what country
+        # which country?
+        # need to scan the address components
         my $country = undef;
         foreach my $rh_address_component (@{$raw_reply->{address_components}}){
             my $ra_types = $rh_address_component->{types};
-            if (){
-                $country = $rh_address_component->{long_name};
+            my $p = 0;
+            my $c = 0;
+            foreach my $x (@$ra_types){
+                $p = 1 if ($x eq 'political');
+                $c = 1 if ($x eq 'country');
+		if ($c && $p){
+		    $country = $rh_address_component->{long_name};
+		}
             }
         }
 

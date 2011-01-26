@@ -9,6 +9,7 @@ our $VERSION = 0.19;
 
 use Geo::Coder::Many::Bing;
 use Geo::Coder::Many::Google;
+use Geo::Coder::Many::Googlev3;
 use Geo::Coder::Many::Mapquest;
 use Geo::Coder::Many::Multimap;
 use Geo::Coder::Many::OSM;
@@ -806,6 +807,7 @@ Currently supported Geo::Coder::* modules are:
 
   Geo::Coder::Bing
   Geo::Coder::Google
+  Geo::Coder::Googlev3
   Geo::Coder::Mapquest
   Geo::Coder::Multimap
   Geo::Coder::OSM
@@ -818,6 +820,7 @@ Currently supported Geo::Coder::* modules are:
 
   Geo::Coder::Bing
   Geo::Coder::Google
+  Geo::Coder::Googlev3
   Geo::Coder::Mapquest
   Geo::Coder::Multimap
   Geo::Coder::OSM
