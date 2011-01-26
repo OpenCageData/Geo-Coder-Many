@@ -6,6 +6,7 @@ use warnings;
 my %geocoders = (
     'Bing'        => 'Geo::Coder::Bing',
     'Google'      => 'Geo::Coder::Google',
+    'Googlev3'    => 'Geo::Coder::Googlev3',
     'Mapquest'    => 'Geo::Coder::Mapquest',
     'Multimap'    => 'Geo::Coder::Multimap',
     'OSM'         => 'Geo::Coder::OSM',
@@ -20,10 +21,11 @@ my %geocoders = (
 my %requires_key = (
     'Bing'        => 1,
     'Google'      => 1,
+    'Googlev3'    => 0,
     'Mapquest'    => 1,
     'Multimap'    => 1,
     'OSM'         => 0,
-    'Ovi'         => 0,
+    'Ovi'         => 1,
     'PlaceFinder' => 1,
     'SimpleGeo'   => 1,
     'Yahoo'       => 1,
@@ -111,7 +113,6 @@ if (scalar(@testable_providers)){
                 ok($distance < $threshold, 
                    "geocoding $address with $provider correct to within " . 
                    "$threshold km");
-        
             }
         }
     }
