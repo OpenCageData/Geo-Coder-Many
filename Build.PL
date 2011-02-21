@@ -10,8 +10,9 @@ BEGIN {
         'perl'                           => '5.010',
         'Geo::Distance::XS'              => '0.08',
         'HTTP::Request'                  => '5.827',
-        'List::Util::WeightedRoundRobin' => '0.4',
         'List::MoreUtils'                => '0.22',
+        'List::Util::WeightedRoundRobin' => '0.4',
+        'List::Util'                     => '1.23',
         'Net::Ping'                      => '2.33',
         'Time::HiRes'                    => '1.9711',
     };
