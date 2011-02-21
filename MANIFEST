@@ -4,6 +4,7 @@ lib/Geo/Coder/Many.pm
 lib/Geo/Coder/Many/Bing.pm
 lib/Geo/Coder/Many/Generic.pm
 lib/Geo/Coder/Many/Google.pm
+lib/Geo/Coder/Many/Googlev3.pm
 lib/Geo/Coder/Many/Mapquest.pm
 lib/Geo/Coder/Many/Multimap.pm
 lib/Geo/Coder/Many/OSM.pm

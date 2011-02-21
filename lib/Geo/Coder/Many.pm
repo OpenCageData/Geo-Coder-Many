@@ -5,7 +5,7 @@ use warnings;
 use Carp;
 use Time::HiRes;
 
-our $VERSION = 0.19;
+our $VERSION = 0.20;
 
 use Geo::Coder::Many::Bing;
 use Geo::Coder::Many::Google;
@@ -412,6 +412,8 @@ a result that satisfied the filter and picker callbacks.
 sub geocode {
     my ($self, $args) = @_;
 
+    print STDERR "in GEOCODE\n";
+
     if ( !exists $args->{location} ) {
         croak "Geo::Coder::Many::geocode method requires a location!\n";
     }
@@ -678,6 +680,9 @@ sub _new_scheduler {
     my $self      = shift;
     my $geocoders = shift;
 
+
+    print STDERR "in new scheduler\n";
+
     my $base_scheduler_name = "Geo::Coder::Many::Scheduler::";
     if ($self->{scheduler_type} =~ m/^(WRR|WeightedRandom)$/msx) {
         $base_scheduler_name .= "UniquenessScheduler::";
@@ -765,7 +770,6 @@ sub _get_from_cache {
     return;
 }
 
-
 # _normalize_cache_key
 #
 # Use the provided normalize_code_ref callback (if one is set) to return a
@@ -847,7 +851,7 @@ http://search.cpan.org/~friffin/
 
 =head1 FEEDBACK
 
-Patches are encouraged ! Please send any code (ideally with tests) or
+Patches are encouraged! Please send any code (ideally with tests) or
 feedback to cpan@lokku.com
 
 =head1 ACKNOWLEDGEMENTS
@@ -856,8 +860,8 @@ A number of the feature ideas are taken directly from Tim Bunce's blog:
 
 http://blog.timbunce.org/2010/06/09/high-quality-multi-source-geocoding-in-perl/
 
-(Needless to say, neither he nor anybody else should be held responsible for
-any deficiencies in the implementation!)
+Needless to say, neither he nor anybody else should be held responsible for
+any deficiencies in the implementation!
 
 =head1 YOU MAY ALSO ENJOY
 

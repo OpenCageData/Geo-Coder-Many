@@ -1,6 +1,6 @@
 Revision history for Perl module Geo::Coder::Many.
 
-0.20    26 Jan 2011
+0.20    21 Feb 2011
         - added Geo::Coder::Many::Googlev3
 
 0.19    5 Jan 2011
