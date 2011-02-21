@@ -13,7 +13,6 @@ BEGIN {
         'List::Util::WeightedRoundRobin' => '0.4',
         'List::MoreUtils'                => '0.22',
         'Net::Ping'                      => '2.33',
-        'Scalar::List::Utils'            => '1.23',
         'Time::HiRes'                    => '1.9711',
     };
 
