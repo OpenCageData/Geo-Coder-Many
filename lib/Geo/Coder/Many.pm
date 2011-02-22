@@ -557,18 +557,18 @@ sub geocode {
 =head2 get_geocoders
 
 Returns a reference to a list of the geocoders that have been added to
-the Many geocoder.
+the Many instance
 
 =cut
 
 sub get_geocoders { 
     my $self = shift;
 
-    my $geocoders = [];
-    foreach my $key ( keys %{$self->{geocoders}} ) {
-        push @{$geocoders}, $self->{geocoders}->{$key};
+    my $ra_geocoders = [];
+    foreach my $key ( sort keys %{$self->{geocoders}} ) {
+        push @{$ra_geocoders}, $self->{geocoders}->{$key};
     }
-    return $geocoders;
+    return $ra_geocoders;
 }
 
 
