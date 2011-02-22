@@ -99,7 +99,7 @@ if (scalar(@testable_providers)){
                              'location' => $address,
                              });
                 ok(defined($result), "got a result for $address");
-
+                 
                 $num_tests++;
                 my $distance = $GDXS->distance(
                                    'kilometer',

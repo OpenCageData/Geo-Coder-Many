@@ -30,6 +30,8 @@ result in a form understandable to Geo::Coder::Many
 
 # see details of Google's response format here:
 # v3: http://code.google.com/apis/maps/documentation/geocoding/
+# though note that Geo::Coder::Googlev3 doesn't return full response
+# have sent mail to SREZIC to ask about why this is
 
 sub geocode {
     my $self = shift;
@@ -37,43 +39,37 @@ sub geocode {
     defined $location or croak "Geo::Coder::Many::Googlev3::geocode 
                                 method must be given a location.";
 
-
-    my $raw = $self->{GeoCoder}->geocode( $location );
-
-    use Data::Dumper;
-    print STDERR Dumper $raw;
+    my $raw = $self->{GeoCoder}->geocode( location => $location );
 
     # was response any good
-    if ($raw->{status} ne 'OK'){
-        carp $raw->{status} . "when requesting $location";
+    if (! defined ($raw->{geometry})){
+        carp "no geometry returned when requesting $location";
         return undef;
     }
 
     my $Response = Geo::Coder::Many::Response->new({ location => $location });
 
-    foreach my $raw_reply ( @{$raw->{results}} ) {
+    my $precision = 0; # unknown
 
-        my $precision = 0; # unknown
+    if (defined($raw->{geometry}) 
+	&& defined($raw->{geometry}{viewport}) ){
 
-        if (defined($raw_reply->{geometry}) 
-            && defined($raw_reply->{geometry}{viewport}) ){
+	my $box = $raw->{geometry}{viewport};
+	# lng and lat in decimal degree format            
 
-            my $box = $raw_reply->{geometry}{viewport};
-            # lng and lat in decimal degree format            
-
-            $precision = 
-		Geo::Coder::Many::Util::determine_precision_from_bbox({
-                    'lon1' => $box->{southwest}{lng},
-                    'lat1' => $box->{southwest}{lat},
-                    'lon2' => $box->{northeast}{lng},
-                    'lat2' => $box->{northeast}{lat},
-                });
-	}
+	$precision = 
+	    Geo::Coder::Many::Util::determine_precision_from_bbox({
+		'lon1' => $box->{southwest}{lng},
+		'lat1' => $box->{southwest}{lat},
+		'lon2' => $box->{northeast}{lng},
+		'lat2' => $box->{northeast}{lat},
+								  
+            });
 
         # which country?
         # need to scan the address components
         my $country = undef;
-        foreach my $rh_address_component (@{$raw_reply->{address_components}}){
+        foreach my $rh_address_component (@{$raw->{address_components}}){
             my $ra_types = $rh_address_component->{types};
             my $p = 0;
             my $c = 0;
@@ -87,10 +83,10 @@ sub geocode {
         }
 
         my $tmp = {
-            address   => $raw_reply->{formatted_address},
+            address   => $raw->{formatted_address},
             country   => $country,
-            latitude  => $raw_reply->{geometry}{location}{lat},
-            longitude => $raw_reply->{geometry}{location}{lng},
+            latitude  => $raw->{geometry}{location}{lat},
+            longitude => $raw->{geometry}{location}{lng},
             precision => $precision,
         };
         $Response->add_response( $tmp, $self->get_name());

@@ -38,7 +38,6 @@ sub geocode {
     defined $location or croak "Geo::Coder::Many::Google::geocode 
                                 method must be given a location.";
 
-
     my @raw_replies = $self->{GeoCoder}->geocode( $location );
 
     my $Response = Geo::Coder::Many::Response->new( { location => $location } );
