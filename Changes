@@ -1,5 +1,12 @@
 Revision history for Perl module Geo::Coder::Many.
 
+
+0.20    23 Feb 2011
+        - support new Geo::Coder::Googlev3 response format
+        - require Geo::Coder::Googlev3 0.06
+        - change to precision scoring in 
+          Geo::Coder::Many::Utils::determine_precision_from_bbox
+
 0.20    22 Feb 2011
         - added Geo::Coder::Many::Googlev3
         - fixed bug in causing division by zero error

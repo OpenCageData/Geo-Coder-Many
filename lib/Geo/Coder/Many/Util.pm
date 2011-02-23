@@ -164,11 +164,10 @@ sub determine_precision_from_bbox {
     return 1.0  if ($distance < 0.25);
     return 0.9  if ($distance < 0.5);
     return 0.8  if ($distance < 1);
-    return 0.7  if ($distance < 2);
-    return 0.5  if ($distance < 5);
-    return 0.3  if ($distance < 10);
-    return 0.1;
-  
+    return 0.7  if ($distance < 5);
+    return 0.5  if ($distance < 10);
+    return 0.3  if ($distance < 20);
+    return 0.1;  
 }
 
 =head1 INTERNAL ROUTINES
