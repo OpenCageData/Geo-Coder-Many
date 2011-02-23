@@ -9,7 +9,7 @@ resources:
   license: http://dev.perl.org/licenses/
 requires:
   Geo::Coder::Bing: 0.10
-  Geo::Coder::Google: 0.01
+  Geo::Coder::Google: 0.06
   Geo::Coder::Googlev3: 0.06
   Geo::Coder::Mapquest: 0.04
   Geo::Coder::Multimap: 0.01
