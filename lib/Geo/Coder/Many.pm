@@ -5,7 +5,7 @@ use warnings;
 use Carp;
 use Time::HiRes;
 
-our $VERSION = 0.21;
+our $VERSION = 0.22;
 
 use Geo::Coder::Many::Bing;
 use Geo::Coder::Many::Google;

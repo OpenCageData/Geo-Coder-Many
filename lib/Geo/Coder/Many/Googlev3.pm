@@ -32,22 +32,30 @@ result in a form understandable to Geo::Coder::Many
 # v3: http://code.google.com/apis/maps/documentation/geocoding/
 
 sub geocode {
+    print STDERR "in geocoder v3\n";
     my $self = shift;
     my $location = shift;
     defined $location or croak "Geo::Coder::Many::Googlev3::geocode 
                                 method must be given a location.";
 
-    my @raw = $self->{GeoCoder}->geocode( location => $location );
-
-    # was response any good?
-    if (scalar(@raw) == 0){  # no results
-        carp "no results when requesting $location";
+    my $raw = $self->{GeoCoder}->geocode( location => $location,
+                                          raw      => 1,
+                                        );
+    # was there a response
+    if (!defined($raw)){
+        carp "no response from googlev3 when requesting $location";
 	return undef;
     }
 
-    my $Response = Geo::Coder::Many::Response->new({ location => $location });
+    # was response any good?
+    if ($raw->{status} ne 'OK'){
+        carp $raw->{status} . "when requesting $location";
+	return undef;
+    }
 
-    foreach my $raw_reply ( @raw ){
+    my $Response = Geo::Coder::Many::Response->new({ location => $location});
+
+    foreach my $raw_reply ( @{$raw->{results}} ){
 	my $precision = 0; # unknown
 
 	if (defined($raw_reply->{geometry}) 
