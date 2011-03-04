@@ -18,7 +18,7 @@ DOCUMENTATION
 
 NOTE
 
-During the test stage, geo-coder-many.t will attempt to connect to the
+During the test stage, some tests will attempt to connect to the
 internet. If successful, it will test a number of remote geocoders. In the
 event of network problems or difficulties with these third-party services, you
 may wish to disable this part of the test.
@@ -34,14 +34,14 @@ This module requires these other modules and libraries:
   Time::HiRes
   HTTP::Request
   Net::Ping
-  Test::More
+  Test::Simple
   Test::Exception
   Test::MockObject
   Test::Pod::Coverage
  
 COPYRIGHT AND LICENCE
 
-Copyright 2010 Lokku Ltd <cpan@lokku.com>
+Copyright 2011 Lokku Ltd <cpan@lokku.com>
 
 Parts taken from Geo::Coder::Multiple are copyright 2009 Alistair Francis
 <opensource@alizta.com>

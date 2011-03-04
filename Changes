@@ -1,5 +1,8 @@
 Revision history for Perl module Geo::Coder::Many.
 
+0.23    4 Mar 2011
+        - remove print statement added for debugging *sigh*
+
 0.22    2 Mar 2011
         - require Geo::Coder::Googlev3 0.07
         - deal with new Geo::Coder::Googlev3 raw response format

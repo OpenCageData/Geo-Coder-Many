@@ -8,7 +8,7 @@ WriteMakefile
   'PREREQ_PM' => {
                    'Geo::Coder::Bing' => '0.10',
                    'Geo::Coder::Google' => '0.06',
-                   'Geo::Coder::Googlev3' => '0.01',
+                   'Geo::Coder::Googlev3' => '0.07',
                    'Geo::Coder::Mapquest' => '0.04',
                    'Geo::Coder::Multimap' => '0.01',
                    'Geo::Coder::OSM' => '0.01',
