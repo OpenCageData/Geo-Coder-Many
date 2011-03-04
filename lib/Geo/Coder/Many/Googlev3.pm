@@ -32,7 +32,6 @@ result in a form understandable to Geo::Coder::Many
 # v3: http://code.google.com/apis/maps/documentation/geocoding/
 
 sub geocode {
-    print STDERR "in geocoder v3\n";
     my $self = shift;
     my $location = shift;
     defined $location or croak "Geo::Coder::Many::Googlev3::geocode 
