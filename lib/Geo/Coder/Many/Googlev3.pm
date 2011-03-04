@@ -48,7 +48,7 @@ sub geocode {
 
     # was response any good?
     if ($raw->{status} ne 'OK'){
-        carp $raw->{status} . "when requesting $location";
+        # carp $raw->{status} . " when requesting $location";
 	return undef;
     }
 
