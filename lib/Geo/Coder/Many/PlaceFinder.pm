@@ -5,6 +5,7 @@ use strict;
 use Carp;
 
 use Geo::Coder::Many::Generic;
+use Geo::Coder::Many::Util;
 use base 'Geo::Coder::Many::Generic';
 
 =head1 NAME
@@ -80,21 +81,35 @@ sub geocode {
         @address_lines = grep {!/^\s*$/x} @address_lines;
         my $address = (join ', ', @address_lines);
 
+	my $precision = 0;
+	if (defined($raw_reply->{boundingbox})){
+	    
+	    my $box = $raw_reply->{boundingbox};
+	    # lng and lat in decimal degree format            
+	    
+	    $precision = 
+		Geo::Coder::Many::Util::determine_precision_from_bbox({
+		    'lon1' => $box->{west},
+		    'lat1' => $box->{south},
+		    'lon2' => $box->{east},
+		    'lat2' => $box->{north},
+                });
+
+	} 
         my $tmp = {
               address     => $address,
               country     => $raw_reply->{country},
               longitude   => $raw_reply->{longitude},
               latitude    => $raw_reply->{latitude},
-              precision   => $raw_reply->{quality} / 100,
+              precision   => $precision,
         };
 
         $response->add_response( $tmp, $self->get_name() );
-    };
+    }
 
     $response->set_response_code($http_response->code());
-
     return $response;
-};
+}
 
 =head2 get_name
 
