@@ -11,6 +11,14 @@ my %tests = (
        'lat2' => 51.5227098067524,
        'expected_precision' => 0.7,
     },
+
+    'same long/lat' => {
+       'lon1' => -0.09535789489746094,
+       'lat1' => 51.53258851784387,
+       'lon2' => -0.09535789489746094,
+       'lat2' => 51.53258851784387,
+       'expected_precision' => 1.0,
+    },
 );
 
 use Test::More;
@@ -23,7 +31,7 @@ foreach my $testname (sort keys %tests){
     my $rh_data = $tests{$testname};
     my $precision = Geo::Coder::Many::Util::determine_precision_from_bbox($rh_data);
     ok($precision == $rh_data->{expected_precision},
-       'correct precision for $testname'
+       "correct precision for $testname"
     );
 }
 
