@@ -1,6 +1,6 @@
 Revision history for Perl module Geo::Coder::Many.
 
-0.23    3 June 2011
+0.24    3 June 2011
         - fixed bug in Geo::Coder::Many::Utils::determine_precision_from_bbox
 	  whereby identical long/lats wasn't returning a precision
 
