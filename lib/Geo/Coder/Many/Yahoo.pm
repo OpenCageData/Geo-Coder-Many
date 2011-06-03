@@ -13,6 +13,9 @@ Geo::Coder::Many::Yahoo
 This class wraps Geo::Coder::Yahoo such that it can be used in
 Geo::Coder::Many, by converting the results to a standard form.
 
+Note - Yahoo! says this geocoding service is deprecated and that
+you should instead be using Geo::Coder::Placefinder.
+
 =head1 METHODS
 
 =head2 geocode
