@@ -161,12 +161,15 @@ sub determine_precision_from_bbox {
                                 $rh_args->{lon2}, $rh_args->{lat2});
 
     return 0    if (!defined($distance));
-    return 1.0  if ($distance < 0.25);
-    return 0.9  if ($distance < 0.5);
-    return 0.8  if ($distance < 1);
-    return 0.7  if ($distance < 5);
+    return 1.0  if ($distance <  0.25);
+    return 0.9  if ($distance <  0.5);
+    return 0.8  if ($distance <  1);
+    return 0.7  if ($distance <  5);
+    return 0.6  if ($distance <  7.5);
     return 0.5  if ($distance < 10);
+    return 0.4  if ($distance < 15);
     return 0.3  if ($distance < 20);
+    return 0.2  if ($distance < 25);
     return 0.1;  
 }
 
