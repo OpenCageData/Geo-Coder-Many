@@ -5,7 +5,7 @@ use warnings;
 use Carp;
 use Time::HiRes;
 
-our $VERSION = 0.25;
+our $VERSION = 0.26;
 
 use Geo::Coder::Many::Bing;
 use Geo::Coder::Many::Google;
@@ -16,7 +16,6 @@ use Geo::Coder::Many::OSM;
 use Geo::Coder::Many::Ovi;
 use Geo::Coder::Many::PlaceFinder;
 use Geo::Coder::Many::SimpleGeo;
-use Geo::Coder::Many::Yahoo;
 
 use Geo::Coder::Many::Util qw(
     min_precision_filter 
@@ -816,7 +815,6 @@ Currently supported Geo::Coder::* modules are:
   Geo::Coder::Ovi
   Geo::Coder::PlaceFinder
   Geo::Coder::SimpleGeo
-  Geo::Coder::Yahoo
 
 =head1 SEE ALSO
 
@@ -829,7 +827,6 @@ Currently supported Geo::Coder::* modules are:
   Geo::Coder::Ovi
   Geo::Coder::PlaceFinder
   Geo::Coder::SimpleGeo
-  Geo::Coder::Yahoo
 
 Ed Freyfogle delivered a talk about Remote Geocoding and the
 motivation for Geo::Coder::Many at the 2010 London Perl

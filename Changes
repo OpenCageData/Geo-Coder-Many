@@ -1,5 +1,9 @@
 Revision history for Perl module Geo::Coder::Many.
 
+0.26    25 July 2011
+        - dropping support for Geo::Coder::Many::Yahoo
+          yahoo! no longer supports geocoding. *sigh*
+
 0.25    17 June 2011
         - more granularity in 
 	  Geo::Coder::Many::Utils::determine_precision_from_bbox

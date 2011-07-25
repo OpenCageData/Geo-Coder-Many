@@ -216,7 +216,6 @@ sub create_geocoders {
     try_geocoder( 'PlaceFinder', \@geocoders, appid  => 'YOUR_API_KEY' );
     try_geocoder( 'SimpleGeo',   \@geocoders, key    => 'YOUR_API_KEY', 
                                               secret => 'YOUR_SECRET' );
-    try_geocoder( 'Yahoo',       \@geocoders, appid  => 'YOUR_API_KEY' );
 
     return @geocoders;
 }

@@ -31,8 +31,8 @@ BEGIN {
         'Ovi'         => '0.01',
         'PlaceFinder' => '0.02',
         'SimpleGeo'   => '0.01',
-        'Yahoo'       => '0.45',
     );
+
     while (my ($geocoder, $min_version) = each %geocoder_min_versions) {
         my $ref = 'Geo::Coder::' . $geocoder;
 

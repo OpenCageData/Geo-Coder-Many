@@ -17,7 +17,6 @@ requires:
   Geo::Coder::Ovi: 0.01
   Geo::Coder::PlaceFinder: 0.02
   Geo::Coder::SimpleGeo: 0.01
-  Geo::Coder::Yahoo: 0.45
   Geo::Distance::XS: 0.08
   HTTP::Request: 5.827
   List::MoreUtils: 0.22
@@ -76,8 +75,6 @@ provides:
     version: 0.01
   Geo::Coder::Many::Util:
     file: lib/Geo/Coder/Many/Util.pm
-  Geo::Coder::Many::Yahoo:
-    file: lib/Geo/Coder/Many/Yahoo.pm
 generated_by: Module::Build version 0.280801
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.2.html
