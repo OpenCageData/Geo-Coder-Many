@@ -128,7 +128,7 @@ Returns the name of the geocoder type - used by Geo::Coder::Many
 
 =cut
 
-sub get_name { return 'simplegeo'; }
+sub get_name { return 'simplegeo ' . $self->{GeoCoder}->VERSION; }
 
 1; 
 

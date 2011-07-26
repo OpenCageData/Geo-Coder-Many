@@ -117,6 +117,6 @@ Returns the name of the geocoder type - used by Geo::Coder::Many
 
 =cut
 
-sub get_name { return 'place_finder' };
+sub get_name { return 'place_finder ' . $self->{GeoCoder}->VERSION; };
 
 1; # End of Geo::Coder::Many::PlaceFinder

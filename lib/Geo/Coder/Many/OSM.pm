@@ -110,6 +110,6 @@ Returns the name of the geocoder type - used by Geo::Coder::Many
 
 =cut
 
-sub get_name { return 'osm'; }
+sub get_name { return 'osm ' . $self->{GeoCoder}->VERSION; }
 
 1; # End of Geo::Coder::Many::OSM

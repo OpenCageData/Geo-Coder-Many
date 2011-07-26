@@ -106,6 +106,6 @@ The short name by which Geo::Coder::Many can refer to this geocoder.
 
 =cut
 
-sub get_name { return 'googlev3'; }
+sub get_name { return 'googlev3 ' . $self->{GeoCoder}->VERSION; }
 
 1;
