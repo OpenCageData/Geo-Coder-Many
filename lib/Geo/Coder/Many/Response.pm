@@ -49,7 +49,7 @@ sub add_response {
     my $response = shift;
     my $geocoder = shift;
 
-    $self->{geocoder} = $geocoder;
+    $self->{geocoder} = $geocoder . ' ' . $self->{GeoCoder}->VERSION;
 
     if ( $response->{longitude} && $response->{latitude} ) {
         push @{$self->{responses}}, $response;

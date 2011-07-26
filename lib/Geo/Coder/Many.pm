@@ -5,7 +5,7 @@ use warnings;
 use Carp;
 use Time::HiRes;
 
-our $VERSION = 0.26;
+our $VERSION = 0.27;
 
 use Geo::Coder::Many::Bing;
 use Geo::Coder::Many::Google;
@@ -342,8 +342,8 @@ sub set_picker_callback {
 =head2 geocode
 
   my $options = {
-    location        => $location,
-    results_cache   => $cache,
+      location        => $location,
+      results_cache   => $cache,
   };
 
   my $found_location = $geocoder_many->geocode( $options );
@@ -417,17 +417,17 @@ sub geocode {
     }
 
     # If using cache, check that first
-    if ( !$args->{no_cache} ) {
+    if ( !$args->{no_cache} ){
         my $response = $self->_get_from_cache( 
             $args->{location}, 
             $args->{cache},
         );
-        if ( defined $response ) {
+        if ( defined $response ){
             return $response 
         }
     }
 
-    if ( !keys %{$self->{geocoders}} ) {
+    if ( !keys %{$self->{geocoders}} ){
         carp "Warning: geocode called, but no geocoders have been added!\n";
         return;
     }

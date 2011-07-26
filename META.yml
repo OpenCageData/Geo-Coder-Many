@@ -1,39 +1,24 @@
 ---
-name: Geo-Coder-Many
-version: 0.25
+abstract: 'Module to tie together multiple Geo::Coder::* modules'
 author:
   - 'Ed Freyfogle <cpan@lokku.com>'
-abstract: Module to tie together multiple Geo::Coder::* modules
-license: perl
-resources:
-  license: http://dev.perl.org/licenses/
-requires:
-  Geo::Coder::Bing: 0.10
-  Geo::Coder::Google: 0.06
-  Geo::Coder::Googlev3: 0.07
-  Geo::Coder::Mapquest: 0.04
-  Geo::Coder::Multimap: 0.01
-  Geo::Coder::OSM: 0.01
-  Geo::Coder::Ovi: 0.01
-  Geo::Coder::PlaceFinder: 0.02
-  Geo::Coder::SimpleGeo: 0.01
-  Geo::Distance::XS: 0.08
-  HTTP::Request: 5.827
-  List::MoreUtils: 0.22
-  List::Util: 1.23
-  List::Util::WeightedRoundRobin: 0.4
-  Net::Ping: 2.33
-  Time::HiRes: 1.9711
-  perl: 5.010
 build_requires:
   Test::Exception: 0
   Test::MockObject: 0
   Test::Pod::Coverage: 0
   Test::Simple: 0
+configure_requires:
+  Module::Build: 0.36
+generated_by: 'Module::Build version 0.3603'
+license: perl
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: Geo-Coder-Many
 provides:
   Geo::Coder::Many:
     file: lib/Geo/Coder/Many.pm
-    version: 0.25
+    version: 0.26
   Geo::Coder::Many::Bing:
     file: lib/Geo/Coder/Many/Bing.pm
   Geo::Coder::Many::Generic:
@@ -75,7 +60,24 @@ provides:
     version: 0.01
   Geo::Coder::Many::Util:
     file: lib/Geo/Coder/Many/Util.pm
-generated_by: Module::Build version 0.280801
-meta-spec:
-  url: http://module-build.sourceforge.net/META-spec-v1.2.html
-  version: 1.2
+requires:
+  Geo::Coder::Bing: 0.10
+  Geo::Coder::Google: 0.06
+  Geo::Coder::Googlev3: 0.07
+  Geo::Coder::Mapquest: 0.04
+  Geo::Coder::Multimap: 0.01
+  Geo::Coder::OSM: 0.01
+  Geo::Coder::Ovi: 0.01
+  Geo::Coder::PlaceFinder: 0.02
+  Geo::Coder::SimpleGeo: 0.01
+  Geo::Distance::XS: 0.08
+  HTTP::Request: 5.827
+  List::MoreUtils: 0.22
+  List::Util: 1.23
+  List::Util::WeightedRoundRobin: 0.4
+  Net::Ping: 2.33
+  Time::HiRes: 1.9711
+  perl: 5.010
+resources:
+  license: http://dev.perl.org/licenses/
+version: 0.26

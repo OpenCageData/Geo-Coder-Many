@@ -1,5 +1,14 @@
 Revision history for Perl module Geo::Coder::Many.
 
+0.27    26 July 2011
+        - Geo::Coder::Many::Response::add_response now
+          appends a space and the version of the geocoder used to the
+          name of the geocoder
+          
+          Example:
+          old - 'place_finder'
+          new - 'place_finder 0.05' 
+
 0.26    25 July 2011
         - dropping support for Geo::Coder::Many::Yahoo
           yahoo! no longer supports geocoding. *sigh*
