@@ -111,7 +111,7 @@ Returns the name of the geocoder type - used by Geo::Coder::Many
 
 =cut
 
-sub get_name { return 'mapquest ' . $self->{GeoCoder}->VERSION; }
+sub get_name { my $self = shift; return 'mapquest ' . $self->{GeoCoder}->VERSION; }
 
 1; 
 

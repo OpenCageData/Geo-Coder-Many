@@ -124,7 +124,7 @@ Returns the name of the geocoder type - used by Geo::Coder::Many
 
 =cut
 
-sub get_name { return 'ovi ' . $self->{GeoCoder}->VERSION; }
+sub get_name { my $self = shift; return 'ovi ' . $self->{GeoCoder}->VERSION; }
 
 1; 
 

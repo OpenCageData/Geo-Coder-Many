@@ -64,7 +64,7 @@ The short name by which Geo::Coder::Many can refer to this geocoder.
 
 =cut
 
-sub get_name { return 'bing ' . $self->{GeoCoder}->VERSION; }
+sub get_name { my $self = shift; return 'bing ' . $self->{GeoCoder}->VERSION; }
 
 1;
 
