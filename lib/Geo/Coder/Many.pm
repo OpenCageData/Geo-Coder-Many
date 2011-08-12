@@ -5,13 +5,12 @@ use warnings;
 use Carp;
 use Time::HiRes;
 
-our $VERSION = 0.27;
+our $VERSION = 0.28;
 
 use Geo::Coder::Many::Bing;
 use Geo::Coder::Many::Google;
 use Geo::Coder::Many::Googlev3;
 use Geo::Coder::Many::Mapquest;
-use Geo::Coder::Many::Multimap;
 use Geo::Coder::Many::OSM;
 use Geo::Coder::Many::Ovi;
 use Geo::Coder::Many::PlaceFinder;
