@@ -14,7 +14,6 @@ use Geo::Coder::Many::Mapquest;
 use Geo::Coder::Many::OSM;
 use Geo::Coder::Many::Ovi;
 use Geo::Coder::Many::PlaceFinder;
-use Geo::Coder::Many::SimpleGeo;
 
 use Geo::Coder::Many::Util qw(
     min_precision_filter 
@@ -813,7 +812,6 @@ Currently supported Geo::Coder::* modules are:
   Geo::Coder::OSM
   Geo::Coder::Ovi
   Geo::Coder::PlaceFinder
-  Geo::Coder::SimpleGeo
 
 =head1 SEE ALSO
 
@@ -825,7 +823,6 @@ Currently supported Geo::Coder::* modules are:
   Geo::Coder::OSM
   Geo::Coder::Ovi
   Geo::Coder::PlaceFinder
-  Geo::Coder::SimpleGeo
 
 Ed Freyfogle delivered a talk about Remote Geocoding and the
 motivation for Geo::Coder::Many at the 2010 London Perl

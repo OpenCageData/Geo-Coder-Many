@@ -1,5 +1,9 @@
 Revision history for Perl module Geo::Coder::Many.
 
+0.28    12 Oct 2011
+        - dropping support for Geo::Coder::SimpleGeo
+          seems it is no longer a freely available geocoder
+
 0.27    26 July 2011
         - Geo::Coder::Many::Response::add_response now
           appends a space and the version of the geocoder used to the

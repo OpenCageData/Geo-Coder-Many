@@ -213,8 +213,6 @@ sub create_geocoders {
     try_geocoder( 'Mapquest',    \@geocoders, apikey => 'YOUR_API_KEY' );
     try_geocoder( 'OSM',         \@geocoders );
     try_geocoder( 'PlaceFinder', \@geocoders, appid  => 'YOUR_API_KEY' );
-    try_geocoder( 'SimpleGeo',   \@geocoders, key    => 'YOUR_API_KEY', 
-                                              secret => 'YOUR_SECRET' );
 
     return @geocoders;
 }

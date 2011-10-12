@@ -11,7 +11,6 @@ my %geocoders = (
     'OSM'         => 'Geo::Coder::OSM',
     'Ovi'         => 'Geo::Coder::Ovi',
     'PlaceFinder' => 'Geo::Coder::PlaceFinder',
-    'SimpleGeo'   => 'Geo::Coder::SimpleGeo',
 );
 
 # currently we skip geocoders that require a key
@@ -24,7 +23,6 @@ my %requires_key = (
     'OSM'         => 0,
     'Ovi'         => 1,
     'PlaceFinder' => 1,
-    'SimpleGeo'   => 1,
 );
 
 my $num_tests = 2;   # Net::Ping and Geo::Coder::Many
