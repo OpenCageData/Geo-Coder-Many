@@ -16,7 +16,6 @@ lib/Geo/Coder/Many/Scheduler/Selective.pm
 lib/Geo/Coder/Many/Scheduler/UniquenessScheduler.pm
 lib/Geo/Coder/Many/Scheduler/UniquenessScheduler/WeightedRandom.pm
 lib/Geo/Coder/Many/Scheduler/UniquenessScheduler/WRR.pm
-lib/Geo/Coder/Many/SimpleGeo.pm
 lib/Geo/Coder/Many/Util.pm
 Makefile.PL
 MANIFEST			This list of files

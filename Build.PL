@@ -30,7 +30,6 @@ BEGIN {
         'OSM'         => '0.01',
         'Ovi'         => '0.01',
         'PlaceFinder' => '0.02',
-        'SimpleGeo'   => '0.01',
     );
 
     while (my ($geocoder, $min_version) = each %geocoder_min_versions) {
