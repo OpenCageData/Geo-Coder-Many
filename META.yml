@@ -18,7 +18,7 @@ name: Geo-Coder-Many
 provides:
   Geo::Coder::Many:
     file: lib/Geo/Coder/Many.pm
-    version: 0.27
+    version: 0.28
   Geo::Coder::Many::Bing:
     file: lib/Geo/Coder/Many/Bing.pm
   Geo::Coder::Many::Generic:
@@ -30,8 +30,6 @@ provides:
   Geo::Coder::Many::Mapquest:
     file: lib/Geo/Coder/Many/Mapquest.pm
     version: 0.01
-  Geo::Coder::Many::Multimap:
-    file: lib/Geo/Coder/Many/Multimap.pm
   Geo::Coder::Many::OSM:
     file: lib/Geo/Coder/Many/OSM.pm
     version: 0.01
@@ -55,9 +53,6 @@ provides:
     file: lib/Geo/Coder/Many/Scheduler/UniquenessScheduler/WRR.pm
   Geo::Coder::Many::Scheduler::UniquenessScheduler::WeightedRandom:
     file: lib/Geo/Coder/Many/Scheduler/UniquenessScheduler/WeightedRandom.pm
-  Geo::Coder::Many::SimpleGeo:
-    file: lib/Geo/Coder/Many/SimpleGeo.pm
-    version: 0.01
   Geo::Coder::Many::Util:
     file: lib/Geo/Coder/Many/Util.pm
 requires:
@@ -69,7 +64,6 @@ requires:
   Geo::Coder::OSM: 0.01
   Geo::Coder::Ovi: 0.01
   Geo::Coder::PlaceFinder: 0.02
-  Geo::Coder::SimpleGeo: 0.01
   Geo::Distance::XS: 0.08
   HTTP::Request: 5.827
   List::MoreUtils: 0.22
@@ -80,4 +74,4 @@ requires:
   perl: 5.010
 resources:
   license: http://dev.perl.org/licenses/
-version: 0.27
+version: 0.28

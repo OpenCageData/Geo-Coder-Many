@@ -14,7 +14,6 @@ WriteMakefile
                    'Geo::Coder::OSM' => '0.01',
                    'Geo::Coder::Ovi' => '0.01',
                    'Geo::Coder::PlaceFinder' => '0.02',
-                   'Geo::Coder::SimpleGeo' => '0.01',
                    'Geo::Distance::XS' => '0.08',
                    'HTTP::Request' => '5.827',
                    'List::MoreUtils' => '0.22',
