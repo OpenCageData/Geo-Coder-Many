@@ -15,6 +15,8 @@ our @EXPORT_OK = qw(
 use Exporter;
 use base qw(Exporter);
 
+my $GDXS = Geo::Distance->new;
+
 =head1 NAME
 
 Geo::Coder::Many::Util
@@ -155,7 +157,6 @@ the size of the box supplied
 sub determine_precision_from_bbox {
     my $rh_args = shift || return 0;
 
-    my $GDXS = Geo::Distance->new;
     my $distance = $GDXS->distance('kilometer', 
                                 $rh_args->{lon1}, $rh_args->{lat1} => 
                                 $rh_args->{lon2}, $rh_args->{lat2});
