@@ -1,5 +1,10 @@
 Revision history for Perl module Geo::Coder::Many.
 
+0.29    15 Aug 2012
+        - don't instantiate Geo::Distance object on every call
+        - use 'return;' over 'return undef;'
+
+
 0.28    12 Oct 2011
         - dropping support for Geo::Coder::SimpleGeo
           seems it is no longer a freely available geocoder
