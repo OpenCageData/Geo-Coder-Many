@@ -43,13 +43,13 @@ sub geocode {
     # was there a response
     if (!defined($raw)){
         carp "no response from googlev3 when requesting $location";
-	return undef;
+	return;
     }
 
     # was response any good?
     if ($raw->{status} ne 'OK'){
         # carp $raw->{status} . " when requesting $location";
-	return undef;
+	return;
     }
 
     my $Response = Geo::Coder::Many::Response->new({ location => $location});
