@@ -18,27 +18,30 @@ name: Geo-Coder-Many
 provides:
   Geo::Coder::Many:
     file: lib/Geo/Coder/Many.pm
-    version: 0.29
+    version: 0.3
   Geo::Coder::Many::Bing:
     file: lib/Geo/Coder/Many/Bing.pm
+    version: 0.02
   Geo::Coder::Many::Generic:
     file: lib/Geo/Coder/Many/Generic.pm
   Geo::Coder::Many::Google:
     file: lib/Geo/Coder/Many/Google.pm
+    version: 0.02
   Geo::Coder::Many::Googlev3:
     file: lib/Geo/Coder/Many/Googlev3.pm
+    version: 0.02
   Geo::Coder::Many::Mapquest:
     file: lib/Geo/Coder/Many/Mapquest.pm
-    version: 0.01
+    version: 0.02
   Geo::Coder::Many::OSM:
     file: lib/Geo/Coder/Many/OSM.pm
-    version: 0.01
+    version: 0.02
   Geo::Coder::Many::Ovi:
     file: lib/Geo/Coder/Many/Ovi.pm
-    version: 0.01
+    version: 0.02
   Geo::Coder::Many::PlaceFinder:
     file: lib/Geo/Coder/Many/PlaceFinder.pm
-    version: 0.02
+    version: 0.03
   Geo::Coder::Many::Response:
     file: lib/Geo/Coder/Many/Response.pm
   Geo::Coder::Many::Scheduler:
@@ -56,22 +59,15 @@ provides:
   Geo::Coder::Many::Util:
     file: lib/Geo/Coder/Many/Util.pm
 requires:
-  Geo::Coder::Bing: 0.10
-  Geo::Coder::Google: 0.06
-  Geo::Coder::Googlev3: 0.07
-  Geo::Coder::Mapquest: 0.04
-  Geo::Coder::Multimap: 0.01
-  Geo::Coder::OSM: 0.01
-  Geo::Coder::Ovi: 0.01
-  Geo::Coder::PlaceFinder: 0.02
   Geo::Distance::XS: 0.08
   HTTP::Request: 5.827
   List::MoreUtils: 0.22
   List::Util: 1.23
   List::Util::WeightedRoundRobin: 0.4
   Net::Ping: 2.33
+  Sort::Versions: 1.5
   Time::HiRes: 1.9711
   perl: 5.010
 resources:
   license: http://dev.perl.org/licenses/
-version: 0.29
+version: 0.3
