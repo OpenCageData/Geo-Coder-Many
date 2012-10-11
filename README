@@ -1,4 +1,4 @@
-Geo::Coder::Many version 0.10
+Geo::Coder::Many version 0.30
 =================================
 
 Please see the POD for more information and usage instructions.
@@ -28,12 +28,14 @@ DEPENDENCIES
 This module requires these other modules and libraries:
  
   Geo::Coder::* (as required)
+  Geo::Distance::XS
   List::Util::WeightedRoundRobin
   List::Util
   List::MoreUtils
   Time::HiRes
   HTTP::Request
   Net::Ping
+  Sort::Versions
   Test::Simple
   Test::Exception
   Test::MockObject
@@ -41,7 +43,7 @@ This module requires these other modules and libraries:
  
 COPYRIGHT AND LICENCE
 
-Copyright 2011 Lokku Ltd <cpan@lokku.com>
+Copyright 2011,2012 Lokku Ltd <cpan@lokku.com>
 
 Parts taken from Geo::Coder::Multiple are copyright 2009 Alistair Francis
 <opensource@alizta.com>

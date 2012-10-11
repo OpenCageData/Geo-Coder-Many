@@ -891,7 +891,7 @@ probably like Mapstraction - http://www.mapstraction.com
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2011 Lokku Ltd <cpan@lokku.com>
+Copyright 2011,2012 Lokku Ltd <cpan@lokku.com>
 
 Parts taken from Geo::Coder::Multiple are copyright 2009 Alistair Francis
 <opensource@alizta.com>
