@@ -1,6 +1,7 @@
 use strict;
 use warnings;
 use Module::Build;
+use Module::Load;
 
 my $rh_requires;
 
@@ -15,30 +16,40 @@ BEGIN {
         'List::Util'                     => '1.23',
         'Net::Ping'                      => '2.33',
         'Time::HiRes'                    => '1.9711',
+        'Sort::Versions'                 => '1.5',
     };
 
-# Hack for conditional dependencies.  The geocoder plugins are optional, but if
-# they are installed, we do care that they are a recent version. This detects
-# the modules, and adds version dependencies for any that are present.
-
-    my %geocoder_min_versions = (
-        'Bing'        => '0.10',
-        'Google'      => '0.06',
-        'Googlev3'    => '0.07',
-        'Mapquest'    => '0.04',
-        'Multimap'    => '0.01',
-        'OSM'         => '0.01',
-        'Ovi'         => '0.01',
-        'PlaceFinder' => '0.02',
+    my @geocoder_many_plugins = (
+        'Bing',
+        'Google',
+        'Googlev3',
+        'Mapquest',
+        'Multimap',
+        'OSM',
+        'Ovi',
+        'PlaceFinder',
     );
 
-    while (my ($geocoder, $min_version) = each %geocoder_min_versions) {
-        my $ref = 'Geo::Coder::' . $geocoder;
+    # Hack for conditional dependencies.  The geocoder plugins are optional,
+    # but if they are installed, we do care that they are a recent version.
+    # This detects the modules, and adds version dependencies for any that are
+    # present.
 
-        eval ( "use $ref" );
+    for my $geocoder (@geocoder_many_plugins) {
+        my $module_name = 'Geo::Coder::' . $geocoder;
+        my $plugin_name = 'Geo::Coder::Many::' . $geocoder;
 
+        eval ( "use $module_name" );
+
+        # If it's installed
         unless ($@) {
-            $rh_requires->{$ref} = $min_version;
+            # Load the plugin
+            load($plugin_name);
+
+            # If it requires a minimum version, add a dependency
+            if ($plugin_name->can("_MIN_MODULE_VERSION")) {
+                $rh_requires->{$module_name} = $plugin_name->MIN_MODULE_VERSION;
+            }
         }
     }
 }

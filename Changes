@@ -1,9 +1,14 @@
 Revision history for Perl module Geo::Coder::Many.
 
+0.30    11 Oct 2012
+        - Changed minimum required version of Geo::Coder::Mapquest to 0.05 (it
+          was previously 0.04, which is incompatible with our plugin.)
+        - When calling add_geocoder(), check that the geocoder is compatible with
+          the plugin, based on a minimum version requirement.
+
 0.29    15 Aug 2012
         - don't instantiate Geo::Distance object on every call
         - use 'return;' over 'return undef;'
-
 
 0.28    12 Oct 2011
         - dropping support for Geo::Coder::SimpleGeo

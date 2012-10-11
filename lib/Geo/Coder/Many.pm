@@ -4,8 +4,9 @@ use strict;
 use warnings;
 use Carp;
 use Time::HiRes;
+use Sort::Versions;
 
-our $VERSION = 0.29;
+our $VERSION = 0.30;
 
 use Geo::Coder::Many::Bing;
 use Geo::Coder::Many::Google;
@@ -228,24 +229,29 @@ and will not necessarily be strictly obeyed.
 =cut
 
 sub add_geocoder { 
-    my $self = shift;
-    my $args = shift;
+    my ($self, $args) = @_;
 
+    my $module = ref $args->{geocoder};
+    (my $plugin = $module) =~ s/Geo::Coder::/Geo::Coder::Many::/x;
 
-    my $geocoder_ref = ref( $args->{geocoder} );
-    $geocoder_ref =~ s/Geo::Coder::/Geo::Coder::Many::/x;
+    # Check that the geocoder module is compatabible with our plugin.
+    if (!$self->_geocoder_module_is_compatible_with_plugin($module, $plugin)) {
+        carp "Can't add $module due to version incompatibility";
+        return 0;
+    }
 
     eval {
-        my $geocoder = $geocoder_ref->new( $args );
+        my $geocoder = $plugin->new($args);
         if (exists $self->{geocoders}->{$geocoder->get_name()}) {
-            carp "Warning: duplicate geocoder (" . $geocoder->get_name() .")\n";
+            carp "Warning: duplicate geocoder (" . $geocoder->get_name() .")";
         }
         $self->{geocoders}->{$geocoder->get_name()} = $geocoder;
-        1;
-    } or ($@ or do {
-        carp "Geocoder not supported - $geocoder_ref\n";
+    };
+        
+    if ($@) {
+        carp "Geocoder not supported - $module\n";
         return 0;
-    });
+    }
 
     $self->_recalculate_geocoder_stats();
     return 1;
@@ -570,6 +576,29 @@ sub get_geocoders {
 
 
 ### INTERNAL METHODS
+
+# _geocoder_module_is_compatible_with_plugin
+#
+# Check that the installed Geo::Coder module is compatible
+# with the Geo::Coder::Many plugin, based on a minimum version
+sub _geocoder_module_is_compatible_with_plugin {
+    my ($self, $module, $plugin) = @_;
+
+    if ($plugin->can("_MIN_MODULE_VERSION")) {
+        my ($have_version, $min_version) = (
+            $module->VERSION,
+            $plugin->_MIN_MODULE_VERSION,
+        );
+
+        if (versioncmp($have_version, $min_version) < 0) {
+            carp "$plugin requires $module $min_version or above";
+            return 0;
+        }
+    }
+
+    return 1;
+}
+
 
 # _form_response
 #

@@ -12,11 +12,14 @@ Geo::Coder::Many::Ovi - Ovi plugin Geo::Coder::Many
 
 =head1 VERSION
 
-Version 0.01
+Version 0.02
 
 =cut
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
+
+# Requires Geo::Coder::Ovi 0.01 or above
+sub _MIN_MODULE_VERSION { return '0.01'; }
 
 =head1 SYNOPSIS
 

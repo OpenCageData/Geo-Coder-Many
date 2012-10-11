@@ -10,6 +10,17 @@ use base 'Geo::Coder::Many::Generic';
 
 Geo::Coder::Many::Googlev3 - Plugin for version 3 of the google maps geocoder
 
+=head1 VERSION
+
+Version 0.02
+
+=cut
+
+our $VERSION = '0.02';
+
+# Requires Geo::Coder::Googlev3 0.07 or above
+sub _MIN_MODULE_VERSION { return '0.07'; }
+
 =head1 SYNOPSIS
 
 This class wraps Geo::Coder::Googlev3 such that it can be used in

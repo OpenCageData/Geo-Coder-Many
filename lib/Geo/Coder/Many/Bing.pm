@@ -9,6 +9,17 @@ use base 'Geo::Coder::Many::Generic';
 
 Geo::Coder::Many::Bing - Plugin for the Bing geocoder
 
+=head1 VERSION
+
+Version 0.02
+
+=cut
+
+our $VERSION = '0.02';
+
+# Requires Geo::Coder::Bing 0.10 or above
+sub _MIN_MODULE_VERSION { return '0.10'; }
+
 =head1 SYNOPSIS
 
 This class wraps Geo::Coder::Bing such that it can be used in

@@ -14,11 +14,14 @@ Geo::Coder::Many::PlaceFinder - Yahoo PlaceFinder plugin for Geo::Coder::Many
 
 =head1 VERSION
 
-Version 0.02
+Version 0.03
 
 =cut
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
+
+# Requires Geo::Coder::PlaceFinder 0.02 or above
+sub _MIN_MODULE_VERSION { return '0.02'; }
 
 =head1 SYNOPSIS
 
