@@ -904,7 +904,7 @@ any deficiencies in the implementation!
 
 If reducing your dependancy on geo information providers is your thing - and 
 really, who doesn't enjoy breaking dependancy? - you'll
-probably like Mapstraction - http://www.mapstraction.com
+probably like Mapstraction - http://mapstraction.com
 
 =head1 COPYRIGHT AND LICENSE
 
