@@ -6,7 +6,7 @@ use Carp;
 use Time::HiRes;
 use Sort::Versions;
 
-our $VERSION = 0.30;
+our $VERSION = 0.40;
 
 use Geo::Coder::Many::Bing;
 use Geo::Coder::Many::Google;

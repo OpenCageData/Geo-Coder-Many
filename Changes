@@ -1,5 +1,14 @@
 Revision history for Perl module Geo::Coder::Many.
 
+0.40    10 Nov 2012
+        - Updated documentation to make it clear that the cache object must
+          work with references
+        - Updated the _test_cache_object() method to check the above is true
+        - Updated mapstraction link
+        - Fixed bug in Build.PL - missing underscore in private method call
+        - Removed Multimap from Build.PL optional dependencies list
+          (Geo::Coder::Many::Multimap was removed in August 2011!)
+
 0.30    11 Oct 2012
         - Changed minimum required version of Geo::Coder::Mapquest to 0.05 (it
           was previously 0.04, which is incompatible with our plugin.)
