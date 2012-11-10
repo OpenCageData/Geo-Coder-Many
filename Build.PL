@@ -24,7 +24,6 @@ BEGIN {
         'Google',
         'Googlev3',
         'Mapquest',
-        'Multimap',
         'OSM',
         'Ovi',
         'PlaceFinder',
