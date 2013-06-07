@@ -68,7 +68,7 @@ if (scalar(@testable_providers)){
     my $GDXS = new Geo::Distance;
    
     my %test_addresses = (	
-        'London EC1M 5RF, United Kingdom' => {
+        'EC1M 5RF, United Kingdom' => {
             'latitude'  => 51.52262302479371, 
             'longitude' => -0.10244965553283691,
             'threshold' => 0.5, # km  # TODO: make provider specific
