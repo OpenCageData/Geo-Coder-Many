@@ -1,5 +1,9 @@
 Revision history for Perl module Geo::Coder::Many.
 
+0.41    7 Jun 2013
+        - Removed smartmatch usage for Perl 5.18
+        - Changed geocoders test input
+
 0.40    10 Nov 2012
         - Updated documentation to make it clear that the cache object must
           work with references
