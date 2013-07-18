@@ -1,5 +1,9 @@
 Revision history for Perl module Geo::Coder::Many.
 
+0.42    2013-07-18
+        - Updated Changes to conform to CPAN::Changes::Spec
+        - Added a release test with Test::CPAN::Changes
+
 0.41    2013-06-7
         - Removed smartmatch usage for Perl 5.18
         - Changed geocoders test input
