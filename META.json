@@ -117,7 +117,7 @@
          "http://dev.perl.org/licenses/"
       ]
    },
-   "version" : "0.42",
+   "version" : "0.43",
    "resources" : {
       "repository" : {
          "url" : "https://github.com/lokku/Geo-Coder-Many"

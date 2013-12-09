@@ -1,5 +1,8 @@
 Revision history for Perl module Geo::Coder::Many.
 
+0.43    2013-12-09
+        - Added META.json with repository information
+
 0.42    2013-07-18
         - Updated Changes to conform to CPAN::Changes::Spec
         - Added a release test with Test::CPAN::Changes
