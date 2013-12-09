@@ -67,6 +67,11 @@ my $builder = Module::Build->new(
     },
     add_to_cleanup      => [ 'Geo-Coder-Many-*' ],
     create_makefile_pl => 'traditional',
+    meta_merge => {
+        resources => {
+            repository => 'https://github.com/lokku/Geo-Coder-Many'
+        },
+    },
 );
 
 $builder->create_build_script();
