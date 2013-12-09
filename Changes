@@ -1,5 +1,8 @@
 Revision history for Perl module Geo::Coder::Many.
 
+0.44    2013-12-09
+        - Correctly added repo information to Makefile.PL
+
 0.43    2013-12-09
         - Added META.json with repository information
 
