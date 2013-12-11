@@ -2,6 +2,8 @@ use strict;
 use warnings;
 use Module::Build;
 use Module::Load;
+use File::Basename;
+use File::Spec::Functions;
 
 my $rh_requires;
 
@@ -43,6 +45,7 @@ BEGIN {
         # If it's installed
         unless ($@) {
             # Load the plugin
+            local @INC = (@INC, catdir(dirname(__FILE__), 'lib'));
             load($plugin_name);
 
             # If it requires a minimum version, add a dependency
