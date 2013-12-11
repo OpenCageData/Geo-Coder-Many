@@ -7,7 +7,7 @@ use Time::HiRes;
 use Sort::Versions;
 use List::MoreUtils qw(any);
 
-our $VERSION = 0.44;
+our $VERSION = 0.45;
 
 use Geo::Coder::Many::Bing;
 use Geo::Coder::Many::Google;
