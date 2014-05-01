@@ -855,7 +855,6 @@ Currently supported Geo::Coder::* modules are:
   Geo::Coder::Google
   Geo::Coder::Googlev3
   Geo::Coder::Mapquest
-  Geo::Coder::Multimap
   Geo::Coder::OSM
   Geo::Coder::Ovi
   Geo::Coder::PlaceFinder
@@ -866,7 +865,6 @@ Currently supported Geo::Coder::* modules are:
   Geo::Coder::Google
   Geo::Coder::Googlev3
   Geo::Coder::Mapquest
-  Geo::Coder::Multimap
   Geo::Coder::OSM
   Geo::Coder::Ovi
   Geo::Coder::PlaceFinder
