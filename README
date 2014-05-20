@@ -43,7 +43,7 @@ This module requires these other modules and libraries:
  
 COPYRIGHT AND LICENCE
 
-Copyright 2011,2012 Lokku Ltd <cpan@lokku.com>
+Copyright 2014 Lokku Ltd <cpan@lokku.com>
 
 Parts taken from Geo::Coder::Multiple are copyright 2009 Alistair Francis
 <opensource@alizta.com>
