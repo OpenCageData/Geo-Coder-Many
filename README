@@ -1,4 +1,4 @@
-Geo::Coder::Many version 0.30
+Geo::Coder::Many
 =================================
 
 Please see the POD for more information and usage instructions.
@@ -29,17 +29,17 @@ This module requires these other modules and libraries:
  
   Geo::Coder::* (as required)
   Geo::Distance::XS
-  List::Util::WeightedRoundRobin
-  List::Util
-  List::MoreUtils
-  Time::HiRes
   HTTP::Request
+  List::MoreUtils
+  List::Util
+  List::Util::WeightedRoundRobin
   Net::Ping
   Sort::Versions
-  Test::Simple
   Test::Exception
   Test::MockObject
   Test::Pod::Coverage
+  Test::Simple
+  Time::HiRes
  
 COPYRIGHT AND LICENCE
 
