@@ -3,11 +3,11 @@ package Geo::Coder::Many;
 use strict;
 use warnings;
 use Carp;
-use Time::HiRes;
-use Sort::Versions;
 use List::MoreUtils qw(any);
+use Sort::Versions;
+use Time::HiRes;
 
-our $VERSION = 0.45;
+our $VERSION = 0.46;
 
 use Geo::Coder::Many::Bing;
 use Geo::Coder::Many::Google;
