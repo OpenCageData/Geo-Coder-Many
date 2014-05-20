@@ -26,6 +26,7 @@ BEGIN {
         'Google',
         'Googlev3',
         'Mapquest',
+        'OpenCage',
         'OSM',
         'Ovi',
         'PlaceFinder',
