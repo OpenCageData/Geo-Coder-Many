@@ -13,6 +13,7 @@ use Geo::Coder::Many::Bing;
 use Geo::Coder::Many::Google;
 use Geo::Coder::Many::Googlev3;
 use Geo::Coder::Many::Mapquest;
+use Geo::Coder::Many::OpenCage;
 use Geo::Coder::Many::OSM;
 use Geo::Coder::Many::Ovi;
 use Geo::Coder::Many::PlaceFinder;
@@ -887,7 +888,7 @@ http://search.cpan.org/~friffin/
 
 =head1 FEEDBACK
 
-Patches are encouraged! Please send any code (ideally with tests) or
+Patches are encouraged! Please fork on github (ideally with tests) or send
 feedback to cpan@lokku.com
 
 =head1 ACKNOWLEDGEMENTS
@@ -902,12 +903,12 @@ any deficiencies in the implementation!
 =head1 YOU MAY ALSO ENJOY
 
 If reducing your dependancy on geo information providers is your thing - and 
-really, who doesn't enjoy breaking dependancy? - you'll
-probably like Mapstraction - http://mapstraction.com
+really, who doesn't enjoy breaking dependancy? - then you will probably like 
+Mapstraction - http://mapstraction.com
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2011,2012 Lokku Ltd <cpan@lokku.com>
+Copyright 2014 Lokku Ltd <cpan@lokku.com>
 
 Parts taken from Geo::Coder::Multiple are copyright 2009 Alistair Francis
 <opensource@alizta.com>
