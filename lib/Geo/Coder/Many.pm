@@ -913,6 +913,11 @@ Mapstraction - http://mapstraction.com
 
 Copyright 2014 Lokku Ltd <cpan@lokku.com>
 
+Please check out all our open source work over at https://github.com/lokku and 
+our developer blog: http://devblog.nestoria.com
+
+Thanks!
+
 Parts taken from Geo::Coder::Multiple are copyright 2009 Alistair Francis
 <opensource@alizta.com>
 
