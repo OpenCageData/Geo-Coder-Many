@@ -30,3 +30,5 @@ t/perlcriticrc
 t/pod-coverage.t
 t/pod.t
 t/release-cpan-changes.t
+META.yml
+META.json
