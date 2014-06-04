@@ -1,0 +1,35 @@
+---
+abstract: unknown
+author:
+  - unknown
+build_requires:
+  ExtUtils::MakeMaker: '0'
+configure_requires:
+  ExtUtils::MakeMaker: '0'
+dynamic_config: 0
+generated_by: 'ExtUtils::MakeMaker version 6.98, CPAN::Meta::Converter version 2.140640'
+license: unknown
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: '1.4'
+name: Geo-Coder-Many
+no_index:
+  directory:
+    - t
+    - inc
+requires:
+  Geo::Distance::XS: '0.08'
+  HTTP::Request: '5.827'
+  List::MoreUtils: '0.22'
+  List::Util: '1.23'
+  List::Util::WeightedRoundRobin: '0.4'
+  Net::Ping: '2.33'
+  Sort::Versions: '1.5'
+  Test::Exception: '0'
+  Test::MockObject: '0'
+  Test::Pod::Coverage: '0'
+  Test::Simple: '0'
+  Time::HiRes: '1.9711'
+resources:
+  repository: https://github.com/lokku/Geo-Coder-Many.git
+version: '0.46'

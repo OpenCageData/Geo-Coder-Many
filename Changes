@@ -1,5 +1,8 @@
 Revision history for Perl module Geo::Coder::Many.
 
+0.46    2014-06-01
+        - Add support for Geo::Coder::OpenCage
+
 0.45    2013-12-11
         - Add 'lib' to @INC in Build.PL
           Thanks Slaven (https://rt.cpan.org/Ticket/Display.html?id=91283)
