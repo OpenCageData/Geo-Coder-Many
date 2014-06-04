@@ -7,7 +7,7 @@ use List::MoreUtils qw(any);
 use Sort::Versions;
 use Time::HiRes;
 
-our $VERSION = 0.46;
+our $VERSION = '0.46';
 
 # note - also update lists far below in pod
 use Geo::Coder::Many::Bing;
