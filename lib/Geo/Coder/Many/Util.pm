@@ -15,6 +15,8 @@ our @EXPORT_OK = qw(
 use Exporter;
 use base qw(Exporter);
 
+our $VERSION = '0.01';
+
 my $GDXS = Geo::Distance->new;
 
 =head1 NAME

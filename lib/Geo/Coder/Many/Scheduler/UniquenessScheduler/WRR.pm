@@ -7,6 +7,8 @@ use Carp;
 
 use base 'Geo::Coder::Many::Scheduler::UniquenessScheduler';
 
+our $VERSION = '0.01';
+
 =head1 NAME
 
 Geo::Coder::Many::Scheduler::UniquenessScheduler::WRR - Weighted Round Robin

@@ -6,6 +6,8 @@ use Carp;
 
 use Geo::Coder::Many::Response;
 
+our $VERSION = '0.01';
+
 =head1 NAME
 
 Geo::Coder::Many::Generic - Base plugin class

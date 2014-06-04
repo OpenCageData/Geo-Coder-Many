@@ -5,6 +5,8 @@ use warnings;
 
 use base 'Geo::Coder::Many::Scheduler';
 
+our $VERSION = '0.01';
+
 =head1 NAME
 
 Geo::Coder::Many::Scheduler::OrderedList - Ordered list scheduler

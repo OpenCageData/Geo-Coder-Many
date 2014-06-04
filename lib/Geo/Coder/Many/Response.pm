@@ -3,6 +3,8 @@ package Geo::Coder::Many::Response;
 use strict;
 use warnings;
 
+our $VERSION = '0.01';
+
 =head1 NAME
 
 Geo::Coder::Many::Response - standard geocoder response container object

@@ -4,6 +4,8 @@ use strict;
 use warnings;
 use Carp;
 
+our $VERSION = '0.01';
+
 =head1 NAME
 
 Scheduler - Abstract base class for schedulers.

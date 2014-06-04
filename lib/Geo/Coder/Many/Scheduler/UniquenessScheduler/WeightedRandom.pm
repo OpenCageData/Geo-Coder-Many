@@ -5,6 +5,8 @@ use warnings;
 
 use base 'Geo::Coder::Many::Scheduler::UniquenessScheduler';
 
+our $VERSION = '0.01';
+
 =head1 NAME
 
 Geo::Coder::Many::Scheduler::WeightedRandom - Weighted random scheduler

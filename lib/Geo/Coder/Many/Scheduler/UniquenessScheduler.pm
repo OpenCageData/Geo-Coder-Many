@@ -7,6 +7,8 @@ use List::MoreUtils qw( first_index );
 
 use base 'Geo::Coder::Many::Scheduler';
 
+our $VERSION = '0.01';
+
 =head1 NAME
 
 Geo::Coder::Many::Scheduler::UniquenessScheduler - Scheduler base class which

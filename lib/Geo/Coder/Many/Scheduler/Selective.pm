@@ -8,6 +8,8 @@ use Carp;
 
 use base 'Geo::Coder::Many::Scheduler';
 
+our $VERSION = '0.01';
+
 =head1 NAME 
     
 Geo::Coder::Many::Scheduler::Selective - Scheduler that times out bad geocoders
