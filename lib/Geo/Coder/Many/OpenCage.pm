@@ -12,14 +12,14 @@ Geo::Coder::Many::OpenCage - OpenCage plugin for Geo::Coder::Many
 
 =head1 VERSION
 
-Version 0.01
+Version 0.02
 
 =cut
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 # Requires Geo::Coder::OpenCage 0.01 or above
-sub _MIN_MODULE_VERSION { return '0.01'; }
+sub _MIN_MODULE_VERSION { return '0.02'; }
 
 =head1 SYNOPSIS
 
@@ -49,8 +49,9 @@ See http://geocoder.opencagedata.com
 
 =head2 geocode
 
-This is called by Geo::Coder::Many - it sends the geocoding request (via Geo::Coder::OpenCage) and 
-extracts the resulting location, returning it in a standard Geo::Coder::Many::Response.
+This is called by Geo::Coder::Many - it sends the geocoding request 
+(via L<Geo::Coder::OpenCage>) and extracts the resulting location, returning it 
+in a standard Geo::Coder::Many::Response.
 
 =cut
 

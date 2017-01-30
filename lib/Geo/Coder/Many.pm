@@ -11,13 +11,10 @@ our $VERSION = '0.46';
 
 # note - also update lists far below in pod
 use Geo::Coder::Many::Bing;
-use Geo::Coder::Many::Google;
 use Geo::Coder::Many::Googlev3;
 use Geo::Coder::Many::Mapquest;
 use Geo::Coder::Many::OpenCage;
 use Geo::Coder::Many::OSM;
-use Geo::Coder::Many::Ovi;
-use Geo::Coder::Many::PlaceFinder;
 
 use Geo::Coder::Many::Util qw(
     min_precision_filter 
@@ -854,24 +851,18 @@ C<geocode> method which takes a single location string as an argument.
 Currently supported Geo::Coder::* modules are:
 
   Geo::Coder::Bing
-  Geo::Coder::Google
   Geo::Coder::Googlev3
   Geo::Coder::Mapquest
   Geo::Coder::OpenCage
   Geo::Coder::OSM
-  Geo::Coder::Ovi
-  Geo::Coder::PlaceFinder
 
 =head1 SEE ALSO
 
   Geo::Coder::Bing
-  Geo::Coder::Google
   Geo::Coder::Googlev3
   Geo::Coder::Mapquest
   Geo::Coder::OpenCage
   Geo::Coder::OSM
-  Geo::Coder::Ovi
-  Geo::Coder::PlaceFinder
 
 Ed Freyfogle delivered a talk about Remote Geocoding and the
 motivation for Geo::Coder::Many at the 2010 London Perl
@@ -882,8 +873,8 @@ http://www.slideshare.net/lokku/remote-geocoding
 
 Originally Dan Horgan (http://search.cpan.org/~danhgn/) 
 
-This module is maintained by the team members of Lokku
-Ltd. (http://www.lokku.com)
+This module is maintained by the team members of OpenCage Data Ltd
+Ltd. (http://www.opencagedata.com)
 
 Geo::Coder::Many was originally based on Geo::Coder::Multiple, which
 unfortunately seems to no longer be maintained, by Alistair Francis
@@ -892,7 +883,7 @@ http://search.cpan.org/~friffin/
 =head1 FEEDBACK
 
 Patches are encouraged! Please fork on github (ideally with tests) or send
-feedback to cpan@lokku.com
+feedback to cpan@opencagedata.com
 
 =head1 ACKNOWLEDGEMENTS
 
@@ -903,23 +894,16 @@ http://blog.timbunce.org/2010/06/09/high-quality-multi-source-geocoding-in-perl/
 Needless to say, neither he nor anybody else should be held responsible for
 any deficiencies in the implementation!
 
-=head1 YOU MAY ALSO ENJOY
-
-If reducing your dependancy on geo information providers is your thing - and 
-really, who doesn't enjoy breaking dependancy? - then you will probably like 
-Mapstraction - http://mapstraction.com
-
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2014 Lokku Ltd <cpan@lokku.com>
+Copyright 2017 Opencage Data Ltd <cpan@opencagedata.com>
 
-Please check out all our open source work over at https://github.com/lokku and 
-our developer blog: http://devblog.nestoria.com
+Please check out all our open source work over at 
+https://github.com/opencagedata
 
 Thanks!
 
 Parts taken from Geo::Coder::Multiple are copyright 2009 Alistair Francis
-<opensource@alizta.com>
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.10 or,
