@@ -35,9 +35,8 @@ sub new {
     };
 
     bless $self, $class;
-
     return $self;
-};
+}
 
 =head2 geocode
 
@@ -71,8 +70,6 @@ subclass)
 sub get_name {
     croak "This method must be over-ridden";
 };
-
-
 
 1;
 

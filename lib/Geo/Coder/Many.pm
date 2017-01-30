@@ -3,11 +3,13 @@ package Geo::Coder::Many;
 use strict;
 use warnings;
 use Carp;
+use Data::Dumper;
 use List::MoreUtils qw(any);
 use Sort::Versions;
+use HTTP::Response;
 use Time::HiRes;
 
-our $VERSION = '0.46';
+our $VERSION = '0.47';
 
 # note - also update lists far below in pod
 use Geo::Coder::Many::Bing;
@@ -30,9 +32,12 @@ use Geo::Coder::Many::Scheduler::UniquenessScheduler::WeightedRandom;
 
 =head1 NAME
 
-Geo::Coder::Many - Module to tie together multiple Geo::Coder::* modules
+Geo::Coder::Many - Module to tie together multiple Geo::Coder::* modules.
+NOTE: this module is DEPRECATED and no longer maintained.
 
 =head1 DESCRIPTION
+
+This module is no longer maintained and we advise not to use it.
 
 Geo::Coder::Many provides a single interface to different remote 
 (ie HTTP based) geocoding modules
@@ -427,7 +432,7 @@ sub geocode {
             $args->{cache},
         );
         if ( defined $response ){
-            return $response 
+            return $response;
         }
     }
 
@@ -479,7 +484,6 @@ sub geocode {
 
         # Tell the scheduler about how successful the geocoder was
         if (defined $Response) {
-
             my $feedback = { 
                 response_code => $Response->get_response_code(),
             };
@@ -493,7 +497,7 @@ sub geocode {
 
         # If our response has a valid code
         if ( $self->_response_valid($Response) ) {
-            
+
             # Apply the filter callback to the response entries
             my @passed_responses = grep { 
                 $self->_passes_filter($_)
@@ -533,7 +537,8 @@ sub geocode {
                 $accepted_response = $self->_form_response( 
                     $passed_responses[0], 
                     $Response 
-                );
+                    );
+
             }
 
         }
@@ -544,7 +549,7 @@ sub geocode {
     if (defined ($self->{picker_callback}) && !defined $accepted_response ) {
         $accepted_response = $self->{picker_callback}->( $ra_valid_results, 0 );
     }
-
+    
     # If we're using a cache and we have a good response, let's cache it.
     if ( !$args->{no_cache} ) {
         $self->_set_in_cache(
@@ -553,7 +558,6 @@ sub geocode {
             $args->{cache} 
         );
     }
-
     return $accepted_response;
 }
 
@@ -873,7 +877,7 @@ http://www.slideshare.net/lokku/remote-geocoding
 
 Originally Dan Horgan (http://search.cpan.org/~danhgn/) 
 
-This module is maintained by the team members of OpenCage Data Ltd
+This module is no longer maintained by the team members of OpenCage Data Ltd
 Ltd. (http://www.opencagedata.com)
 
 Geo::Coder::Many was originally based on Geo::Coder::Multiple, which
@@ -882,8 +886,7 @@ http://search.cpan.org/~friffin/
 
 =head1 FEEDBACK
 
-Patches are encouraged! Please fork on github (ideally with tests) or send
-feedback to cpan@opencagedata.com
+Please get in touch if you'd like to takeover ownership of this module
 
 =head1 ACKNOWLEDGEMENTS
 

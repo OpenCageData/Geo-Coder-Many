@@ -23,12 +23,13 @@ WriteMakefile
   'EXE_FILES' => [],
   'PL_FILES' => {},
   'META_MERGE' => {
-    'meta-spec' => { version => 2 },
+      'meta-spec' => { version => 2 },
+      'x_deprecated' => 1,
      resources => {
          repository => {
            type => 'git',
-           url  => 'https://github.com/lokku/Geo-Coder-Many.git',
-           web  => 'https://github.com/lokku/Geo-Coder-Many',
+           url  => 'https://github.com/opencagedata/Geo-Coder-Many.git',
+           web  => 'https://github.com/opencagedata/Geo-Coder-Many',
          },
      },
   },

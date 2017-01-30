@@ -3,6 +3,7 @@ package Geo::Coder::Many::OpenCage;
 use warnings;
 use strict;
 use Carp;
+use Data::Dumper;
 use Geo::Coder::Many::Util;
 use base 'Geo::Coder::Many::Generic';
 
@@ -60,42 +61,46 @@ in a standard Geo::Coder::Many::Response.
 sub geocode {
     my $self = shift;
     my $location = shift;
-    defined $location or croak "Geo::Coder::Many::OpenCage::geocode method must be given a location.";
+    defined $location 
+        or croak "Geo::Coder::Many::OpenCage::geocode must be given location.";
 
-    my @raw_replies = $self->{GeoCoder}->geocode( location => $location );
-    my $response = Geo::Coder::Many::Response->new( { location => $location } );
+    my $rh_response = $self->{GeoCoder}->geocode( location => $location );
+    my $response = Geo::Coder::Many::Response->new({ location => $location });
 
     my $location_data = [];
-
-    foreach my $raw_reply ( @raw_replies ) {
-
+        
+    foreach my $raw_reply ( @{ $rh_response->{results} } ){
         my $precision = 0; # unknown
-        if (defined($raw_reply->{boundingbox})){
-            my $ra_bbox = $raw_reply->{boundingbox};
+        if (defined($raw_reply->{bounds})){
 
             $precision =
                 Geo::Coder::Many::Util::determine_precision_from_bbox({
-                            'lon1' => $ra_bbox->[0],
-                            'lat1' => $ra_bbox->[2],
-                            'lon2' => $ra_bbox->[1],
-                            'lat2' => $ra_bbox->[3],
+                            'lon1' => $raw_reply->{bounds}{northeast}{lng},
+                            'lat1' => $raw_reply->{bounds}{northeast}{lat},
+                            'lon2' => $raw_reply->{bounds}{southwest}{lng},
+                            'lat2' => $raw_reply->{bounds}{southwest}{lng},
                  });
+        } else {
+            $precision = $raw_reply->{confidence};
         }
         
         my $tmp = {
-              address   => $raw_reply->{display_name},
-              country   => $raw_reply->{address}{country},
-              longitude => $raw_reply->{lon},
-              latitude  => $raw_reply->{lat},
+              address   => $raw_reply->{formatted},
+              country   => $raw_reply->{components}{country},
+              longitude => $raw_reply->{geometry}{lng},
+              latitude  => $raw_reply->{geometry}{lat},
               precision => $precision,
         };
 
         $response->add_response( $tmp, $self->get_name() );
-    };
+    }
 
-    my $http_response = $self->{GeoCoder}->response();
-    $response->set_response_code($http_response->code());
-
+    if (defined($rh_response)){
+        #print STDERR Dumper $rh_response;
+        $response->set_response_code($rh_response->{status}->{code});
+    } else {
+        $response->set_response_code(401);        
+    }
     return $response;
 }
 
@@ -106,7 +111,8 @@ Returns the name of the geocoder type - used by Geo::Coder::Many
 =cut
 
 sub get_name { 
-    my $self = shift; return 'opencage ' . $self->{GeoCoder}->VERSION; 
+    my $self = shift; 
+    return 'opencage ' . $VERSION;
 }
 
 1; # End of Geo::Coder::Many::OpenCage

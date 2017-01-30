@@ -1,9 +1,12 @@
 Revision history for Perl module Geo::Coder::Many.
 
 0.47    2017-01-30
+        - FINAL RELEASE: module is now DEPRECATED and no longer maintained
         - improved POD
         - remove suppor for Ovi, PlaceFind and Google (but kept Googlev3)
           all three longer exist
+        - fixes to Geo::Coder::Many::OpenCage, which frankly was probably
+          never working
 
 0.46    2014-06-01
         - Add support for Geo::Coder::OpenCage
