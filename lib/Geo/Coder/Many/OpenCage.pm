@@ -27,19 +27,21 @@ This module adds OpenCage Geocoder support to Geo::Coder::Many.
 
 Use as follows:
 
-use Geo::Coder::Many;
-use Geo::Coder::OpenCage;
-my $options = { };
-my $geocoder_many = Geo::Coder::Many->new( $options );
-my $OC = Geo::Coder::OpenCage->new({ api_key => $my_OC_api_key });
-my $OC_options = {
-    geocoder => $OC,
-    # This limit should not be taken as necessarily valid.
-    # Please check the OpenCage usage policy.
-    daily_limit => 1000,
-};
-$geocoder_many->add_geocoder( $OC_options );
-my $location = $geocoder_many->geocode({ location => '82 Clerkenwell Road, London, EC1M 5RF' });
+  use Geo::Coder::Many;
+  use Geo::Coder::OpenCage;
+  my $options = { };
+  my $geocoder_many = Geo::Coder::Many->new( $options );
+  my $OC = Geo::Coder::OpenCage->new( api_key => $my_OC_api_key );
+
+  my $OC_options = {
+      geocoder    => $OC,
+      daily_limit => 2500,
+  };
+
+  $geocoder_many->add_geocoder( $OC_options );
+  my $location = $geocoder_many->geocode({ 
+      location => '82 Clerkenwell Road, London, EC1M 5RF',
+  });
 
 =head1 USAGE POLICY
 
@@ -103,6 +105,8 @@ Returns the name of the geocoder type - used by Geo::Coder::Many
 
 =cut
 
-sub get_name { my $self = shift; return 'opencage ' . $self->{GeoCoder}->VERSION; }
+sub get_name { 
+    my $self = shift; return 'opencage ' . $self->{GeoCoder}->VERSION; 
+}
 
 1; # End of Geo::Coder::Many::OpenCage
