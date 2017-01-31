@@ -5,26 +5,20 @@ use warnings;
 
 my %geocoders = (
     'Bing'        => 'Geo::Coder::Bing',
-    'Google'      => 'Geo::Coder::Google',
     'Googlev3'    => 'Geo::Coder::Googlev3',
     'Mapquest'    => 'Geo::Coder::Mapquest',
     'OpenCage'    => 'Geo::Coder::OpenCage',
     'OSM'         => 'Geo::Coder::OSM',
-    'Ovi'         => 'Geo::Coder::Ovi',
-    'PlaceFinder' => 'Geo::Coder::PlaceFinder',
 );
 
 # currently we skip geocoders that require a key
 # would of course be much better to allow tester to supply key
 my %requires_key = (
     'Bing'        => 1,
-    'Google'      => 1,
     'Googlev3'    => 0,
     'Mapquest'    => 1,
     'OpenCage'    => 1,
-    'OSM'         => 0,
-    'Ovi'         => 1,
-    'PlaceFinder' => 1,
+    'OSM'         => 1,
 );
 
 my $num_tests = 2;   # Net::Ping and Geo::Coder::Many
@@ -44,6 +38,7 @@ if (!$ping_success){  # get out if no internet
 } 
 note('we have an internet connection, can continue with test!');
 
+use lib "lib";
 use_ok('Geo::Coder::Many');
 
 my @testable_providers;
